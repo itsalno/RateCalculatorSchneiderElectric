@@ -1,0 +1,46 @@
+.text-field {
+    -fx-prompt-text-fill: #888888;
+    -fx-font-size: 12px;
+    -fx-background-color: #f2f2f2;
+    -fx-background-radius: 5px;
+    -fx-border-color: #72bd40;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-padding: 8px;
+}
+
+.text-field:hover,
+.text-field:focused {
+    -fx-border-color: #999999;
+}
+
+.text-field:focused {
+    -fx-border-color: black;
+}
+
+.text-field:focused .prompt-text {
+    -fx-text-fill: #888888;
+}
+
+.button {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #000000;
+    -fx-font-size: 12px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: green;
+    -fx-padding: 8px 16px;
+    -fx-border-width: 2px;
+}
+
+
+.button:hover {
+    -fx-background-color: green;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+}
+
+.button:pressed {
+    -fx-background-color: white;
+    -fx-translate-y: 1px;
+}
