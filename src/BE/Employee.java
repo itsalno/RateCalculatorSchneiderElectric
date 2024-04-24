@@ -10,12 +10,17 @@ public class Employee {
     private int workingHours;
     private int utilizationPercent;
     private String continent;
+    private String employeeType;
+
+    public String getEmployeeType() {
+        return employeeType;
+    }
 
     public String getContinent() {
         return continent;
     }
 
-    public Employee(int annualSalary, int overheadMultiPercent, int confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent) {
+    public Employee(int annualSalary, int overheadMultiPercent, int confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType) {
         this.annualSalary = annualSalary;
         this.overheadMultiPercent = overheadMultiPercent;
         this.confFixedAnnualAmount = confFixedAnnualAmount;
@@ -24,6 +29,7 @@ public class Employee {
         this.workingHours = workingHours;
         this.utilizationPercent = utilizationPercent;
         this.continent=continent;
+        this.employeeType=employeeType;
     }
 
     public int getAnnualSalary() {
