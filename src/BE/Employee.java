@@ -8,21 +8,21 @@ public class Employee {
     private String country;
     private String team;
     private int workingHours;
-    private int uitlizationPercent;
+    private int utilizationPercent;
     private String continent;
 
     public String getContinent() {
         return continent;
     }
 
-    public Employee(int annualSalary, int overheadMultiPercent, int confFixedAnnualAmount, String country,String continent, String team, int workingHours, int uitlizationPercent) {
+    public Employee(int annualSalary, int overheadMultiPercent, int confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent) {
         this.annualSalary = annualSalary;
         this.overheadMultiPercent = overheadMultiPercent;
         this.confFixedAnnualAmount = confFixedAnnualAmount;
         this.country = country;
         this.team = team;
         this.workingHours = workingHours;
-        this.uitlizationPercent = uitlizationPercent;
+        this.utilizationPercent = utilizationPercent;
         this.continent=continent;
     }
 
@@ -50,7 +50,7 @@ public class Employee {
         return workingHours;
     }
 
-    public int getUitlizationPercent() {
-        return uitlizationPercent;
+    public int getUtilizationPercent() {
+        return utilizationPercent;
     }
 }
