@@ -1,4 +1,4 @@
-package BLL;
+package GUI.Model;
 
 public class model {
 }
