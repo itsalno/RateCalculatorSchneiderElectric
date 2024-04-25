@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -41,5 +42,6 @@
           <TableColumn prefWidth="106.40000762939454" text="Num. of people" />
         </columns>
       </TableView>
+      <ChoiceBox layoutX="219.0" layoutY="387.0" prefHeight="26.0" prefWidth="101.0" />
    </children>
 </AnchorPane>
