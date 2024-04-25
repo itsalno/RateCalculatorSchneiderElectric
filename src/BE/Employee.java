@@ -11,6 +11,23 @@ public class Employee {
     private int utilizationPercent;
     private String continent;
     private String employeeType;
+    private  String dailyRate;
+    private String hourlyRate;
+    private int id;
+
+    public String getDailyRate() {
+        return dailyRate;
+    }
+
+    public String getHourlyRate() {
+        return hourlyRate;
+    }
+
+
+
+    public int getId() {
+        return id;
+    }
 
     public String getEmployeeType() {
         return employeeType;
@@ -20,6 +37,19 @@ public class Employee {
         return continent;
     }
 
+    public Employee(int id,int annualSalary, int overheadMultiPercent, int confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType) {
+        this.annualSalary = annualSalary;
+        this.overheadMultiPercent = overheadMultiPercent;
+        this.confFixedAnnualAmount = confFixedAnnualAmount;
+        this.country = country;
+        this.team = team;
+        this.workingHours = workingHours;
+        this.utilizationPercent = utilizationPercent;
+        this.continent=continent;
+        this.employeeType=employeeType;
+        this.id=id;
+
+    }
     public Employee(int annualSalary, int overheadMultiPercent, int confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType) {
         this.annualSalary = annualSalary;
         this.overheadMultiPercent = overheadMultiPercent;
@@ -30,6 +60,7 @@ public class Employee {
         this.utilizationPercent = utilizationPercent;
         this.continent=continent;
         this.employeeType=employeeType;
+
     }
 
     public int getAnnualSalary() {
