@@ -1,6 +1,6 @@
 <component name="libraryTable">
-  <library name="microsoft.sqlserver.mssql.jdbc" type="repository">
-    <properties maven-id="com.microsoft.sqlserver:mssql-jdbc:12.2.0.jre11">
+  <library name="microsoft.sqlserver.mssql.jdbc1" type="repository">
+    <properties maven-id="com.microsoft.sqlserver:mssql-jdbc:12.3.1.jre11-preview">
       <exclude>
         <dependency maven-id="com.microsoft.sqlserver:mssql-jdbc" />
       </exclude>

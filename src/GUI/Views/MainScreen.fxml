@@ -15,13 +15,15 @@
             <Image url="@../../SchneiderLogo.png" />
          </image>
       </ImageView>
+
       <Button layoutX="487.0" layoutY="87.0" mnemonicParsing="false" onAction="#deleteProfile" prefHeight="27.0" prefWidth="54.0" text="Delete" />
       <Button layoutX="419.0" layoutY="87.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="27.0" prefWidth="54.0" text="Edit" />
       <Button layoutX="468.0" layoutY="387.0" mnemonicParsing="false" onAction="#createProfile" text="Create profile" />
       <Button layoutX="341.0" layoutY="387.0" mnemonicParsing="false" text="View multipliers" />
-      <Button layoutX="47.0" layoutY="381.0" mnemonicParsing="false" text="Create teams" />
-      <ChoiceBox layoutX="20.0" layoutY="87.0" prefHeight="27.0" prefWidth="84.0" />
+      <Button layoutX="19.0" layoutY="387.0" mnemonicParsing="false" onAction="#CreateTeam" text="Create teams" />
+      <ChoiceBox fx:id="allTeams" layoutX="20.0" layoutY="87.0" prefHeight="27.0" prefWidth="84.0" />
       <TableView fx:id="profileTable" layoutX="20.0" layoutY="122.0" prefHeight="251.0" prefWidth="532.0">
+
         <columns>
           <TableColumn fx:id="countryColumn" prefWidth="90.0" text="Country" />
           <TableColumn fx:id="continentColumn" prefWidth="93.0" text="Continent" />
@@ -31,5 +33,6 @@
             <TableColumn fx:id="workingHoursColumn" prefWidth="96.0" text="Working hours" />
         </columns>
       </TableView>
+      <Button layoutX="120.0" layoutY="387.0" mnemonicParsing="false" onAction="#DeleteTeams" text="Delete teams" />
    </children>
 </AnchorPane>
