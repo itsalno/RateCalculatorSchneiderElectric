@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class EmployeeDAO implements IEmployeeDAO{
+public class EmployeeDAO implements IEmployeeDAO {
 
 
     @Override
@@ -47,7 +47,7 @@ public class EmployeeDAO implements IEmployeeDAO{
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
-                        int id=rs.getInt("id");
+                        int id = rs.getInt("id");
                         int annualSalary = rs.getInt("AnnualSalary");
                         int overheadMultiPercent = rs.getInt("OverheadMultiplierPercentage");
                         int confFixedAnnualAmount = rs.getInt("ConfigurableFixedAnnualAmount");
@@ -58,7 +58,7 @@ public class EmployeeDAO implements IEmployeeDAO{
                         int utilizationPercent = rs.getInt("UtilizationPercentage");
                         String employeeType = rs.getString("EmployeeType");
 
-                        Employee employee = new Employee(id,annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+                        Employee employee = new Employee(id, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
                                 country, continent, team, workingHours, utilizationPercent, employeeType);
                         employees.add(employee);
                     }
@@ -80,5 +80,30 @@ public class EmployeeDAO implements IEmployeeDAO{
         }
     }
 
+    public void edit(Employee employee) {
+        try (Connection conn = dbConnector.getConn()) {
+            String sql = "UPDATE Employee SET AnnualSalary=?, OverheadMultiplierPercentage=?,  ConfigurableFixedAnnualAmount=?, Country=?," +
+                    "Continent=?, Team=?, WorkingHours=?, UtilizationPercentage=?, EmployeeType=? WHERE id=?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, employee.getAnnualSalary());
+                pstmt.setInt(2, employee.getOverheadMultiPercent());
+                pstmt.setInt(3, employee.getConfFixedAnnualAmount());
+                pstmt.setString(4, employee.getCountry());
+                pstmt.setString(5, employee.getContinent());
+                pstmt.setString(6, employee.getTeam());
+                pstmt.setInt(7, employee.getWorkingHours());
+                pstmt.setInt(8, employee.getUtilizationPercent());
+                pstmt.setString(9, employee.getEmployeeType());
+                pstmt.setInt(10, employee.getId()); // Assuming the employee ID is in the 10th position
 
+                // Execute the update query
+                pstmt.executeUpdate();
+
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

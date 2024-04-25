@@ -58,4 +58,8 @@ public class model {
     }
 
 
+
+    public void editEmployee(Employee employee) {
+        eLogic.edit(employee);
+    }
 }

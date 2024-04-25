@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #134658;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.EditProfileController">
+
+    <children>
+        <TextField fx:id="overheadMultiField" layoutX="194.0" layoutY="95.0" prefHeight="25.0" prefWidth="54.0" />
+        <TextField fx:id="configFixAnnAmountField" layoutX="336.0" layoutY="95.0" prefHeight="25.0" prefWidth="107.0" />
+        <TextField fx:id="countryField" layoutX="103.0" layoutY="142.0" prefHeight="25.0" prefWidth="121.0" />
+        <TextField fx:id="teamField" layoutX="107.0" layoutY="183.0" prefHeight="25.0" prefWidth="121.0" />
+        <TextField fx:id="annualSalaryField" layoutX="17.0" layoutY="95.0" prefHeight="25.0" prefWidth="99.0" />
+        <TextField fx:id="utilPercentField" layoutX="151.0" layoutY="223.0" prefHeight="25.0" prefWidth="54.0" />
+        <TextField fx:id="workingHoursField" layoutX="363.0" layoutY="183.0" prefHeight="25.0" prefWidth="54.0" />
+        <Label layoutX="257.0" layoutY="13.0" text="Edit Profile" textFill="WHITE">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <TextField fx:id="continentField" layoutX="341.0" layoutY="265.0" prefHeight="25.0" prefWidth="99.0" />
+        <Label layoutX="30.0" layoutY="65.0" text="Annual salary" textFill="WHITE" />
+        <Label layoutX="167.0" layoutY="65.0" text="Overhead multiplier" textFill="WHITE" />
+        <Label layoutX="302.0" layoutY="65.0" text="Configured fixed annual amount" textFill="WHITE" />
+        <Label layoutX="27.0" layoutY="146.0" text="Country" textFill="WHITE" />
+        <Label layoutX="33.0" layoutY="187.0" text="Team" textFill="WHITE" />
+        <Label layoutX="350.0" layoutY="154.0" text="Working hours" textFill="WHITE" />
+        <Label layoutX="9.0" layoutY="227.0" text="Utilization percentage" textFill="WHITE" />
+        <Label layoutX="363.0" layoutY="235.0" text="Continent" textFill="WHITE" />
+        <Button layoutX="365.0" layoutY="333.0" mnemonicParsing="false" onAction="#edit" prefHeight="26.0" prefWidth="51.0" text="Edit" />
+        <Button layoutX="78.0" layoutY="334.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+        <Label layoutX="16.0" layoutY="269.0" text="Employee Type" textFill="WHITE" />
+        <TextField fx:id="employeeTypeField" layoutX="118.0" layoutY="265.0" prefHeight="25.0" prefWidth="136.0" />
+        <Label layoutX="213.0" layoutY="227.0" text="\%" textFill="WHITE" />
+        <Label layoutX="254.0" layoutY="99.0" text="\%" textFill="WHITE" />
+        <ImageView fx:id="newProfileImage" fitHeight="57.0" fitWidth="99.0" layoutX="21.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../SchneiderLogo.png" />
+            </image>
+        </ImageView>
+    </children>
+
+</AnchorPane>

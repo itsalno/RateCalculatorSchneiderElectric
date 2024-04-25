@@ -21,4 +21,7 @@ public class EmployeeLogic {
     public void delete(Employee employee) throws SQLException {
         eDAO.delete(employee);
     }
+    public void edit(Employee employee){
+        eDAO.edit(employee);
+    }
 }

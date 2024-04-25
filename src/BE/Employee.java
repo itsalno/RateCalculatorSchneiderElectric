@@ -90,4 +90,64 @@ public class Employee {
     public int getUtilizationPercent() {
         return utilizationPercent;
     }
+
+    public void setAnnualSalary(int annualSalary) {
+        this.annualSalary = annualSalary;
+    }
+
+    public void setOverheadMultiPercent(int overheadMultiPercent) {
+        this.overheadMultiPercent = overheadMultiPercent;
+    }
+
+    public void setConfFixedAnnualAmount(int confFixedAnnualAmount) {
+        this.confFixedAnnualAmount = confFixedAnnualAmount;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
+    public void setWorkingHours(int workingHours) {
+        this.workingHours = workingHours;
+    }
+
+    public void setUtilizationPercent(int utilizationPercent) {
+        this.utilizationPercent = utilizationPercent;
+    }
+
+    public void setContinent(String continent) {
+        this.continent = continent;
+    }
+
+    public void setEmployeeType(String employeeType) {
+        this.employeeType = employeeType;
+    }
+
+    public void setDailyRate(String dailyRate) {
+        this.dailyRate = dailyRate;
+    }
+
+    public void setHourlyRate(String hourlyRate) {
+        this.hourlyRate = hourlyRate;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void updateEmployee(int annualSalary, int overheadMultiPercent, int confFixedAnnualAmount, String country, String continent, String team, int workingHours, int utilizationPercent, String employeeType){
+        this.annualSalary = annualSalary;
+        this.overheadMultiPercent = overheadMultiPercent;
+        this.confFixedAnnualAmount = confFixedAnnualAmount;
+        this.country = country;
+        this.team = team;
+        this.workingHours = workingHours;
+        this.utilizationPercent = utilizationPercent;
+        this.continent=continent;
+        this.employeeType=employeeType;
+        this.id=id;
+    }
 }

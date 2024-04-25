@@ -6,7 +6,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import BE.Group;
-import GUI.Model.model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +24,6 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class MSController implements Initializable {
 
@@ -110,7 +108,7 @@ public class MSController implements Initializable {
         });
 
     }
-
+    // This method is also used to refresh the table when updating a emplyee 
     public void populateTable()  {
 
         ObservableList<Employee> employees = FXCollections.observableArrayList();
@@ -120,6 +118,7 @@ public class MSController implements Initializable {
             e.printStackTrace();
         }
         profileTable.setItems(employees);
+
     }
 
 
@@ -186,8 +185,20 @@ public class MSController implements Initializable {
 
     }
 
-    public void editProfile(ActionEvent actionEvent) {
+    public void editProfile(ActionEvent actionEvent) throws IOException {
+        Employee selectedEmployee = (Employee) profileTable.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/EditProfile.fxml"));
+            Parent root = loader.load();
 
+            EditProfileController editProfileController = loader.getController();
+            editProfileController.setMsController(this);
+            editProfileController.setEmplyeeToUpdate(selectedEmployee);
+
+            Stage primaryStage = new Stage();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+        }
     }
 
     public void CreateTeam(ActionEvent actionEvent) throws IOException {
