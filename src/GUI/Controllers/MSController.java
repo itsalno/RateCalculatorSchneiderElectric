@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -93,6 +94,21 @@ public class MSController implements Initializable {
             }
         });
 
+        profileTable.setRowFactory(tv -> {
+            TableRow<Employee> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                    Employee selectedEmployee = row.getItem();
+                    try {
+                        viewProfile(selectedEmployee);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+            return row;
+        });
+
     }
 
     public void populateTable()  {
@@ -158,7 +174,15 @@ public class MSController implements Initializable {
         }
     }
 
-    public void viewProfile(){
+    public void viewProfile(Employee employee) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/ViewProfile.fxml"));
+        Parent root = loader.load();
+        ViewProfController controller = loader.getController();
+        controller.setEmployee(employee);
+        controller.updateUIInfo();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
 
     }
 

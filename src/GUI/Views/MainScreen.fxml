@@ -16,12 +16,12 @@
          </image>
       </ImageView>
 
-      <Button layoutX="507.0" layoutY="399.0" mnemonicParsing="false" onAction="#deleteProfile" prefHeight="27.0" prefWidth="54.0" text="Delete" />
-      <Button layoutX="446.0" layoutY="399.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="27.0" prefWidth="54.0" text="Edit" />
-      <Button layoutX="473.0" layoutY="105.0" mnemonicParsing="false" onAction="#createProfile" text="Create profile" />
-      <Button layoutX="364.0" layoutY="105.0" mnemonicParsing="false" text="View multipliers" />
-      <Button layoutX="14.0" layoutY="400.0" mnemonicParsing="false" onAction="#CreateTeam" text="Create teams" />
-      <TableView fx:id="profileTable" layoutX="16.0" layoutY="140.0" prefHeight="251.0" prefWidth="505.0">
+      <Button layoutX="492.0" layoutY="399.0" mnemonicParsing="false" onAction="#deleteProfile" prefHeight="27.0" prefWidth="54.0" text="Delete" />
+      <Button layoutX="432.0" layoutY="399.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="27.0" prefWidth="54.0" text="Edit" />
+      <Button layoutX="459.0" layoutY="105.0" mnemonicParsing="false" onAction="#createProfile" text="Create profile" />
+      <Button layoutX="344.0" layoutY="105.0" mnemonicParsing="false" text="View multipliers" />
+      <Button layoutX="42.0" layoutY="400.0" mnemonicParsing="false" onAction="#CreateTeam" text="Create teams" />
+      <TableView fx:id="profileTable" layoutX="37.0" layoutY="139.0" prefHeight="251.0" prefWidth="505.0">
 
         <columns>
           <TableColumn fx:id="continentColumn" prefWidth="103.19994926452637" text="Continent" />
@@ -37,7 +37,7 @@
             <TableColumn fx:id="utilizationPercentage" prefWidth="56.0" text="UtilizationPercentage" />
         </columns>
       </TableView>
-      <Button layoutX="109.0" layoutY="400.0" mnemonicParsing="false" onAction="#DeleteTeams" text="Delete teams" />
-      <ChoiceBox fx:id="allTeams" layoutX="14.0" layoutY="104.0" onAction="#choiceClick" prefHeight="26.0" prefWidth="101.0" />
+      <Button layoutX="137.0" layoutY="400.0" mnemonicParsing="false" onAction="#DeleteTeams" text="Delete teams" />
+      <ChoiceBox fx:id="allTeams" layoutX="37.0" layoutY="105.0" onAction="#choiceClick" prefHeight="26.0" prefWidth="101.0" />
    </children>
 </AnchorPane>
