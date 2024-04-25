@@ -168,10 +168,4 @@ public class MSController implements Initializable {
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
-
-
-    public void choiceClick(ActionEvent actionEvent) {
-        System.out.println(allTeams.getSelectionModel().getSelectedItem());
-
-    }
 }
