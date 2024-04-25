@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="426.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.MSController">
+<AnchorPane prefHeight="428.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.MSController">
    <children>
-      <ImageView fitHeight="80.0" fitWidth="214.0" layoutX="179.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="80.0" fitWidth="214.0" layoutX="243.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../SchneiderLogo.png" />
          </image>
       </ImageView>
 
-      <Button layoutX="487.0" layoutY="87.0" mnemonicParsing="false" onAction="#deleteProfile" prefHeight="27.0" prefWidth="54.0" text="Delete" />
-      <Button layoutX="419.0" layoutY="87.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="27.0" prefWidth="54.0" text="Edit" />
-      <Button layoutX="468.0" layoutY="387.0" mnemonicParsing="false" onAction="#createProfile" text="Create profile" />
-      <Button layoutX="341.0" layoutY="387.0" mnemonicParsing="false" text="View multipliers" />
-      <Button layoutX="19.0" layoutY="387.0" mnemonicParsing="false" onAction="#CreateTeam" text="Create teams" />
-      <ChoiceBox fx:id="allTeams" layoutX="20.0" layoutY="87.0" prefHeight="27.0" prefWidth="84.0" />
-      <TableView fx:id="profileTable" layoutX="20.0" layoutY="122.0" prefHeight="251.0" prefWidth="532.0">
+      <Button layoutX="631.0" layoutY="386.0" mnemonicParsing="false" onAction="#deleteProfile" prefHeight="27.0" prefWidth="54.0" text="Delete" />
+      <Button layoutX="569.0" layoutY="386.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="27.0" prefWidth="54.0" text="Edit" />
+      <Button layoutX="597.0" layoutY="92.0" mnemonicParsing="false" onAction="#createProfile" text="Create profile" />
+      <Button layoutX="491.0" layoutY="92.0" mnemonicParsing="false" text="View multipliers" />
+      <Button layoutX="14.0" layoutY="387.0" mnemonicParsing="false" onAction="#CreateTeam" text="Create teams" />
+      <TableView fx:id="profileTable" layoutX="219.0" layoutY="124.0" prefHeight="251.0" prefWidth="466.0">
 
         <columns>
-          <TableColumn fx:id="countryColumn" prefWidth="90.0" text="Country" />
-          <TableColumn fx:id="continentColumn" prefWidth="93.0" text="Continent" />
-            <TableColumn fx:id="dailyRateCollumn" prefWidth="59.0" text="Day rate" />
-            <TableColumn fx:id="hourlyRateCollumn" prefWidth="69.0" text="Hourly rate" />
-            <TableColumn fx:id="teamColumn" prefWidth="123.0" text="Team" />
-            <TableColumn fx:id="workingHoursColumn" prefWidth="96.0" text="Working hours" />
+          <TableColumn fx:id="continentColumn" prefWidth="89.60003662109375" text="Continent" />
+          <TableColumn fx:id="countryColumn" prefWidth="80.800048828125" text="Country" />
+            <TableColumn fx:id="teamColumn" prefWidth="63.99993896484375" text="Team" />
+            <TableColumn fx:id="workingHoursColumn" prefWidth="89.60000610351562" text="Working hours" />
+            <TableColumn fx:id="hourlyRateCollumn" prefWidth="74.39996337890625" text="Hourly rate" />
+            <TableColumn fx:id="dailyRateCollumn" prefWidth="62.4000244140625" text="Day rate" />
         </columns>
       </TableView>
-      <Button layoutX="120.0" layoutY="387.0" mnemonicParsing="false" onAction="#DeleteTeams" text="Delete teams" />
+      <Button layoutX="110.0" layoutY="387.0" mnemonicParsing="false" onAction="#DeleteTeams" text="Delete teams" />
+      <Label layoutX="14.0" layoutY="96.0" prefHeight="26.0" prefWidth="54.0" text="Teams:" />
+      <Label layoutX="219.0" layoutY="92.0" prefHeight="26.0" prefWidth="54.0" text="Profiles:" />
+      <TableView layoutX="14.0" layoutY="124.0" prefHeight="251.0" prefWidth="182.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="Name" />
+          <TableColumn prefWidth="106.40000762939454" text="Num. of people" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
