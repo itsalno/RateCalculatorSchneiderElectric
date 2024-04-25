@@ -33,6 +33,6 @@
         </columns>
       </TableView>
       <Button layoutX="109.0" layoutY="400.0" mnemonicParsing="false" onAction="#DeleteTeams" text="Delete teams" />
-      <ChoiceBox fx:id="allTeams" layoutX="14.0" layoutY="104.0" prefHeight="26.0" prefWidth="101.0" />
+      <ChoiceBox fx:id="allTeams" layoutX="14.0" layoutY="104.0" onAction="#choiceClick" prefHeight="26.0" prefWidth="101.0" />
    </children>
 </AnchorPane>
