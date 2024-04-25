@@ -62,10 +62,8 @@ public class MSController implements Initializable {
 
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         countryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountry()));
         continentColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContinent()));
         teamColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeam()));
@@ -76,19 +74,19 @@ public class MSController implements Initializable {
 
 
         populateTable();
- /*
+
         setGroups();
         for (Group group : groups) {
-           // allTeams.getItems().add(group.getName());
+           allTeams.getItems().add(group.getName());
         }
 
-        // Add event handler for selection change
-       // allTeams.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+        //Add event handler for selection change
+        allTeams.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 deleteSelectedTeam(newValue);
             }
         });
-*/
+
     }
 
     public void populateTable()  {
@@ -119,23 +117,9 @@ public class MSController implements Initializable {
     }
 
     private void deleteSelectedTeam(Object selectedItem) {
-        if (selectedItem instanceof String) {
-            String selectedName = (String) selectedItem;
-            // Find the Group object corresponding to the selected name
-            Group selectedGroup = groups.stream()
-                    .filter(group -> group.getName().equals(selectedName))
-                    .findFirst()
-                    .orElse(null);
-            if (selectedGroup != null) {
-                int teamId = selectedGroup.getId();
-
-                // Remove from the database
-                model.getInstance().deleteTeam(teamId);
-
-                // Remove from the ChoiceBox
-                allTeams.getItems().remove(selectedName);
-            }
-        }
+        // Remove from the ChoiceBox
+        model.deleteTeam(allTeams.getSelectionModel().getSelectedItem());
+        allTeams.getItems().remove(allTeams.getSelectionModel().getSelectedItem());
     }
 
     public void updateChoiceBox(Group group){
@@ -186,6 +170,8 @@ public class MSController implements Initializable {
     }
 
 
+    public void choiceClick(ActionEvent actionEvent) {
+        System.out.println(allTeams.getSelectionModel().getSelectedItem());
 
-
+    }
 }

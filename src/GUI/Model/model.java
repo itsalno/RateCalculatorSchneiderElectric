@@ -38,8 +38,8 @@ public class model {
     public List<Group> getAllTeams(){
         return groupLogic.getAllGroups();
     }
-    public void deleteTeam(int id){
-        groupLogic.deleteGroup(id);
+    public void deleteTeam(String name){
+        groupLogic.deleteGroup(name);
     }
     public void updateTeam(Group group){
         groupLogic.editGroup(group);

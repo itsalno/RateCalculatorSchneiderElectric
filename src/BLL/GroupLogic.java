@@ -16,8 +16,8 @@ public class GroupLogic {
        return groupDAO.getAllGroups();
     }
 
-    public void deleteGroup(int id){
-        groupDAO.deleteGroup(id);
+    public void deleteGroup(String name){
+        groupDAO.deleteGroup(name);
     }
 
     public void editGroup(Group group){

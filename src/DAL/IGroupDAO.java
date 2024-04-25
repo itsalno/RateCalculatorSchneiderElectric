@@ -10,7 +10,7 @@ public interface IGroupDAO {
 
     public List<Group> getAllGroups();
 
-    public void deleteGroup(int id);
+    public void deleteGroup(String name);
 
     public void editGroup(Group group);
 }

@@ -45,11 +45,11 @@ public class GroupDAO implements IGroupDAO {
     }
 
     @Override
-    public void deleteGroup(int id) {
+    public void deleteGroup(String name) {
         try (Connection con = dbConnector.getConn()) {
-            String sql = "DELETE FROM Teams WHERE id=?";
+            String sql = "DELETE FROM Teams WHERE Name=?";
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1, id);
+            pstmt.setString(1, name);
             pstmt.execute();
 
         } catch (SQLException e) {
