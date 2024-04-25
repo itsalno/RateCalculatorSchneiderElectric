@@ -21,15 +21,20 @@
       <Button layoutX="473.0" layoutY="105.0" mnemonicParsing="false" onAction="#createProfile" text="Create profile" />
       <Button layoutX="364.0" layoutY="105.0" mnemonicParsing="false" text="View multipliers" />
       <Button layoutX="14.0" layoutY="400.0" mnemonicParsing="false" onAction="#CreateTeam" text="Create teams" />
-      <TableView fx:id="profileTable" layoutX="16.0" layoutY="140.0" prefHeight="251.0" prefWidth="546.0">
+      <TableView fx:id="profileTable" layoutX="16.0" layoutY="140.0" prefHeight="251.0" prefWidth="505.0">
 
         <columns>
           <TableColumn fx:id="continentColumn" prefWidth="103.19994926452637" text="Continent" />
           <TableColumn fx:id="countryColumn" prefWidth="76.00000762939453" text="Country" />
-            <TableColumn fx:id="teamColumn" prefWidth="63.199951171875" text="Team" />
-            <TableColumn fx:id="workingHoursColumn" prefWidth="97.5999755859375" text="Working hours" />
-            <TableColumn fx:id="hourlyRateCollumn" prefWidth="88.0" text="Hourly rate" />
-            <TableColumn fx:id="dailyRateCollumn" prefWidth="71.99996948242188" text="Day rate" />
+            <TableColumn fx:id="teamColumn" prefWidth="108.0" text="Team" />
+            <TableColumn fx:id="workingHoursColumn" prefWidth="86.0" text="Working hours" />
+            <TableColumn fx:id="hourlyRateCollumn" prefWidth="72.0" text="Hourly rate" />
+            <TableColumn fx:id="dailyRateCollumn" prefWidth="56.0" text="Day rate" />
+            <TableColumn fx:id="OMP" prefWidth="71.99996948242188" text="OMP" visible="false" />
+            <TableColumn fx:id="CFAA" prefWidth="71.99996948242188" text="CFAA" visible="false" />
+            <TableColumn fx:id="annualSalaryColumn" prefWidth="71.99996948242188" text="AnnualSalary" visible="false" />
+            <TableColumn fx:id="employeeTypeColumn" prefWidth="56.0" text="EmployeeType" />
+            <TableColumn fx:id="utilizationPercentage" prefWidth="56.0" text="UtilizationPercentage" />
         </columns>
       </TableView>
       <Button layoutX="109.0" layoutY="400.0" mnemonicParsing="false" onAction="#DeleteTeams" text="Delete teams" />

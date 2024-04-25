@@ -5,10 +5,8 @@ import GUI.Model.model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import BE.Group;
 import GUI.Model.model;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,15 +18,10 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.beans.property.SimpleIntegerProperty;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -37,11 +30,9 @@ public class MSController implements Initializable {
 
 
     @FXML
-    public ChoiceBox<String> allTeams;
-    private List<Group> groups=new ArrayList<>();
+    private ChoiceBox<String> allTeams;
     @FXML
     private TableView<Employee> profileTable;
-
 
     @FXML
     private TableColumn<Employee, String> countryColumn;
@@ -52,11 +43,22 @@ public class MSController implements Initializable {
     @FXML
     private TableColumn<Employee, Integer> workingHoursColumn;
     @FXML
+    private  TableColumn<Employee,Integer> OMP;
+    @FXML
+    private  TableColumn<Employee,Integer> CFAA;
+    @FXML
+    private  TableColumn<Employee,Integer> annualSalaryColumn;
+    @FXML
+    private  TableColumn<Employee,Integer> utilizationPercentage;
+
+    @FXML
     private TableColumn<Employee, String> employeeTypeColumn;
     @FXML
     private TableColumn<Employee,String> dailyRateCollumn;
     @FXML
     private TableColumn<Employee, String> hourlyRateCollumn;
+    private Group selectedGroup;
+    private List<Group> groups=new ArrayList<>();
 
     model model=new model();
 
@@ -70,17 +72,21 @@ public class MSController implements Initializable {
         dailyRateCollumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDailyRate()));
         hourlyRateCollumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHourlyRate()));
         workingHoursColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getWorkingHours()).asObject());
-
+        annualSalaryColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getAnnualSalary()).asObject());
+        OMP.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getOverheadMultiPercent()).asObject());
+        CFAA.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getConfFixedAnnualAmount()).asObject());
+        utilizationPercentage.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getUtilizationPercent()).asObject());
+        employeeTypeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeType()));
 
 
         populateTable();
+
 
         setGroups();
         for (Group group : groups) {
            allTeams.getItems().add(group.getName());
         }
 
-        //Add event handler for selection change
         allTeams.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 deleteSelectedTeam(newValue);
@@ -100,7 +106,6 @@ public class MSController implements Initializable {
         profileTable.setItems(employees);
     }
 
-    private Group selectedGroup;
 
 
     private void setGroups(){
@@ -117,7 +122,6 @@ public class MSController implements Initializable {
     }
 
     private void deleteSelectedTeam(Object selectedItem) {
-        // Remove from the ChoiceBox
         model.deleteTeam(allTeams.getSelectionModel().getSelectedItem());
         allTeams.getItems().remove(allTeams.getSelectionModel().getSelectedItem());
     }
@@ -125,6 +129,8 @@ public class MSController implements Initializable {
     public void updateChoiceBox(Group group){
         allTeams.getItems().add(group.getName());
     }
+
+
     public void createProfile(ActionEvent actionEvent) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewProfile.fxml"));
@@ -155,6 +161,7 @@ public class MSController implements Initializable {
     public void viewProfile(){
 
     }
+
     public void editProfile(ActionEvent actionEvent) {
 
     }

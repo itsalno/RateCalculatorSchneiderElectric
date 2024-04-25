@@ -3,12 +3,15 @@ package GUI.Controllers;
 import BE.Group;
 import GUI.Model.model;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class NewTeamController {
-    public TextField fieldName;
+
+    @FXML
+    private TextField fieldName;
 
     private MSController msController;
 

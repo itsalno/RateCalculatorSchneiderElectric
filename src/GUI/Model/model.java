@@ -21,6 +21,7 @@ public class model {
     private final static model instance = new model();
     private GroupLogic groupLogic;
 
+
     EmployeeLogic eLogic= new EmployeeLogic();
 
     public model() {

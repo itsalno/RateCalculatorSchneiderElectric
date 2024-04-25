@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface IGroupDAO {
 
-    public void createGroup(Group group);
+     void createGroup(Group group);
 
-    public List<Group> getAllGroups();
+     List<Group> getAllGroups();
 
-    public void deleteGroup(String name);
+     void deleteGroup(String name);
 
-    public void editGroup(Group group);
+     void editGroup(Group group);
 }
