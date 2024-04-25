@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -13,20 +15,30 @@ import java.util.ResourceBundle;
 
 public class ViewProfController implements Initializable {
 
-
+    @FXML
+    private ImageView profileInfoImage;
     @FXML
     private Label workingHoursLbl,countryLbl,continentLbl,annualSalaryLbl,empTypeLbl,
             utilPercentLbl, ompLbl,cfaaLbl,hourlyRateLbl,dailyRateLbl;
     private Employee selectedEmployee;
 
 
+
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Image img =new Image("file:src/SchneiderLogo.png");
+        profileInfoImage.setImage(img);
         updateUIInfo();
     }
+
+
     public void setEmployee(Employee employee) {
         this.selectedEmployee = employee;
     }
+
+
 
     public void updateUIInfo() {
         if (selectedEmployee != null) {
@@ -44,6 +56,8 @@ public class ViewProfController implements Initializable {
 
         }
     }
+
+
     public void close(ActionEvent actionEvent) {
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();

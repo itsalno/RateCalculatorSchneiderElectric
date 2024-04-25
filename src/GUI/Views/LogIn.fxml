@@ -9,9 +9,9 @@
    <children>
       <ImageView fx:id="logInImage" fitHeight="104.0" fitWidth="200.0" layoutX="101.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
       </ImageView>
-      <TextField fx:id="passwordField" layoutX="118.0" layoutY="183.0" prefHeight="29.0" prefWidth="166.0" style="-fx-border-color: green; -fx-background-color: white;" styleClass="text-field" stylesheets="@../../LogIn.css" AnchorPane.leftAnchor="118.0" AnchorPane.topAnchor="183.0" />
-      <TextField fx:id="usernameField" layoutX="118.0" layoutY="119.0" prefHeight="29.0" prefWidth="166.0" style="-fx-border-color: green; -fx-background-color: white;" styleClass="text-field" stylesheets="@../../LogIn.css" AnchorPane.leftAnchor="118.0" AnchorPane.topAnchor="119.0" />
-      <Button layoutX="165.0" layoutY="246.0" mnemonicParsing="false" onAction="#logIn" prefHeight="27.0" prefWidth="72.0" stylesheets="@../../LogIn.css" text="Log In" AnchorPane.leftAnchor="165.0" AnchorPane.topAnchor="246.0" />
+      <TextField fx:id="passwordField" layoutX="118.0" layoutY="183.0" prefHeight="29.0" prefWidth="166.0" styleClass="text-field" stylesheets="@../../StyleClass.css" AnchorPane.leftAnchor="118.0" AnchorPane.topAnchor="183.0" />
+      <TextField fx:id="usernameField" layoutX="118.0" layoutY="119.0" prefHeight="29.0" prefWidth="166.0" styleClass="text-field" stylesheets="@../../StyleClass.css" AnchorPane.leftAnchor="118.0" AnchorPane.topAnchor="119.0" />
+      <Button layoutX="165.0" layoutY="246.0" mnemonicParsing="false" onAction="#logIn" prefHeight="27.0" prefWidth="72.0" stylesheets="@../../StyleClass.css" text="Log In" AnchorPane.leftAnchor="165.0" AnchorPane.topAnchor="246.0" />
       <ImageView fx:id="smallLogo" fitHeight="66.0" fitWidth="87.0" layoutX="4.0" layoutY="230.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="230.0" />
    </children>
 </AnchorPane>

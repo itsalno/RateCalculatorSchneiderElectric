@@ -4,12 +4,21 @@ import BE.Employee;
 import GUI.Model.model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class NPController {
+import java.net.URL;
+import java.util.ResourceBundle;
 
+public class NPController implements Initializable {
+
+
+    @FXML
+    private ImageView newProfileImage;
     @FXML
     private TextField configFixAnnAmountField;
     @FXML
@@ -33,6 +42,12 @@ public class NPController {
 
 
 
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        Image img =new Image("file:src/SchneiderLogo.png");
+        newProfileImage.setImage(img);
+    }
 
 
     public void create(ActionEvent actionEvent) {
@@ -59,8 +74,10 @@ public class NPController {
 
     }
 
+
     public void cancel(ActionEvent actionEvent) {
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
     }
+
 }
