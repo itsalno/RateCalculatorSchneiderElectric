@@ -76,19 +76,19 @@ public class MSController implements Initializable {
 
 
         populateTable();
-
+ /*
         setGroups();
         for (Group group : groups) {
-            allTeams.getItems().add(group.getName());
+           // allTeams.getItems().add(group.getName());
         }
 
         // Add event handler for selection change
-        allTeams.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
+       // allTeams.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue != null) {
                 deleteSelectedTeam(newValue);
             }
         });
-
+*/
     }
 
     public void populateTable()  {
