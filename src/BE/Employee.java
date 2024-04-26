@@ -15,6 +15,9 @@ public class Employee {
     private String hourlyRate;
     private int id;
 
+    public Employee() {
+    }
+
     public String getDailyRate() {
         return dailyRate;
     }

@@ -106,6 +106,10 @@ public class MSController implements Initializable {
             return row;
         });
 
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            searchInfo();
+        });
+
     }
     // This method is also used to refresh the table when updating a emplyee 
     public void populateTable()  {
@@ -214,13 +218,16 @@ public class MSController implements Initializable {
         //for filtering
     }
 
-    public void editTeam(ActionEvent actionEvent) {
+    public void searchInfo(){
+        String searchText = searchBar.getText().trim().toLowerCase();
+        List<Employee> matchingEmployees = model.searchEmployees(searchText);
+        profileTable.setItems(FXCollections.observableArrayList(matchingEmployees));
     }
 
 
-
-    /*public void editTeam(ActionEvent actionEvent) throws IOException {
-        Object selectedTeam = allTeams.getSelectionModel().getSelectedItem();
+    public void editTeam(ActionEvent actionEvent) {
+        /*
+         Object selectedTeam = allTeams.getSelectionModel().getSelectedItem();
 
         if (selectedTeam != null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewTeam.fxml"));
@@ -235,8 +242,12 @@ public class MSController implements Initializable {
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
     }
-        }
-        */
+         */
+    }
+
+
+
+
 
 
 }

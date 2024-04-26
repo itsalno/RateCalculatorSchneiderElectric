@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeDAO implements IEmployeeDAO {
 
@@ -39,7 +41,7 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
-    public ObservableList<Employee> getAllEmployees() throws SQLException {
+    public ObservableList<Employee> getAllEmployees()  {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
 
         try (Connection conn = dbConnector.getConn()) {
@@ -64,19 +66,24 @@ public class EmployeeDAO implements IEmployeeDAO {
                     }
                 }
             }
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
         }
 
         return employees;
     }
 
     @Override
-    public void delete(Employee employee) throws SQLException {
+    public void delete(Employee employee)  {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "DELETE FROM Employee WHERE id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, employee.getId());
                 stmt.executeUpdate();
             }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
         }
     }
 
@@ -104,5 +111,34 @@ public class EmployeeDAO implements IEmployeeDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Employee> searchEmployees(String searchText) {
+        List<Employee> matchingEmployees = new ArrayList<>();
+        try (Connection con = dbConnector.getConn()) {
+            String sql = "SELECT * FROM Employee WHERE Country LIKE ? OR Continent LIKE ? OR Team LIKE ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, "%" + searchText + "%");
+            pstmt.setString(2, "%" + searchText + "%");
+            pstmt.setString(3, "%" + searchText + "%");
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Employee employee = new Employee();
+                employee.setCountry(rs.getString("Country"));
+                employee.setConfFixedAnnualAmount(rs.getInt("ConfigurableFixedAnnualAmount"));
+                employee.setTeam(rs.getString("Team"));
+                employee.setWorkingHours(rs.getInt("WorkingHours"));
+                employee.setUtilizationPercent(rs.getInt("UtilizationPercentage"));
+                employee.setContinent(rs.getString("Continent"));
+                employee.setEmployeeType(rs.getString("EmployeeType"));
+                employee.setAnnualSalary(rs.getInt("AnnualSalary"));
+                employee.setOverheadMultiPercent(rs.getInt("OverheadMultiplierPercentage"));
+                matchingEmployees.add(employee);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();;
+        }
+        return matchingEmployees;
     }
 }

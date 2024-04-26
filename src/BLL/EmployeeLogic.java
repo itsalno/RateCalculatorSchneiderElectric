@@ -5,6 +5,7 @@ import DAL.EmployeeDAO;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class EmployeeLogic {
 
@@ -23,5 +24,9 @@ public class EmployeeLogic {
     }
     public void edit(Employee employee){
         eDAO.edit(employee);
+    }
+
+    public List<Employee> searchEmployees(String searchText){
+        return eDAO.searchEmployees(searchText);
     }
 }

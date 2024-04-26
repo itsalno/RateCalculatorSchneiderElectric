@@ -32,6 +32,11 @@ public class model {
         return instance;
     }
 
+
+
+
+    //TEAM OPERATIONS
+
     public void createTeam(Group group){
         groupLogic.createGroup(group);
     }
@@ -46,6 +51,9 @@ public class model {
         groupLogic.editGroup(group);
     }
 
+
+
+    //EMPLOYEE OPERATIONS
     public void createEmployee(Employee employee){
         eLogic.create(employee);
     }
@@ -59,5 +67,9 @@ public class model {
 
     public void editEmployee(Employee employee) {
         eLogic.edit(employee);
+    }
+
+    public List<Employee> searchEmployees(String searchText){
+        return eLogic.searchEmployees(searchText);
     }
 }
