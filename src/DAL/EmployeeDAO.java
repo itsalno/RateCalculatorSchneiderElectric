@@ -94,9 +94,8 @@ public class EmployeeDAO implements IEmployeeDAO {
                 pstmt.setInt(7, employee.getWorkingHours());
                 pstmt.setInt(8, employee.getUtilizationPercent());
                 pstmt.setString(9, employee.getEmployeeType());
-                pstmt.setInt(10, employee.getId()); // Assuming the employee ID is in the 10th position
+                pstmt.setInt(10, employee.getId());
 
-                // Execute the update query
                 pstmt.executeUpdate();
 
             }

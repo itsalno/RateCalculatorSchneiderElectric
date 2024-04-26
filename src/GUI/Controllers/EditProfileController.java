@@ -3,6 +3,7 @@ package GUI.Controllers;
 import BE.Employee;
 import GUI.Model.model;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -10,16 +11,26 @@ import javafx.stage.Stage;
 
 public class EditProfileController {
 
-    public TextField overheadMultiField;
-    public TextField configFixAnnAmountField;
-    public TextField countryField;
-    public TextField teamField;
-    public TextField annualSalaryField;
-    public TextField utilPercentField;
-    public TextField workingHoursField;
-    public TextField continentField;
-    public TextField employeeTypeField;
-    public ImageView newProfileImage;
+    @FXML
+    private TextField overheadMultiField;
+    @FXML
+    private TextField configFixAnnAmountField;
+    @FXML
+    private TextField countryField;
+    @FXML
+    private TextField teamField;
+    @FXML
+    private TextField annualSalaryField;
+    @FXML
+    private TextField utilPercentField;
+    @FXML
+    private TextField workingHoursField;
+    @FXML
+    private TextField continentField;
+    @FXML
+    private TextField employeeTypeField;
+    @FXML
+    private ImageView newProfileImage;
     private MSController msController;
 
    private Employee emplyeeToUpdate;

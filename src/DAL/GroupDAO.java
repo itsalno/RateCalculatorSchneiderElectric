@@ -66,10 +66,10 @@ public class GroupDAO implements IGroupDAO {
                 pstmt.setInt(2,group.getId());
                 pstmt.executeUpdate();
             }
-
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+
 }

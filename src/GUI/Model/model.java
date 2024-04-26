@@ -57,8 +57,6 @@ public class model {
         eLogic.delete(employee);
     }
 
-
-
     public void editEmployee(Employee employee) {
         eLogic.edit(employee);
     }

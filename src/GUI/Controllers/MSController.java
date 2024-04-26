@@ -12,10 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.beans.property.SimpleIntegerProperty;
 import java.io.IOException;
@@ -28,6 +25,8 @@ import java.util.List;
 public class MSController implements Initializable {
 
 
+    @FXML
+    private TextField searchBar;
     @FXML
     private ChoiceBox<String> allTeams;
     @FXML
@@ -214,4 +213,30 @@ public class MSController implements Initializable {
     public void choiceClick(ActionEvent actionEvent) {
         //for filtering
     }
+
+    public void editTeam(ActionEvent actionEvent) {
+    }
+
+
+
+    /*public void editTeam(ActionEvent actionEvent) throws IOException {
+        Object selectedTeam = allTeams.getSelectionModel().getSelectedItem();
+
+        if (selectedTeam != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewTeam.fxml"));
+            Parent root = loader.load();
+
+            NewTeamController newTeamController = loader.getController();
+            newTeamController.setMsController(this);
+            newTeamController.setTeamToEdit(selectedTeam);
+            System.out.println(selectedTeam);
+
+            Stage primaryStage = new Stage();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+    }
+        }
+        */
+
+
 }

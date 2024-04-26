@@ -11,5 +11,5 @@ public interface IEmployeeDAO {
 
     ObservableList<Employee> getAllEmployees() throws SQLException;
     void delete(Employee employee) throws SQLException;
-public void edit(Employee employee) throws  SQLException;
+    void edit(Employee employee) throws  SQLException;
 }
