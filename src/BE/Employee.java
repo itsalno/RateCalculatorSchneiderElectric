@@ -153,4 +153,27 @@ public class Employee {
         this.employeeType=employeeType;
         this.id=id;
     }
+
+    public double calculateHourlyRate() {
+
+        double hourlyRate = (double) (annualSalary + confFixedAnnualAmount)
+                / (workingHours * (utilizationPercent / 100.0))
+                * (overheadMultiPercent / 100.0);
+        return hourlyRate;
+    }
+
+    // Calculating day rate based on the hourly rate and the number of working hours per day.
+    // You'll need to decide how you want to pass the number of working hours in a day.
+    // Here it's assumed to be a constant value, typical values are 7-9 hours depending on the country's full-time work policy.
+    public double calculateDailyRate(int hoursInWorkDay) {
+        double dailyRate = calculateHourlyRate() * hoursInWorkDay;
+        return dailyRate;
+    }
+    public String getCalculatedHourlyRate() {
+        return String.format("%.2f", calculateHourlyRate());
+    }
+
+    public String getCalculatedDailyRate(int hoursInWorkDay) {
+        return String.format("%.2f", calculateDailyRate(hoursInWorkDay));
+    }
 }
