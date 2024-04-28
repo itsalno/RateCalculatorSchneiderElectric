@@ -23,6 +23,7 @@ public class NewTeamController implements Initializable {
     private TextField fieldName;
 
     private MSController msController;
+    private Group groupToEdit;
 
 
 
@@ -48,14 +49,34 @@ public class NewTeamController implements Initializable {
 
 
     public void CreateTeam(ActionEvent actionEvent) {
-        String name=fieldName.getText();
-        Group group=new Group(name);
-        model.getInstance().createTeam(group);
+        System.out.println(groupToEdit);
 
+        if (groupToEdit!=null){
+            edit();
+        }else {
+            create();
+        }
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
 
-        msController.updateChoiceBox(group);
+        msController.populateGrpTable();
     }
 
+
+    public void edit(){
+        groupToEdit.setName(fieldName.getText());
+        model.getInstance().updateTeam(groupToEdit);
+    }
+
+    public void create(){
+        String name=fieldName.getText();
+        Group group=new Group(name);
+        model.getInstance().createTeam(group);
+    }
+    public void setGroupToEdit(Group selectedGroup) {
+        this.groupToEdit=selectedGroup;
+
+        fieldName.setText(groupToEdit.getName());
+
+    }
 }

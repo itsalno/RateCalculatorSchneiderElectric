@@ -35,7 +35,8 @@ public class GroupDAO implements IGroupDAO {
                  ResultSet resultSet = pstmt.executeQuery()) {
                 while (resultSet.next()) {
                     String name = resultSet.getString("Name");
-                    groups.add(new Group(name));
+                    int id = resultSet.getInt("id");
+                    groups.add(new Group(name,id));
                 }
                 return groups;
             }
@@ -45,11 +46,11 @@ public class GroupDAO implements IGroupDAO {
     }
 
     @Override
-    public void deleteGroup(String name) {
+    public void deleteGroup(Group group) {
         try (Connection con = dbConnector.getConn()) {
-            String sql = "DELETE FROM Teams WHERE Name=?";
+            String sql = "DELETE FROM Teams WHERE id=?";
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, name);
+            pstmt.setInt(1, group.getId());
             pstmt.execute();
 
         } catch (SQLException e) {

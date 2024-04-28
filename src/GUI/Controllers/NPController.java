@@ -38,9 +38,8 @@ public class NPController implements Initializable {
     @FXML
     private TextField employeeTypeField;
     model model=new model();
-    MSController msc=new MSController();
-
-
+    private MSController msc;
+    private Employee emplyeeToUpdate;
 
 
     @Override
@@ -51,7 +50,19 @@ public class NPController implements Initializable {
 
 
     public void create(ActionEvent actionEvent) {
+        if(emplyeeToUpdate!=null){
+            update();
+        }else {
+            create();
+        }
 
+        Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        currentStage.close();
+
+    }
+
+
+    public void create(){
         int annualSalary = Integer.parseInt(annualSalaryField.getText());
         int overheadMultiPercent = Integer.parseInt(overheadMultiField.getText());
         int confFixedAnnualAmount = Integer.parseInt(configFixAnnAmountField.getText());
@@ -66,18 +77,48 @@ public class NPController implements Initializable {
                 country, continent, team, workingHours, utilizationPercent, employeeType);
 
         model.createEmployee(newEmployee);
-
-
-
-        Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        currentStage.close();
-
     }
 
+    public void update(){
+        emplyeeToUpdate.setUtilizationPercent(Integer.parseInt(utilPercentField.getText()));
+        emplyeeToUpdate.setTeam(teamField.getText());
+        emplyeeToUpdate.setWorkingHours(Integer.parseInt(workingHoursField.getText()));
+        emplyeeToUpdate.setConfFixedAnnualAmount(Integer.parseInt(configFixAnnAmountField.getText()));
+        emplyeeToUpdate.setOverheadMultiPercent(Integer.parseInt(overheadMultiField.getText()));
+        emplyeeToUpdate.setContinent(continentField.getText());
+        emplyeeToUpdate.setCountry(countryField.getText());
+        emplyeeToUpdate.setAnnualSalary(Integer.parseInt(annualSalaryField.getText()));
+        emplyeeToUpdate.setEmployeeType(employeeTypeField.getText());
+
+
+        model.getInstance().editEmployee(emplyeeToUpdate);
+        msc.populateEmpTable();
+    }
+
+
+
+    public void setEmployeeToUpdate(Employee employee){
+        this.emplyeeToUpdate=employee;
+
+        annualSalaryField.setText(String.valueOf(employee.getAnnualSalary()));
+        overheadMultiField.setText(String.valueOf(employee.getOverheadMultiPercent()));
+        configFixAnnAmountField.setText(String.valueOf(employee.getConfFixedAnnualAmount()));
+        countryField.setText(employee.getCountry());
+        continentField.setText(employee.getContinent());
+        teamField.setText(employee.getTeam());
+        workingHoursField.setText(String.valueOf(employee.getWorkingHours()));
+        utilPercentField.setText(String.valueOf(employee.getUtilizationPercent()));
+        employeeTypeField.setText(employee.getEmployeeType());
+
+
+    }
 
     public void cancel(ActionEvent actionEvent) {
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
     }
 
+    public void setMSController(MSController msController) {
+        this.msc=msController;
+    }
 }

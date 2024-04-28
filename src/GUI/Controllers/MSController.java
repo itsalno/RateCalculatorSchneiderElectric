@@ -25,10 +25,14 @@ import java.util.List;
 public class MSController implements Initializable {
 
 
+
+
+    @FXML
+    private TableView<Group> groupTable;
+    @FXML
+    private TableColumn<Group,String> teamNameColumn;
     @FXML
     private TextField searchBar;
-    @FXML
-    private ChoiceBox<String> allTeams;
     @FXML
     private TableView<Employee> profileTable;
 
@@ -55,8 +59,7 @@ public class MSController implements Initializable {
     private TableColumn<Employee,String> dailyRateCollumn;
     @FXML
     private TableColumn<Employee, String> hourlyRateCollumn;
-    private Group selectedGroup;
-    private List<Group> groups=new ArrayList<>();
+
 
     model model=new model();
 
@@ -75,21 +78,14 @@ public class MSController implements Initializable {
         CFAA.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getConfFixedAnnualAmount()).asObject());
         utilizationPercentage.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getUtilizationPercent()).asObject());
         employeeTypeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeType()));
+        teamNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
 
 
-        populateTable();
+
+        populateEmpTable();
+        populateGrpTable();
 
 
-        setGroups();
-        for (Group group : groups) {
-           allTeams.getItems().add(group.getName());
-        }
-
-        allTeams.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue != null) {
-                deleteSelectedTeam(newValue);
-            }
-        });
 
         profileTable.setRowFactory(tv -> {
             TableRow<Employee> row = new TableRow<>();
@@ -111,8 +107,10 @@ public class MSController implements Initializable {
         });
 
     }
+
+
     // This method is also used to refresh the table when updating a emplyee 
-    public void populateTable()  {
+    public void populateEmpTable()  {
 
         ObservableList<Employee> employees = FXCollections.observableArrayList();
         try {
@@ -124,28 +122,24 @@ public class MSController implements Initializable {
 
     }
 
+    public void populateGrpTable(){
+        ObservableList<Group> teams = FXCollections.observableArrayList();
 
-
-    private void setGroups(){
-        groups.addAll(GUI.Model.model.getInstance().getAllTeams());
+        teams.addAll(model.getAllTeams());
+        groupTable.setItems(teams);
     }
+
+
+
 
 
     public void DeleteTeams(ActionEvent actionEvent) {
-        // This method will be called from the button click, not from selection change
-        Object selectedItem = allTeams.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            deleteSelectedTeam(selectedItem);
+        Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
+
+        if (selectedGroup != null) {
+            model.deleteTeam(selectedGroup);
+            groupTable.getItems().remove(selectedGroup);
         }
-    }
-
-    private void deleteSelectedTeam(Object selectedItem) {
-        model.deleteTeam(allTeams.getSelectionModel().getSelectedItem());
-        allTeams.getItems().remove(allTeams.getSelectionModel().getSelectedItem());
-    }
-
-    public void updateChoiceBox(Group group){
-        allTeams.getItems().add(group.getName());
     }
 
 
@@ -156,7 +150,7 @@ public class MSController implements Initializable {
         Stage primaryStage = new Stage();
         primaryStage.setScene(new Scene(root));
         primaryStage.setOnHidden(event -> {
-            populateTable();
+            populateEmpTable();
         });
         primaryStage.show();
     }
@@ -191,12 +185,12 @@ public class MSController implements Initializable {
     public void editProfile(ActionEvent actionEvent) throws IOException {
         Employee selectedEmployee = (Employee) profileTable.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/EditProfile.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewProfile.fxml"));
             Parent root = loader.load();
 
-            EditProfileController editProfileController = loader.getController();
-            editProfileController.setMsController(this);
-            editProfileController.setEmplyeeToUpdate(selectedEmployee);
+            NPController newProfileController = loader.getController();
+            newProfileController.setMSController(this);
+            newProfileController.setEmployeeToUpdate(selectedEmployee);
 
             Stage primaryStage = new Stage();
             primaryStage.setScene(new Scene(root));
@@ -214,9 +208,6 @@ public class MSController implements Initializable {
         primaryStage.show();
     }
 
-    public void choiceClick(ActionEvent actionEvent) {
-        //for filtering
-    }
 
     public void searchInfo(){
         String searchText = searchBar.getText().trim().toLowerCase();
@@ -225,24 +216,21 @@ public class MSController implements Initializable {
     }
 
 
-    public void editTeam(ActionEvent actionEvent) {
-        /*
-         Object selectedTeam = allTeams.getSelectionModel().getSelectedItem();
-
-        if (selectedTeam != null) {
+    public void editTeam(ActionEvent actionEvent) throws IOException {
+        Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
+        if(selectedGroup!=null){
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewTeam.fxml"));
             Parent root = loader.load();
 
             NewTeamController newTeamController = loader.getController();
             newTeamController.setMsController(this);
-            newTeamController.setTeamToEdit(selectedTeam);
-            System.out.println(selectedTeam);
+            newTeamController.setGroupToEdit(selectedGroup);
 
             Stage primaryStage = new Stage();
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
-    }
-         */
+
+        }
     }
 
 

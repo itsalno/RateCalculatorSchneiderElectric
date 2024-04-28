@@ -141,18 +141,6 @@ public class Employee {
     public void setId(int id) {
         this.id = id;
     }
-    public void updateEmployee(int annualSalary, int overheadMultiPercent, int confFixedAnnualAmount, String country, String continent, String team, int workingHours, int utilizationPercent, String employeeType){
-        this.annualSalary = annualSalary;
-        this.overheadMultiPercent = overheadMultiPercent;
-        this.confFixedAnnualAmount = confFixedAnnualAmount;
-        this.country = country;
-        this.team = team;
-        this.workingHours = workingHours;
-        this.utilizationPercent = utilizationPercent;
-        this.continent=continent;
-        this.employeeType=employeeType;
-        this.id=id;
-    }
 
     public double calculateHourlyRate() {
 

@@ -44,8 +44,8 @@ public class model {
     public List<Group> getAllTeams(){
         return groupLogic.getAllGroups();
     }
-    public void deleteTeam(String name){
-        groupLogic.deleteGroup(name);
+    public void deleteTeam(Group group){
+        groupLogic.deleteGroup(group);
     }
     public void updateTeam(Group group){
         groupLogic.editGroup(group);
