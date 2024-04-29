@@ -22,6 +22,8 @@ public class ViewProfController implements Initializable {
             utilPercentLbl, ompLbl,cfaaLbl,hourlyRateLbl,dailyRateLbl;
     private Employee selectedEmployee;
 
+    private MSController msController;
+
 
 
 
@@ -32,10 +34,14 @@ public class ViewProfController implements Initializable {
         profileInfoImage.setImage(img);
         updateUIInfo();
     }
+    public void setMsController(MSController msController){
+        this.msController=msController;
+    }
 
 
     public void setEmployee(Employee employee) {
         this.selectedEmployee = employee;
+        updateUIInfo();
     }
 
 
@@ -43,17 +49,35 @@ public class ViewProfController implements Initializable {
     public void updateUIInfo() {
         if (selectedEmployee != null) {
 
-            workingHoursLbl.setText(String.valueOf(selectedEmployee.getWorkingHours()));
-            countryLbl.setText(selectedEmployee.getCountry());
-            continentLbl.setText(selectedEmployee.getContinent());
-            annualSalaryLbl.setText(String.valueOf(selectedEmployee.getAnnualSalary()));
-            empTypeLbl.setText(selectedEmployee.getEmployeeType());
-            utilPercentLbl.setText(String.valueOf(selectedEmployee.getUtilizationPercent()));
-            ompLbl.setText(String.valueOf(selectedEmployee.getOverheadMultiPercent()));
-            cfaaLbl.setText(String.valueOf(selectedEmployee.getConfFixedAnnualAmount()));
-            hourlyRateLbl.setText(selectedEmployee.getHourlyRate());
-            dailyRateLbl.setText(selectedEmployee.getDailyRate());
 
+            if (msController.curentCurency == 0) {
+
+                workingHoursLbl.setText(String.valueOf(selectedEmployee.getWorkingHours()));
+                countryLbl.setText(selectedEmployee.getCountry());
+                continentLbl.setText(selectedEmployee.getContinent());
+                annualSalaryLbl.setText(String.valueOf(selectedEmployee.getAnnualSalary()));
+                empTypeLbl.setText(selectedEmployee.getEmployeeType());
+                utilPercentLbl.setText(String.valueOf(selectedEmployee.getUtilizationPercent()));
+                ompLbl.setText(String.valueOf(selectedEmployee.getOverheadMultiPercent()));
+                cfaaLbl.setText(String.valueOf(selectedEmployee.getConfFixedAnnualAmount()));
+                hourlyRateLbl.setText(selectedEmployee.getHourlyRate());
+                dailyRateLbl.setText(selectedEmployee.getDailyRate());
+
+            }
+            if (msController.curentCurency == 1) {
+                workingHoursLbl.setText(String.valueOf(selectedEmployee.getWorkingHours()));
+                countryLbl.setText(selectedEmployee.getCountry());
+                continentLbl.setText(selectedEmployee.getContinent());
+                double annualSalaryUSD = selectedEmployee.getAnnualSalary() * msController.EURtoUSDRate;
+                annualSalaryLbl.setText(String.valueOf(annualSalaryUSD));
+                empTypeLbl.setText(selectedEmployee.getEmployeeType());
+                utilPercentLbl.setText(String.valueOf(selectedEmployee.getUtilizationPercent()));
+                ompLbl.setText(String.valueOf(selectedEmployee.getOverheadMultiPercent()));
+                double configFixedAnnualAmaount= selectedEmployee.getConfFixedAnnualAmount()* msController.EURtoUSDRate;
+                cfaaLbl.setText(String.valueOf(configFixedAnnualAmaount));
+                hourlyRateLbl.setText(selectedEmployee.getHourlyRate());
+                dailyRateLbl.setText(selectedEmployee.getDailyRate());
+            }
         }
     }
 

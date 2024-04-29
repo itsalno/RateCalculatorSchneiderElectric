@@ -18,18 +18,20 @@ public class EmployeeDAO implements IEmployeeDAO {
     public void create(Employee employee) {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "INSERT INTO Employee (AnnualSalary, OverheadMultiplierPercentage, ConfigurableFixedAnnualAmount, " +
-                    "Country, Continent, Team, WorkingHours, UtilizationPercentage, EmployeeType) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "Country, Continent, Team, WorkingHours, UtilizationPercentage, EmployeeType, AnnualSalaryUSD, ConfigurableFixedAnnualAmountUSD ) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setInt(1, employee.getAnnualSalary());
+                stmt.setDouble(1, employee.getAnnualSalary());
                 stmt.setInt(2, employee.getOverheadMultiPercent());
-                stmt.setInt(3, employee.getConfFixedAnnualAmount());
+                stmt.setDouble(3, employee.getConfFixedAnnualAmount());
                 stmt.setString(4, employee.getCountry());
                 stmt.setString(5, employee.getContinent());
                 stmt.setString(6, employee.getTeam());
                 stmt.setInt(7, employee.getWorkingHours());
                 stmt.setInt(8, employee.getUtilizationPercent());
                 stmt.setString(9, employee.getEmployeeType());
+                stmt.setDouble(10, employee.getAnnualSalaryUSD());
+                stmt.setDouble(11, employee.getConfFixedAnnualAmountUSD());
 
                 stmt.executeUpdate();
             } catch (SQLException e) {
@@ -90,18 +92,20 @@ public class EmployeeDAO implements IEmployeeDAO {
     public void edit(Employee employee) {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "UPDATE Employee SET AnnualSalary=?, OverheadMultiplierPercentage=?,  ConfigurableFixedAnnualAmount=?, Country=?," +
-                    "Continent=?, Team=?, WorkingHours=?, UtilizationPercentage=?, EmployeeType=? WHERE id=?";
+                    "Continent=?, Team=?, WorkingHours=?, UtilizationPercentage=?, EmployeeType=?, AnnualSalaryUSD=?, ConfigurableFixedAnnualAmountUSD=? WHERE id=?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setInt(1, employee.getAnnualSalary());
+                pstmt.setDouble(1, employee.getAnnualSalary());
                 pstmt.setInt(2, employee.getOverheadMultiPercent());
-                pstmt.setInt(3, employee.getConfFixedAnnualAmount());
+                pstmt.setDouble(3, employee.getConfFixedAnnualAmount());
                 pstmt.setString(4, employee.getCountry());
                 pstmt.setString(5, employee.getContinent());
                 pstmt.setString(6, employee.getTeam());
                 pstmt.setInt(7, employee.getWorkingHours());
                 pstmt.setInt(8, employee.getUtilizationPercent());
                 pstmt.setString(9, employee.getEmployeeType());
-                pstmt.setInt(10, employee.getId());
+                pstmt.setDouble(10,employee.getAnnualSalaryUSD());
+                pstmt.setDouble(11,employee.getConfFixedAnnualAmountUSD());
+                pstmt.setInt(12, employee.getId());
 
                 pstmt.executeUpdate();
 

@@ -18,6 +18,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,9 +86,9 @@ public class MSController implements Initializable {
             return new SimpleStringProperty(modifiedValueAsString);
         });
         workingHoursColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getWorkingHours()).asObject());
-        annualSalaryColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getAnnualSalary()).asObject());
+        annualSalaryColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty((int) cellData.getValue().getAnnualSalary()).asObject());
         OMP.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getOverheadMultiPercent()).asObject());
-        CFAA.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getConfFixedAnnualAmount()).asObject());
+        CFAA.setCellValueFactory(cellData -> new SimpleIntegerProperty((int) cellData.getValue().getConfFixedAnnualAmount()).asObject());
         utilizationPercentage.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getUtilizationPercent()).asObject());
         employeeTypeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeType()));
         teamNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
@@ -116,6 +119,7 @@ public class MSController implements Initializable {
             searchInfo();
         });
         curency.setText("EUR");
+        setUSDtoEURRate();
     }
 
 
@@ -184,16 +188,21 @@ public class MSController implements Initializable {
             }
 
             public void viewProfile (Employee employee) throws IOException {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/ViewProfile.fxml"));
-                Parent root = loader.load();
-                ViewProfController controller = loader.getController();
-                controller.setEmployee(employee);
-                controller.updateUIInfo();
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.show();
 
-            }
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/ViewProfile.fxml"));
+                    Parent root = loader.load();
+
+                    ViewProfController controller = loader.getController();
+                    controller.setMsController(this);
+                    controller.setEmployee(employee);
+
+                    controller.updateUIInfo();
+                    Stage stage = new Stage();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+
+                }
+
 
             public void editProfile (ActionEvent actionEvent) throws IOException {
                 Employee selectedEmployee = (Employee) profileTable.getSelectionModel().getSelectedItem();
@@ -245,10 +254,14 @@ public class MSController implements Initializable {
 
                 }
             }
-
+              //Starts here
             public int curentCurency = 0;
-
             public double EURtoUSDRate = 1.07;
+
+            //Used for creating and edditing when program is in the USD mode
+            public double USDtoEURRate =0;
+
+
 
             public void swichCurency (ActionEvent actionEvent){
                 // this method swches curentCurency int between 1 and 0.
@@ -259,6 +272,21 @@ public class MSController implements Initializable {
                 calculateExchange();
                 profileTable.refresh();
             }
+            private void setUSDtoEURRate(){
+                //this method sets USDtoEUR exchage its done as a method because if we change EURtoUSD the USDtoEUR changes
+                //this setting is accured when the program starts in initialize method
+                //this is the formula so we dont have to change it twice if the rate of exchane changes
+                double USDtoEURRate1 = (1 - EURtoUSDRate) + 1;
+
+                // Set the locale to use a period as the decimal separator ad not a comma because it gives a error
+                DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+                DecimalFormat df = new DecimalFormat("#.##", symbols);
+
+                // Format the double value with the specified decimal format
+                String formattedValue = df.format(USDtoEURRate1);
+                USDtoEURRate = Double.parseDouble(formattedValue);
+            }
+
 
             private void setCurencyLabel () {
                 if (curentCurency == 0) {
