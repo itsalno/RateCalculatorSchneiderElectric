@@ -6,17 +6,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class NPController implements Initializable {
 
 
+    public Label curency;
+    public Label curency1;
     @FXML
     private ImageView newProfileImage;
     @FXML
@@ -38,15 +42,38 @@ public class NPController implements Initializable {
     @FXML
     private TextField employeeTypeField;
     model model=new model();
+
     private MSController msc;
     private Employee emplyeeToUpdate;
+   private MSController msController;
 
+
+   public void setMsController(MSController msController){
+       this.msController=msController;
+   }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image img =new Image("file:src/SchneiderLogo.png");
+
+        Image img = new Image("file:src/SchneiderLogo.png");
         newProfileImage.setImage(img);
-    }
+
+
+
+
+
+
+
+         /*   if (msc.curentCurrency == 0) {
+                curency.setText("€");
+                curency1.setText("€");
+            }
+            if (msc.curentCurency == 1) {
+                curency.setText("$");
+                curency1.setText("$");
+            }*/
+        }
+
 
 
     public void create(ActionEvent actionEvent) {

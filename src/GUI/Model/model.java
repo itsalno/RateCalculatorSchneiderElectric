@@ -4,6 +4,7 @@ package GUI.Model;
 import BE.Employee;
 import BLL.EmployeeLogic;
 import BLL.GroupLogic;
+import GUI.Controllers.MSController;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
@@ -72,4 +73,6 @@ public class model {
     public List<Employee> searchEmployees(String searchText){
         return eLogic.searchEmployees(searchText);
     }
+
+
 }

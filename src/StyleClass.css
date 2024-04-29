@@ -33,6 +33,25 @@
     -fx-border-width: 2px;
 }
 
+.toggle-button{
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #000000;
+    -fx-font-size: 12px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color:  #009e4d;
+    -fx-border-width: 2px;
+}
+.toggle-button:hover{
+    -fx-background-color:  #009e4d;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+}
+.toggle-button:pressed{
+    -fx-background-color: white;
+    -fx-translate-y: 1px;
+}
+
 
 .button:hover {
     -fx-background-color:  #009e4d;
