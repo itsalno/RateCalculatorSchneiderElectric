@@ -2,9 +2,9 @@ package BE;
 
 public class Employee {
 
-    private int annualSalary;
+    private double annualSalary;
     private int overheadMultiPercent;
-    private int confFixedAnnualAmount;
+    private double confFixedAnnualAmount;
     private String country;
     private String team;
     private int workingHours;
@@ -13,6 +13,8 @@ public class Employee {
     private String employeeType;
     private  String dailyRate;
     private String hourlyRate;
+    private double annualSalaryUSD;
+    private double confFixedAnnualAmountUSD;
     private int id;
 
     public Employee() {
@@ -53,7 +55,7 @@ public class Employee {
         this.id=id;
 
     }
-    public Employee(int annualSalary, int overheadMultiPercent, int confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType) {
+    public Employee(double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType, double annualSalaryUSD, double confFixedAnnualAmountUSD) {
         this.annualSalary = annualSalary;
         this.overheadMultiPercent = overheadMultiPercent;
         this.confFixedAnnualAmount = confFixedAnnualAmount;
@@ -63,10 +65,12 @@ public class Employee {
         this.utilizationPercent = utilizationPercent;
         this.continent=continent;
         this.employeeType=employeeType;
+        this.annualSalaryUSD = annualSalaryUSD;
+        this.confFixedAnnualAmountUSD = confFixedAnnualAmountUSD;
 
     }
 
-    public int getAnnualSalary() {
+    public double getAnnualSalary() {
         return annualSalary;
     }
 
@@ -74,7 +78,7 @@ public class Employee {
         return overheadMultiPercent;
     }
 
-    public int getConfFixedAnnualAmount() {
+    public double getConfFixedAnnualAmount() {
         return confFixedAnnualAmount;
     }
 
@@ -94,7 +98,15 @@ public class Employee {
         return utilizationPercent;
     }
 
-    public void setAnnualSalary(int annualSalary) {
+    public double getAnnualSalaryUSD() {
+        return annualSalaryUSD;
+    }
+
+    public double getConfFixedAnnualAmountUSD() {
+        return confFixedAnnualAmountUSD;
+    }
+
+    public void setAnnualSalary(double annualSalary) {
         this.annualSalary = annualSalary;
     }
 
@@ -102,7 +114,7 @@ public class Employee {
         this.overheadMultiPercent = overheadMultiPercent;
     }
 
-    public void setConfFixedAnnualAmount(int confFixedAnnualAmount) {
+    public void setConfFixedAnnualAmount(double confFixedAnnualAmount) {
         this.confFixedAnnualAmount = confFixedAnnualAmount;
     }
 
@@ -138,6 +150,12 @@ public class Employee {
         this.hourlyRate = hourlyRate;
     }
 
+    public void setAnnualSalaryUSD(int annualSalaryUSD) {
+        this.annualSalaryUSD = annualSalaryUSD;
+    }
+    public void setConfFixedAnnualAmountUSD(double confFixedAnnualAmountUSD) {
+        this.confFixedAnnualAmountUSD = confFixedAnnualAmountUSD;
+    }
     public void setId(int id) {
         this.id = id;
     }
@@ -164,4 +182,6 @@ public class Employee {
     public String getCalculatedDailyRate(int hoursInWorkDay) {
         return String.format("%.2f", calculateDailyRate(hoursInWorkDay));
     }
+
+
 }

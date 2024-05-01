@@ -42,15 +42,5 @@
             <Image url="@../../SchneiderLogo.png" />
          </image>
       </ImageView>
-      <Label fx:id="curency" layoutX="120.0" layoutY="99.0" text="Label" textFill="WHITE">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Label>
-      <Label fx:id="curency1" layoutX="443.0" layoutY="98.0" text="Label" textFill="WHITE">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Label>
    </children>
 </AnchorPane>
