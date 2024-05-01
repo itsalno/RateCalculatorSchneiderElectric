@@ -7,6 +7,7 @@ import BLL.EmployeeLogic;
 import BLL.GroupLogic;
 import BLL.MultiplierLogic;
 import GUI.Controllers.MSController;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 
 import BE.Group;
 import BLL.GroupLogic;
+import javafx.scene.control.TableView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ public class model {
 
     private MultiplierLogic multiplierLogic = new MultiplierLogic();
 
-    EmployeeLogic eLogic= new EmployeeLogic();
+    private EmployeeLogic eLogic= new EmployeeLogic();
 
     public model() {
         this.groupLogic = new GroupLogic();
@@ -90,4 +92,14 @@ public class model {
     public void deleteMulti(int id){multiplierLogic.deleteMulti(id);}
 
     public void editMulti(Multiplier multiplier){multiplierLogic.editMultiplier(multiplier);}
+
+////////////////////////////////////////
+
+    public void updateTable(TableView<Multiplier> multiTable){
+        ObservableList<Multiplier> multis = FXCollections.observableArrayList();
+        multis.setAll(model.getInstance().getAllMultis());
+        multiTable.setItems(multis);
+    }
+
+
 }

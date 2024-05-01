@@ -1,5 +1,4 @@
 package GUI.Controllers;
-
 import BE.Employee;
 import GUI.Model.model;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,13 +16,15 @@ import javafx.stage.Stage;
 import javafx.beans.property.SimpleIntegerProperty;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.ArrayList;
 import java.util.List;
+
+
+//fix make own exception
+import java.sql.SQLException;
 
 public class MSController implements Initializable {
 
@@ -32,7 +33,9 @@ public class MSController implements Initializable {
     private TableView<Group> groupTable;
     @FXML
     private TableColumn<Group, String> teamNameColumn;
-    public Label curency;
+
+    @FXML
+    private Label curency;
 
     @FXML
     private TextField searchBar;
@@ -64,12 +67,8 @@ public class MSController implements Initializable {
     private TableColumn<Employee, String> hourlyRateCollumn;
 
 
-    model model = new model();
 
-    private Group selectedGroup;
-    private List<Group> groups = new ArrayList<>();
-
-
+    //dont know which
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         countryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountry()));
@@ -124,37 +123,37 @@ public class MSController implements Initializable {
 
 
     // This method is also used to refresh the table when updating a emplyee
+    //Give it our own exception
+    //model
     public void populateEmpTable() {
 
             ObservableList<Employee> employees = FXCollections.observableArrayList();
             try {
-                employees.addAll(model.getAllEmployees());
+                employees.addAll(model.getInstance().getAllEmployees());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             profileTable.setItems(employees);
+    }
 
-        }
 
-        public void populateGrpTable () {
+    //model
+    public void populateGrpTable () {
             ObservableList<Group> teams = FXCollections.observableArrayList();
-
-
-            teams.addAll(model.getAllTeams());
+            teams.addAll(model.getInstance().getAllTeams());
             groupTable.setItems(teams);
+    }
+
+
+
+
+    public void DeleteTeams (ActionEvent actionEvent){
+        Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
+        if (selectedGroup != null) {
+            model.getInstance().deleteTeam(selectedGroup);
+            groupTable.getItems().remove(selectedGroup);
         }
-
-
-
-
-            public void DeleteTeams (ActionEvent actionEvent){
-                Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
-
-                if (selectedGroup != null) {
-                    model.deleteTeam(selectedGroup);
-                    groupTable.getItems().remove(selectedGroup);
-                }
-            }
+    }
 
             public void createProfile (ActionEvent actionEvent) throws IOException {
 
@@ -178,8 +177,7 @@ public class MSController implements Initializable {
 
                 if (selectedEmployee != null) {
                     try {
-                        model.deleteEmployee(selectedEmployee);
-
+                        model.getInstance().deleteEmployee(selectedEmployee);
                         profileTable.getItems().remove(selectedEmployee);
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -231,9 +229,10 @@ public class MSController implements Initializable {
             }
 
 
+            //model
             public void searchInfo () {
                 String searchText = searchBar.getText().trim().toLowerCase();
-                List<Employee> matchingEmployees = model.searchEmployees(searchText);
+                List<Employee> matchingEmployees = model.getInstance().searchEmployees(searchText);
                 profileTable.setItems(FXCollections.observableArrayList(matchingEmployees));
             }
 
@@ -266,14 +265,23 @@ public class MSController implements Initializable {
             public void swichCurency (ActionEvent actionEvent){
                 // this method swches curentCurency int between 1 and 0.
                 // Each number represent a curency and everything is set acordingly to that curency.
+
+                //logic
                 curentCurency = (curentCurency + 1) % 2;
 
+                //call from model
                 setCurencyLabel();
+
+                //call from model
                 calculateExchange();
+
+                //model
                 profileTable.refresh();
             }
+
+            //logic
             private void setUSDtoEURRate(){
-                //this method sets USDtoEUR exchage its done as a method because if we change EURtoUSD the USDtoEUR changes
+                //this method sets USDtoEUR exchange its done as a method because if we change EURtoUSD the USDtoEUR changes
                 //this setting is accured when the program starts in initialize method
                 //this is the formula so we dont have to change it twice if the rate of exchane changes
                 double USDtoEURRate1 = (1 - EURtoUSDRate) + 1;
@@ -288,6 +296,7 @@ public class MSController implements Initializable {
             }
 
 
+            //logic and model
             private void setCurencyLabel () {
                 if (curentCurency == 0) {
                     curency.setText("EUR");
@@ -297,6 +306,8 @@ public class MSController implements Initializable {
                 }
             }
 
+
+            //logic
             private void calculateExchange () {
                 if (curentCurency == 0) {
                     hourlyRateCollumn.setCellValueFactory(cellData -> {

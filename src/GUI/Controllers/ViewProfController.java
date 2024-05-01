@@ -31,6 +31,7 @@ public class ViewProfController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Image img =new Image("file:src/SchneiderLogo.png");
+        //model
         profileInfoImage.setImage(img);
         updateUIInfo();
     }
@@ -46,6 +47,7 @@ public class ViewProfController implements Initializable {
 
 
 
+    //idk
     public void updateUIInfo() {
         if (selectedEmployee != null) {
 

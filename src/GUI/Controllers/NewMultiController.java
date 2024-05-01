@@ -5,6 +5,7 @@ import GUI.Model.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -15,10 +16,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class NewMultiController implements Initializable {
-    public TextField textPerc;
-    public ChoiceBox<String> choiceType;
+    @FXML
+    private TextField textPerc;
 
-    model model = new model();
+    @FXML
+    private ChoiceBox<String> choiceType;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -30,10 +32,11 @@ public class NewMultiController implements Initializable {
 
     public void createMulti(ActionEvent actionEvent) {
         //Needs alert pls
-        System.out.println(choiceType.getSelectionModel().getSelectedItem());
-        model.createMulti(new Multiplier(choiceType.getSelectionModel().getSelectedItem(),Integer.parseInt(textPerc.getText())));
+        //Not sure if logic, model or here
+        model.getInstance().createMulti(new Multiplier(choiceType.getSelectionModel().getSelectedItem(),Integer.parseInt(textPerc.getText())));
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
+        //model.getInstance().updateTable();
     }
 
 

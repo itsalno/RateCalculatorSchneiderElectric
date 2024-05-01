@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -38,11 +37,9 @@ public class NPController implements Initializable {
     private TextField continentField;
     @FXML
     private TextField employeeTypeField;
-    model model=new model();
-
     private MSController msc;
     private Employee emplyeeToUpdate;
-   private MSController msController;
+    private MSController msController;
 
 
 
@@ -54,10 +51,9 @@ public class NPController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         Image img = new Image("file:src/SchneiderLogo.png");
         newProfileImage.setImage(img);
-        }
+   }
 
 
 
@@ -74,6 +70,8 @@ public class NPController implements Initializable {
     }
 
 
+
+    //idk
     public void create() {
         if (msController.curentCurency == 0) {
             //EUR
@@ -93,7 +91,7 @@ public class NPController implements Initializable {
             Employee newEmployee = new Employee(annualSalary, overheadMultiPercent, confFixedAnnualAmount,
                     country, continent, team, workingHours, utilizationPercent, employeeType, anualSalaryUSD, confFixedAnnualAmountUSD);
 
-            model.createEmployee(newEmployee);
+            model.getInstance().createEmployee(newEmployee);
 
         }if(msController.curentCurency==1) {
             //USD
@@ -117,12 +115,12 @@ public class NPController implements Initializable {
             Employee newEmployee = new Employee(annualSalary, overheadMultiPercent, confFixedAnnualAmount,
                     country, continent, team, workingHours, utilizationPercent, employeeType, anualSalaryUSD, confFixedAnnualAmountUSD);
 
-            model.createEmployee(newEmployee);
+            model.getInstance().createEmployee(newEmployee);
         }
     }
 
 
-
+    //idk
     public void update() {
         if (msc.curentCurency == 0) {
             emplyeeToUpdate.setUtilizationPercent(Integer.parseInt(utilPercentField.getText()));
@@ -171,6 +169,7 @@ public class NPController implements Initializable {
     }
 
 
+    //idk
     public void setEmployeeToUpdate(Employee employee) {
         this.emplyeeToUpdate = employee;
         if (msc.curentCurency == 0) {

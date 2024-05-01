@@ -64,18 +64,23 @@ public class NewTeamController implements Initializable {
 
 
     public void edit(){
+        //model
         groupToEdit.setName(fieldName.getText());
         model.getInstance().updateTeam(groupToEdit);
     }
 
+    //idk
     public void create(){
         String name=fieldName.getText();
         Group group=new Group(name);
         model.getInstance().createTeam(group);
     }
+
+
     public void setGroupToEdit(Group selectedGroup) {
         this.groupToEdit=selectedGroup;
 
+        //model
         fieldName.setText(groupToEdit.getName());
 
     }

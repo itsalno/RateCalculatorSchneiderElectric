@@ -32,16 +32,13 @@ public class LogInController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Image loginImage=new Image("file:src/SchneiderLogo.png");
         logInImage.setImage(loginImage);
-
         Image small=new Image("file:src/lifeison.png");
         smallLogo.setImage(small);
-
         usernameField.setPromptText("Enter username");
         passwordField.setPromptText("Enter password");
     }
 
     public void logIn(ActionEvent actionEvent) throws IOException {
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/MainScreen.fxml"));
         Parent root = loader.load();
         Stage primaryStage = new Stage();

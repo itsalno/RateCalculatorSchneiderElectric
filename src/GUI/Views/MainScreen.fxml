@@ -27,15 +27,15 @@
         <columns>
           <TableColumn fx:id="continentColumn" prefWidth="103.19994926452637" text="Continent" />
           <TableColumn fx:id="countryColumn" prefWidth="91.0" text="Country" />
-            <TableColumn fx:id="teamColumn" prefWidth="103.0" text="Team" />
-            <TableColumn fx:id="workingHoursColumn" prefWidth="87.0" text="Working hours" />
-            <TableColumn fx:id="hourlyRateCollumn" prefWidth="67.0" text="Hourly rate" />
-            <TableColumn fx:id="dailyRateCollumn" prefWidth="51.0" text="Day rate" />
+            <TableColumn fx:id="teamColumn" prefWidth="75.99993896484375" text="Team" />
+            <TableColumn fx:id="workingHoursColumn" prefWidth="98.39996337890625" text="Working hours" />
+            <TableColumn fx:id="hourlyRateCollumn" prefWidth="71.20001220703125" text="Hourly rate" />
+            <TableColumn fx:id="dailyRateCollumn" prefWidth="64.800048828125" text="Day rate" />
             <TableColumn fx:id="OMP" prefWidth="71.99996948242188" text="OMP" visible="false" />
             <TableColumn fx:id="CFAA" prefWidth="71.99996948242188" text="CFAA" visible="false" />
             <TableColumn fx:id="annualSalaryColumn" prefWidth="71.99996948242188" text="AnnualSalary" visible="false" />
-            <TableColumn fx:id="employeeTypeColumn" prefWidth="56.0" text="EmployeeType" />
-            <TableColumn fx:id="utilizationPercentage" prefWidth="56.0" text="UtilizationPercentage" />
+            <TableColumn fx:id="employeeTypeColumn" prefWidth="56.0" text="EmployeeType" visible="false" />
+            <TableColumn fx:id="utilizationPercentage" prefWidth="56.0" text="UtilizationPercentage" visible="false" />
         </columns>
       </TableView>
       <Button layoutX="28.0" layoutY="424.0" mnemonicParsing="false" onAction="#DeleteTeams" stylesheets="@../../StyleClass.css" text="Delete teams" />
