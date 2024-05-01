@@ -38,7 +38,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                 throw new RuntimeException(e);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -141,7 +141,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                 matchingEmployees.add(employee);
             }
         } catch (SQLException e) {
-            e.printStackTrace();;
+            throw new RuntimeException(e);
         }
         return matchingEmployees;
     }

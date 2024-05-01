@@ -64,11 +64,11 @@ public class model {
     public void createEmployee(Employee employee){
         eLogic.create(employee);
     }
-    public ObservableList<Employee> getAllEmployees() throws SQLException {
+    public ObservableList<Employee> getAllEmployees() {
         return eLogic.getAllEmployees();
     }
 
-    public void deleteEmployee(Employee employee) throws SQLException {
+    public void deleteEmployee(Employee employee) {
         eLogic.delete(employee);
     }
 

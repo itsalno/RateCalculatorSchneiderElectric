@@ -22,10 +22,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.List;
 
-
-//fix make own exception
-import java.sql.SQLException;
-
 public class MSController implements Initializable {
 
 
@@ -128,11 +124,9 @@ public class MSController implements Initializable {
     public void populateEmpTable() {
 
             ObservableList<Employee> employees = FXCollections.observableArrayList();
-            try {
-                employees.addAll(model.getInstance().getAllEmployees());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+
+            employees.addAll(model.getInstance().getAllEmployees());
+
             profileTable.setItems(employees);
     }
 
@@ -176,12 +170,8 @@ public class MSController implements Initializable {
                 Employee selectedEmployee = profileTable.getSelectionModel().getSelectedItem();
 
                 if (selectedEmployee != null) {
-                    try {
-                        model.getInstance().deleteEmployee(selectedEmployee);
-                        profileTable.getItems().remove(selectedEmployee);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    model.getInstance().deleteEmployee(selectedEmployee);
+                    profileTable.getItems().remove(selectedEmployee);
                 }
             }
 

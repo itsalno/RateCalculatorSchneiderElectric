@@ -15,11 +15,11 @@ public class EmployeeLogic {
         eDAO.create(employee);
     }
 
-    public ObservableList<Employee> getAllEmployees() throws SQLException {
+    public ObservableList<Employee> getAllEmployees() {
         return eDAO.getAllEmployees();
     }
 
-    public void delete(Employee employee) throws SQLException {
+    public void delete(Employee employee) {
         eDAO.delete(employee);
     }
     public void edit(Employee employee){
