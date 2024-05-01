@@ -21,7 +21,7 @@
       <Button layoutX="635.0" layoutY="424.0" mnemonicParsing="false" onAction="#deleteProfile" prefHeight="35.0" prefWidth="73.0" stylesheets="@../../StyleClass.css" text="Delete" />
       <Button layoutX="556.0" layoutY="424.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="35.0" prefWidth="57.0" stylesheets="@../../StyleClass.css" text="Edit" />
       <Button layoutX="604.0" layoutY="110.0" mnemonicParsing="false" onAction="#createProfile" stylesheets="@../../StyleClass.css" text="Create profile" />
-      <Button layoutX="467.0" layoutY="110.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="118.0" stylesheets="@../../StyleClass.css" text="View multipliers" />
+      <Button layoutX="457.0" layoutY="110.0" mnemonicParsing="false" onAction="#openMultipliers" prefHeight="38.0" prefWidth="128.0" stylesheets="@../../StyleClass.css" text="View multipliers" />
       <Button layoutX="46.0" layoutY="110.0" mnemonicParsing="false" onAction="#CreateTeam" stylesheets="@../../StyleClass.css" text="Create teams" />
       <TableView fx:id="profileTable" layoutX="201.0" layoutY="154.0" prefHeight="254.0" prefWidth="507.0" style="-fx-border-color: #009e4d; -fx-border-width: 2;" stylesheets="@../../StyleClass.css">
         <columns>

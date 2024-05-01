@@ -327,7 +327,15 @@ public class MSController implements Initializable {
                     });
                 }
             }
-        }
+
+    public void openMultipliers(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/ViewMulti.fxml"));
+        Parent root = loader.load();
+        Stage primaryStage = new Stage();
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
+}
 
 
 

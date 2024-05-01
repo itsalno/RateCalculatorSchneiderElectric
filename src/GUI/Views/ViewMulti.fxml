@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="249.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.VMController">
+   <children>
+      <TableView fx:id="multiTable" layoutX="13.0" layoutY="109.0" prefHeight="226.0" prefWidth="222.0">
+        <columns>
+          <TableColumn fx:id="multiType" prefWidth="110.40002727508545" text="Type" />
+            <TableColumn fx:id="multiPerc" prefWidth="111.199951171875" text="Percentage" />
+            <TableColumn fx:id="multiID" prefWidth="111.199951171875" text="ID" visible="false" />
+        </columns>
+      </TableView>
+      <ImageView fitHeight="84.0" fitWidth="150.0" layoutX="50.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../SchneiderLogo.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="13.0" layoutY="83.0" text="Multipliers:" />
+      <Button layoutX="125.0" layoutY="360.0" mnemonicParsing="false" onAction="#createMulti" text="Create Multiplier" />
+      <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#deleteMulti" text="Delete Multiplier" />
+   </children>
+</AnchorPane>
