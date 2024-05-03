@@ -15,11 +15,12 @@ import java.util.ResourceBundle;
 
 public class ViewProfController implements Initializable {
 
+
     @FXML
     private ImageView profileInfoImage;
     @FXML
     private Label workingHoursLbl,countryLbl,continentLbl,annualSalaryLbl,empTypeLbl,
-            utilPercentLbl, ompLbl,cfaaLbl,hourlyRateLbl,dailyRateLbl;
+            utilPercentLbl, ompLbl,cfaaLbl,hourlyRateLbl,dailyRateLbl,teamLbl;
     private Employee selectedEmployee;
 
     private MSController msController;
@@ -64,6 +65,7 @@ public class ViewProfController implements Initializable {
                 cfaaLbl.setText(String.valueOf(selectedEmployee.getConfFixedAnnualAmount()));
                 hourlyRateLbl.setText(selectedEmployee.getHourlyRate());
                 dailyRateLbl.setText(selectedEmployee.getDailyRate());
+                teamLbl.setText(selectedEmployee.getTeam());
 
             }
             if (msController.curentCurency == 1) {
@@ -79,6 +81,7 @@ public class ViewProfController implements Initializable {
                 cfaaLbl.setText(String.valueOf(configFixedAnnualAmaount));
                 hourlyRateLbl.setText(selectedEmployee.getHourlyRate());
                 dailyRateLbl.setText(selectedEmployee.getDailyRate());
+                teamLbl.setText(selectedEmployee.getTeam());
             }
         }
     }

@@ -19,8 +19,7 @@ import java.util.ResourceBundle;
 
 public class LogInController implements Initializable {
 
-    @FXML
-    private ImageView smallLogo;
+
     @FXML
     private TextField passwordField;
     @FXML
@@ -32,8 +31,6 @@ public class LogInController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Image loginImage=new Image("file:src/SchneiderLogo.png");
         logInImage.setImage(loginImage);
-        Image small=new Image("file:src/lifeison.png");
-        smallLogo.setImage(small);
         usernameField.setPromptText("Enter username");
         passwordField.setPromptText("Enter password");
     }

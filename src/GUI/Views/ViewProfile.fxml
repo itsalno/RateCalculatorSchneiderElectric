@@ -20,27 +20,29 @@
       <Label layoutX="243.0" layoutY="62.0" text="Overhead multiplier percentage:" textFill="WHITE" />
       <Label layoutX="243.0" layoutY="114.0" text="Configurable fixed annual amount: " textFill="WHITE" />
       <Label layoutX="244.0" layoutY="163.0" text="Annual effective working hours: " textFill="WHITE" />
-      <Label layoutX="244.0" layoutY="216.0" prefHeight="17.0" prefWidth="128.0" text="Utilization percentage:" textFill="WHITE" />
-      <Label layoutX="30.0" layoutY="163.0" text="Employee type:" textFill="WHITE" />
-      <Label fx:id="workingHoursLbl" layoutX="280.0" layoutY="188.0" text="Label" textFill="WHITE" />
-      <Label layoutX="321.0" layoutY="250.0" text="\%" textFill="WHITE" />
+      <Label layoutX="274.0" layoutY="217.0" prefHeight="17.0" prefWidth="128.0" text="Utilization percentage:" textFill="WHITE" />
+      <Label layoutX="26.0" layoutY="189.0" text="Employee type:" textFill="WHITE" />
+      <Label fx:id="workingHoursLbl" layoutX="312.0" layoutY="189.0" text="Label" textFill="WHITE" />
+      <Label layoutX="335.0" layoutY="242.0" text="\%" textFill="WHITE" />
       <Label fx:id="countryLbl" layoutX="96.0" layoutY="62.0" text="Label" textFill="WHITE" />
       <Label fx:id="continentLbl" layoutX="96.0" layoutY="97.0" text="Label" textFill="WHITE" />
       <Label fx:id="annualSalaryLbl" layoutX="114.0" layoutY="132.0" text="Label" textFill="WHITE" />
-      <Label fx:id="empTypeLbl" layoutX="126.0" layoutY="163.0" text="Label" textFill="WHITE" />
-      <Label layoutX="336.0" layoutY="88.0" text="\%" textFill="WHITE" />
-      <Label fx:id="utilPercentLbl" layoutX="280.0" layoutY="250.0" text="Label" textFill="WHITE" />
-      <Label fx:id="ompLbl" layoutX="295.0" layoutY="88.0" text="Label" textFill="WHITE" />
-      <Label fx:id="cfaaLbl" layoutX="295.0" layoutY="139.0" text="Label" textFill="WHITE" />
-      <Label layoutX="28.0" layoutY="189.0" text="Hourly rate:" textFill="WHITE" />
-      <Label layoutX="32.0" layoutY="217.0" text="Daily rate:" textFill="WHITE" />
-      <Label fx:id="hourlyRateLbl" layoutX="105.0" layoutY="189.0" text="Label" textFill="WHITE" />
-      <Label fx:id="dailyRateLbl" layoutX="105.0" layoutY="217.0" text="Label" textFill="WHITE" />
-      <Button layoutX="377.0" layoutY="267.0" mnemonicParsing="false" onAction="#close" text="Close" />
+      <Label fx:id="empTypeLbl" layoutX="129.0" layoutY="189.0" text="Label" textFill="WHITE" />
+      <Label layoutX="337.0" layoutY="88.0" text="\%" textFill="WHITE" />
+      <Label fx:id="utilPercentLbl" layoutX="312.0" layoutY="242.0" text="Label" textFill="WHITE" />
+      <Label fx:id="ompLbl" layoutX="310.0" layoutY="88.0" text="Label" textFill="WHITE" />
+      <Label fx:id="cfaaLbl" layoutX="310.0" layoutY="141.0" text="Label" textFill="WHITE" />
+      <Label layoutX="30.0" layoutY="217.0" text="Hourly rate:" textFill="WHITE" />
+      <Label layoutX="34.0" layoutY="251.0" text="Daily rate:" textFill="WHITE" />
+      <Label fx:id="hourlyRateLbl" layoutX="114.0" layoutY="217.0" text="Label" textFill="WHITE" />
+      <Label fx:id="dailyRateLbl" layoutX="111.0" layoutY="251.0" text="Label" textFill="WHITE" />
+      <Button layoutX="377.0" layoutY="268.0" mnemonicParsing="false" onAction="#close" stylesheets="@../../StyleClass.css" text="Close" />
       <ImageView fx:id="profileInfoImage" fitHeight="56.0" fitWidth="90.0" layoutX="22.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../SchneiderLogo.png" />
          </image>
       </ImageView>
+      <Label layoutX="29.0" layoutY="163.0" text="Team:" textFill="WHITE" />
+      <Label fx:id="teamLbl" layoutX="73.0" layoutY="163.0" text="Label" textFill="WHITE" />
    </children>
 </AnchorPane>

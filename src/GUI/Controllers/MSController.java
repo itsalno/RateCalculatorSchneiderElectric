@@ -149,52 +149,52 @@ public class MSController implements Initializable {
         }
     }
 
-            public void createProfile (ActionEvent actionEvent) throws IOException {
+    public void createProfile (ActionEvent actionEvent) throws IOException {
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewProfile.fxml"));
-                Parent root = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewProfile.fxml"));
+        Parent root = loader.load();
 
-                NPController npController = loader.getController();
-                npController.setMsController(this);
+        NPController npController = loader.getController();
+        npController.setMsController(this);
 
-                Stage primaryStage = new Stage();
-                primaryStage.setScene(new Scene(root));
-                primaryStage.setOnHidden(event -> {
-                    populateEmpTable();
-                });
-                primaryStage.show();
-            }
-
-
-            public void deleteProfile (ActionEvent actionEvent){
-                Employee selectedEmployee = profileTable.getSelectionModel().getSelectedItem();
-
-                if (selectedEmployee != null) {
-                    model.getInstance().deleteEmployee(selectedEmployee);
-                    profileTable.getItems().remove(selectedEmployee);
-                }
-            }
-
-            public void viewProfile (Employee employee) throws IOException {
-
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/ViewProfile.fxml"));
-                    Parent root = loader.load();
-
-                    ViewProfController controller = loader.getController();
-                    controller.setMsController(this);
-                    controller.setEmployee(employee);
-
-                    controller.updateUIInfo();
-                    Stage stage = new Stage();
-                    stage.setScene(new Scene(root));
-                    stage.show();
-
-                }
+        Stage primaryStage = new Stage();
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setOnHidden(event -> {
+            populateEmpTable();
+        });
+        primaryStage.show();
+    }
 
 
-            public void editProfile (ActionEvent actionEvent) throws IOException {
-                Employee selectedEmployee = (Employee) profileTable.getSelectionModel().getSelectedItem();
-                if (selectedEmployee != null) {
+    public void deleteProfile (ActionEvent actionEvent){
+        Employee selectedEmployee = profileTable.getSelectionModel().getSelectedItem();
+
+        if (selectedEmployee != null) {
+            model.getInstance().deleteEmployee(selectedEmployee);
+            profileTable.getItems().remove(selectedEmployee);
+        }
+    }
+
+    public void viewProfile (Employee employee) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/ViewProfile.fxml"));
+        Parent root = loader.load();
+
+        ViewProfController controller = loader.getController();
+        controller.setMsController(this);
+        controller.setEmployee(employee);
+
+        controller.updateUIInfo();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+
+    }
+
+
+    public void editProfile (ActionEvent actionEvent) throws IOException {
+        Employee selectedEmployee = (Employee) profileTable.getSelectionModel().getSelectedItem();
+            if (selectedEmployee != null) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewProfile.fxml"));
                     Parent root = loader.load();
 
@@ -205,157 +205,153 @@ public class MSController implements Initializable {
                     Stage primaryStage = new Stage();
                     primaryStage.setScene(new Scene(root));
                     primaryStage.show();
-                }
             }
+    }
 
-            public void CreateTeam (ActionEvent actionEvent) throws IOException {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewTeam.fxml"));
-                Parent root = loader.load();
-                NewTeamController newTeamController = loader.getController();
-                newTeamController.setMsController(this);
-                Stage primaryStage = new Stage();
-                primaryStage.setScene(new Scene(root));
-                primaryStage.show();
-            }
-
-
-            //model
-            public void searchInfo () {
-                String searchText = searchBar.getText().trim().toLowerCase();
-                List<Employee> matchingEmployees = model.getInstance().searchEmployees(searchText);
-                profileTable.setItems(FXCollections.observableArrayList(matchingEmployees));
-            }
+    public void CreateTeam (ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewTeam.fxml"));
+        Parent root = loader.load();
+        NewTeamController newTeamController = loader.getController();
+        newTeamController.setMsController(this);
+        Stage primaryStage = new Stage();
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
 
 
-            public void editTeam (ActionEvent actionEvent) throws IOException {
-                Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
-                if (selectedGroup != null) {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewTeam.fxml"));
-                    Parent root = loader.load();
-
-                    NewTeamController newTeamController = loader.getController();
-                    newTeamController.setMsController(this);
-                    newTeamController.setGroupToEdit(selectedGroup);
-
-                    Stage primaryStage = new Stage();
-                    primaryStage.setScene(new Scene(root));
-                    primaryStage.show();
-
-                }
-            }
-              //Starts here
-            public int curentCurency = 0;
-            public double EURtoUSDRate = 1.07;
-
-            //Used for creating and edditing when program is in the USD mode
-            public double USDtoEURRate =0;
+    //model
+    public void searchInfo () {
+        String searchText = searchBar.getText().trim().toLowerCase();
+        List<Employee> matchingEmployees = model.getInstance().searchEmployees(searchText);
+        profileTable.setItems(FXCollections.observableArrayList(matchingEmployees));
+    }
 
 
+    public void editTeam (ActionEvent actionEvent) throws IOException {
+        Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
+        if (selectedGroup != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewTeam.fxml"));
+            Parent root = loader.load();
 
-            public void swichCurency (ActionEvent actionEvent){
-                // this method swches curentCurency int between 1 and 0.
-                // Each number represent a curency and everything is set acordingly to that curency.
+            NewTeamController newTeamController = loader.getController();
+            newTeamController.setMsController(this);
+            newTeamController.setGroupToEdit(selectedGroup);
 
-                //logic
-                curentCurency = (curentCurency + 1) % 2;
+            Stage primaryStage = new Stage();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
 
-                //call from model
-                setCurencyLabel();
+        }
+    }
+    //Starts here
+    public int curentCurency = 0;
+    public double EURtoUSDRate = 1.07;
 
-                //call from model
-                calculateExchange();
+    //Used for creating and edditing when program is in the USD mode
+    public double USDtoEURRate =0;
+    public void swichCurency (ActionEvent actionEvent){
+        // this method swches curentCurency int between 1 and 0.
+        // Each number represent a curency and everything is set acordingly to that curency.
 
-                //model
-                profileTable.refresh();
-            }
+        //logic
+        curentCurency = (curentCurency + 1) % 2;
 
-            //logic
-            private void setUSDtoEURRate(){
-                //this method sets USDtoEUR exchange its done as a method because if we change EURtoUSD the USDtoEUR changes
-                //this setting is accured when the program starts in initialize method
-                //this is the formula so we dont have to change it twice if the rate of exchane changes
-                double USDtoEURRate1 = (1 - EURtoUSDRate) + 1;
+        //call from model
+        setCurencyLabel();
 
-                // Set the locale to use a period as the decimal separator ad not a comma because it gives a error
-                DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
-                DecimalFormat df = new DecimalFormat("#.##", symbols);
+        //call from model
+        calculateExchange();
 
-                // Format the double value with the specified decimal format
-                String formattedValue = df.format(USDtoEURRate1);
-                USDtoEURRate = Double.parseDouble(formattedValue);
-            }
+        //model
+        profileTable.refresh();
+    }
 
+    //logic
+    private void setUSDtoEURRate(){
+        //this method sets USDtoEUR exchange its done as a method because if we change EURtoUSD the USDtoEUR changes
+        //this setting is accured when the program starts in initialize method
+        //this is the formula so we dont have to change it twice if the rate of exchane changes
+        double USDtoEURRate1 = (1 - EURtoUSDRate) + 1;
 
-            //logic and model
-            private void setCurencyLabel () {
-                if (curentCurency == 0) {
-                    curency.setText("EUR");
-                }
-                if (curentCurency == 1) {
-                    curency.setText("USD");
-                }
-            }
+        // Set the locale to use a period as the decimal separator ad not a comma because it gives a error
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+        DecimalFormat df = new DecimalFormat("#.##", symbols);
+
+        // Format the double value with the specified decimal format
+        String formattedValue = df.format(USDtoEURRate1);
+        USDtoEURRate = Double.parseDouble(formattedValue);
+    }
 
 
-            //logic
-            private void calculateExchange () {
-                if (curentCurency == 0) {
-                    hourlyRateCollumn.setCellValueFactory(cellData -> {
-                        String originalValueString = cellData.getValue().getCalculatedHourlyRate();
-                        // Replace commas with periods if present because math would work with commas
-                        String modifiedValueString = originalValueString.replace(',', '.');
-                        // Parse the modified string to a double
-                        Double originalValue = Double.valueOf(modifiedValueString);
-                        // Convert the original value to a string
-                        String modifiedValueAsString = String.valueOf(originalValue);
-                        //we are not multiplying because this is the original value and the defolt is EUR
-                        //so when we come back from dollar we want the value that was already there
-                        return new SimpleStringProperty(modifiedValueAsString + "€");
-                    });
-                    dailyRateCollumn.setCellValueFactory(cellData -> {
-                        //has to be changed to accomodate different hours in work days
-                        String originalValueString = cellData.getValue().getCalculatedDailyRate(8);
-                        // Replace commas with periods if present because math would work with commas
-                        String modifiedValueString = originalValueString.replace(',', '.');
-                        // Parse the modified string to a double
-                        Double originalValue = Double.valueOf(modifiedValueString);
-                        // Convert the original value to a string
-                        String modifiedValueAsString = String.valueOf(originalValue);
-                        //we are not multiplying because this is the original value and the defolt is EUR
-                        //so when we come back from dollar we want the value that was already there
-                        return new SimpleStringProperty(modifiedValueAsString + "€");
-                    });
-                }
-                if (curentCurency == 1) {
-                    hourlyRateCollumn.setCellValueFactory(cellData -> {
-                        String originalValueString = cellData.getValue().getCalculatedHourlyRate();
-                        // Replace commas with periods if present
-                        String modifiedValueString = originalValueString.replace(',', '.');
-                        // Parse the modified string to a double
-                        Double originalValue = Double.valueOf(modifiedValueString);
-                        // Multiply the original value by conversion rate
-                        Double modifiedValue = originalValue * EURtoUSDRate;
-                        // Convert the modified value to a string
-                        String modifiedValueAsString = String.valueOf(modifiedValue);
-                        // Return the modified value as an ObservableValue<String>
-                        return new SimpleStringProperty("$" + modifiedValueAsString);
-                    });
-                    dailyRateCollumn.setCellValueFactory(cellData -> {
-                        //has to be changed to accomodate different hours in work days
-                        String originalValueString = cellData.getValue().getCalculatedDailyRate(8);
-                        // Replace commas with periods if present
-                        String modifiedValueString = originalValueString.replace(',', '.');
-                        // Parse the modified string to a double
-                        Double originalValue = Double.valueOf(modifiedValueString);
-                        // Multiply the original value by conversion rate
-                        Double modifiedValue = originalValue * EURtoUSDRate;
-                        // Convert the modified value to a string
-                        String modifiedValueAsString = String.valueOf(modifiedValue);
-                        // Return the modified value as an ObservableValue<String>
-                        return new SimpleStringProperty("$" + modifiedValueAsString);
-                    });
-                }
-            }
+    //logic and model
+    private void setCurencyLabel () {
+        if (curentCurency == 0) {
+            curency.setText("EUR");
+        }
+        if (curentCurency == 1) {
+            curency.setText("USD");
+        }
+    }
+
+    //logic
+    private void calculateExchange () {
+        if (curentCurency == 0) {
+            hourlyRateCollumn.setCellValueFactory(cellData -> {
+                String originalValueString = cellData.getValue().getCalculatedHourlyRate();
+                // Replace commas with periods if present because math would work with commas
+                String modifiedValueString = originalValueString.replace(',', '.');
+                // Parse the modified string to a double
+                Double originalValue = Double.valueOf(modifiedValueString);
+                // Convert the original value to a string
+                String modifiedValueAsString = String.valueOf(originalValue);
+                //we are not multiplying because this is the original value and the defolt is EUR
+                //so when we come back from dollar we want the value that was already there
+                return new SimpleStringProperty(modifiedValueAsString + "€");
+            });
+            dailyRateCollumn.setCellValueFactory(cellData -> {
+                //has to be changed to accomodate different hours in work days
+                String originalValueString = cellData.getValue().getCalculatedDailyRate(8);
+                // Replace commas with periods if present because math would work with commas
+                String modifiedValueString = originalValueString.replace(',', '.');
+                // Parse the modified string to a double
+                Double originalValue = Double.valueOf(modifiedValueString);
+                // Convert the original value to a string
+                String modifiedValueAsString = String.valueOf(originalValue);
+                //we are not multiplying because this is the original value and the defolt is EUR
+                //so when we come back from dollar we want the value that was already there
+                return new SimpleStringProperty(modifiedValueAsString + "€");
+            });
+        }
+        if (curentCurency == 1) {
+            hourlyRateCollumn.setCellValueFactory(cellData -> {
+                String originalValueString = cellData.getValue().getCalculatedHourlyRate();
+                // Replace commas with periods if present
+                String modifiedValueString = originalValueString.replace(',', '.');
+                // Parse the modified string to a double
+                Double originalValue = Double.valueOf(modifiedValueString);
+                // Multiply the original value by conversion rate
+                Double modifiedValue = originalValue * EURtoUSDRate;
+                // Convert the modified value to a string
+                String modifiedValueAsString = String.valueOf(modifiedValue);
+                // Return the modified value as an ObservableValue<String>
+                return new SimpleStringProperty("$" + modifiedValueAsString);
+            });
+            dailyRateCollumn.setCellValueFactory(cellData -> {
+                //has to be changed to accomodate different hours in work days
+                String originalValueString = cellData.getValue().getCalculatedDailyRate(8);
+                // Replace commas with periods if present
+                String modifiedValueString = originalValueString.replace(',', '.');
+                // Parse the modified string to a double
+                Double originalValue = Double.valueOf(modifiedValueString);
+                // Multiply the original value by conversion rate
+                Double modifiedValue = originalValue * EURtoUSDRate;
+                // Convert the modified value to a string
+                String modifiedValueAsString = String.valueOf(modifiedValue);
+                // Return the modified value as an ObservableValue<String>
+                return new SimpleStringProperty("$" + modifiedValueAsString);
+            });
+        }
+    }
 
     public void openMultipliers(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/ViewMulti.fxml"));

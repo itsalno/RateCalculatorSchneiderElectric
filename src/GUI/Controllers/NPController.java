@@ -1,11 +1,13 @@
 package GUI.Controllers;
 
 import BE.Employee;
+import BE.Group;
 import GUI.Model.model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +19,9 @@ import java.util.ResourceBundle;
 public class NPController implements Initializable {
 
 
+
+    @FXML
+    private ChoiceBox<Group> teamChoiceBox;
     @FXML
     private ImageView newProfileImage;
     @FXML
@@ -53,15 +58,16 @@ public class NPController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Image img = new Image("file:src/SchneiderLogo.png");
         newProfileImage.setImage(img);
+        teamChoiceBox.getItems().addAll((model.getInstance().getAllTeams()));
    }
 
 
 
     public void create(ActionEvent actionEvent) {
         if(emplyeeToUpdate!=null){
-            update();
+            updateP();
         }else {
-            create();
+            createP();
         }
 
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
@@ -72,7 +78,7 @@ public class NPController implements Initializable {
 
 
     //idk
-    public void create() {
+    public void createP() {
         if (msController.curentCurency == 0) {
             //EUR
             int annualSalary = Integer.parseInt(annualSalaryField.getText());
@@ -80,7 +86,7 @@ public class NPController implements Initializable {
             int confFixedAnnualAmount = Integer.parseInt(configFixAnnAmountField.getText());
             String country = countryField.getText();
             String continent = continentField.getText();
-            String team = teamField.getText();
+            String team = String.valueOf(teamChoiceBox.getSelectionModel().getSelectedItem());
             int workingHours = Integer.parseInt(workingHoursField.getText());
             int utilizationPercent = Integer.parseInt(utilPercentField.getText());
             String employeeType = employeeTypeField.getText();
@@ -104,7 +110,7 @@ public class NPController implements Initializable {
 
             String country = countryField.getText();
             String continent = continentField.getText();
-            String team = teamField.getText();
+            String team = String.valueOf(teamChoiceBox.getSelectionModel().getSelectedItem());
             int workingHours = Integer.parseInt(workingHoursField.getText());
             int utilizationPercent = Integer.parseInt(utilPercentField.getText());
             String employeeType = employeeTypeField.getText();
@@ -121,16 +127,16 @@ public class NPController implements Initializable {
 
 
     //idk
-    public void update() {
+    public void updateP() {
         if (msc.curentCurency == 0) {
             emplyeeToUpdate.setUtilizationPercent(Integer.parseInt(utilPercentField.getText()));
-            emplyeeToUpdate.setTeam(teamField.getText());
+            emplyeeToUpdate.setTeam(String.valueOf(teamChoiceBox.getSelectionModel().getSelectedItem()));
             emplyeeToUpdate.setWorkingHours(Integer.parseInt(workingHoursField.getText()));
-            emplyeeToUpdate.setConfFixedAnnualAmount(Integer.parseInt(configFixAnnAmountField.getText()));
+            emplyeeToUpdate.setConfFixedAnnualAmount(Double.parseDouble((configFixAnnAmountField.getText())));
             emplyeeToUpdate.setOverheadMultiPercent(Integer.parseInt(overheadMultiField.getText()));
             emplyeeToUpdate.setContinent(continentField.getText());
             emplyeeToUpdate.setCountry(countryField.getText());
-            emplyeeToUpdate.setAnnualSalary(Integer.parseInt(annualSalaryField.getText()));
+            emplyeeToUpdate.setAnnualSalary(Double.parseDouble(annualSalaryField.getText()));
             emplyeeToUpdate.setEmployeeType(employeeTypeField.getText());
 
             double annualSalaryUSD = Double.parseDouble(annualSalaryField.getText()) * msc.EURtoUSDRate;
@@ -143,7 +149,7 @@ public class NPController implements Initializable {
         }
         if (msc.curentCurency == 1) {
             emplyeeToUpdate.setUtilizationPercent(Integer.parseInt(utilPercentField.getText()));
-            emplyeeToUpdate.setTeam(teamField.getText());
+            emplyeeToUpdate.setTeam(String.valueOf(teamChoiceBox.getSelectionModel().getSelectedItem()));
             emplyeeToUpdate.setWorkingHours(Integer.parseInt(workingHoursField.getText()));
 
             double conFixedAnnualAmount=Integer.parseInt(configFixAnnAmountField.getText())* msc.USDtoEURRate;
@@ -178,7 +184,8 @@ public class NPController implements Initializable {
             configFixAnnAmountField.setText(String.valueOf(employee.getConfFixedAnnualAmount()));
             countryField.setText(employee.getCountry());
             continentField.setText(employee.getContinent());
-            teamField.setText(employee.getTeam());
+            String team=employee.getTeam();
+            //teamChoiceBox.setValue(team);
             workingHoursField.setText(String.valueOf(employee.getWorkingHours()));
             utilPercentField.setText(String.valueOf(employee.getUtilizationPercent()));
             employeeTypeField.setText(employee.getEmployeeType());
@@ -191,7 +198,7 @@ public class NPController implements Initializable {
             configFixAnnAmountField.setText(String.valueOf(configFixAnnAmountUSD));
             countryField.setText(employee.getCountry());
             continentField.setText(employee.getContinent());
-            teamField.setText(employee.getTeam());
+            //teamChoiceBox.setValue(team);
             workingHoursField.setText(String.valueOf(employee.getWorkingHours()));
             utilPercentField.setText(String.valueOf(employee.getUtilizationPercent()));
             employeeTypeField.setText(employee.getEmployeeType());
