@@ -162,9 +162,7 @@ public class Employee {
 
     public double calculateHourlyRate() {
 
-        double hourlyRate = (double) (annualSalary + confFixedAnnualAmount)
-                / (workingHours * (utilizationPercent / 100.0))
-                * (overheadMultiPercent / 100.0);
+        double hourlyRate = (double) (annualSalary + confFixedAnnualAmount) / (workingHours * (utilizationPercent / 100.0)) * (overheadMultiPercent / 100.0);
         return hourlyRate;
     }
 
