@@ -32,7 +32,7 @@ public class EmployeeLogic {
 
     public void updateRate(Employee employee) {
         double hourlyRate = employee.calculateHourlyRate();
-        double dailyRate = employee.calculateDailyRate(8); // Assuming an 8-hour workday.
+        double dailyRate = employee.calculateDailyRate(employee.getWorkingHours()); // Assuming an 8-hour workday.
 
         // Here, you'd convert these to strings if your database fields are VARCHAR or similar,
         // otherwise, you should change your database fields to be of a DECIMAL type.

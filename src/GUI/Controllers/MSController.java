@@ -71,7 +71,7 @@ public class MSController implements Initializable {
         continentColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContinent()));
         teamColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeam()));
         dailyRateCollumn.setCellValueFactory(cellData -> {
-            String modifiedValueString = cellData.getValue().getCalculatedDailyRate(8).replace(',', '.');
+            String modifiedValueString = cellData.getValue().getCalculatedDailyRate(cellData.getValue().getWorkingHours()).replace(',', '.');
             String modifiedValueAsString = Double.parseDouble(modifiedValueString) + "€";
             return new SimpleStringProperty(modifiedValueAsString);
         });
