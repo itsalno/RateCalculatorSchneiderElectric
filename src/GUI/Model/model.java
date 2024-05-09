@@ -319,14 +319,14 @@ public class model {
             emplyeeToUpdate.setAnnualSalaryUSD((int) (annualSalary * EURtoUSDRate));
             emplyeeToUpdate.setConfFixedAnnualAmountUSD((int) (confFixedAnnualAmount * EURtoUSDRate));
         } else{
-            double conFixedAnnualAmount = Integer.parseInt(configFixAnnAmountField.getText()) * USDtoEURRate;
-            double annualSalary = Integer.parseInt(annualSalaryField.getText()) * USDtoEURRate;
+            double conFixedAnnualAmount = Double.parseDouble(configFixAnnAmountField.getText()) * USDtoEURRate;
+            double annualSalary = Double.parseDouble(annualSalaryField.getText()) * USDtoEURRate;
 
             emplyeeToUpdate.setAnnualSalary(annualSalary);
             emplyeeToUpdate.setConfFixedAnnualAmount(conFixedAnnualAmount);
 
-            emplyeeToUpdate.setAnnualSalaryUSD(Integer.parseInt(annualSalaryField.getText()));
-            emplyeeToUpdate.setConfFixedAnnualAmountUSD(Integer.parseInt(configFixAnnAmountField.getText()));
+            emplyeeToUpdate.setAnnualSalaryUSD(Double.parseDouble(annualSalaryField.getText()));
+            emplyeeToUpdate.setConfFixedAnnualAmountUSD(Double.parseDouble(configFixAnnAmountField.getText()));
         }
 
         editEmployee(emplyeeToUpdate);

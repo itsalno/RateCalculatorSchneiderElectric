@@ -42,7 +42,7 @@ public class Employee {
         return continent;
     }
 
-    public Employee(int id,int annualSalary, int overheadMultiPercent, int confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType) {
+    public Employee(int id,double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType) {
         this.annualSalary = annualSalary;
         this.overheadMultiPercent = overheadMultiPercent;
         this.confFixedAnnualAmount = confFixedAnnualAmount;
@@ -150,7 +150,7 @@ public class Employee {
         this.hourlyRate = hourlyRate;
     }
 
-    public void setAnnualSalaryUSD(int annualSalaryUSD) {
+    public void setAnnualSalaryUSD(double annualSalaryUSD) {
         this.annualSalaryUSD = annualSalaryUSD;
     }
     public void setConfFixedAnnualAmountUSD(double confFixedAnnualAmountUSD) {
