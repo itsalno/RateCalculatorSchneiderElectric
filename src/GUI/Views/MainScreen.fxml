@@ -18,39 +18,39 @@
             <Image url="@../../SchneiderLogo.png" />
          </image>
       </ImageView>
-      <Button layoutX="51.0" layoutY="552.0" mnemonicParsing="false" onAction="#deleteProfile" prefHeight="26.0" prefWidth="73.0" stylesheets="@../../StyleClass.css" text="Delete" />
-      <Button layoutX="140.0" layoutY="552.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="31.0" prefWidth="57.0" stylesheets="@../../StyleClass.css" text="Edit" />
+      <Button layoutX="91.0" layoutY="568.0" mnemonicParsing="false" onAction="#deleteProfile" prefHeight="26.0" prefWidth="73.0" stylesheets="@../../StyleClass.css" text="Delete" />
+      <Button layoutX="21.0" layoutY="568.0" mnemonicParsing="false" onAction="#editProfile" prefHeight="31.0" prefWidth="57.0" stylesheets="@../../StyleClass.css" text="Edit" />
       <Button layoutX="427.0" layoutY="27.0" mnemonicParsing="false" onAction="#createProfile" stylesheets="@../../StyleClass.css" text="Create profile" />
       <Button layoutX="546.0" layoutY="27.0" mnemonicParsing="false" onAction="#openMultipliers" prefHeight="26.0" prefWidth="118.0" stylesheets="@../../StyleClass.css" text="View multipliers" />
       <Button layoutX="307.0" layoutY="27.0" mnemonicParsing="false" onAction="#CreateTeam" stylesheets="@../../StyleClass.css" text="Create teams" />
-      <TableView fx:id="profileTable" layoutX="42.0" layoutY="151.0" prefHeight="375.0" prefWidth="511.0" style="-fx-border-width: 2;" stylesheets="@../../StyleClass.css">
+      <TableView fx:id="profileTable" layoutX="21.0" layoutY="151.0" prefHeight="402.0" prefWidth="603.0" style="-fx-border-width: 2;" stylesheets="@../../StyleClass.css">
         <columns>
-          <TableColumn fx:id="continentColumn" prefWidth="89.0" text="Continent" />
-          <TableColumn fx:id="countryColumn" prefWidth="100.0" text="Country" />
-            <TableColumn fx:id="teamColumn" prefWidth="114.0" text="Team" />
-            <TableColumn fx:id="workingHoursColumn" prefWidth="48.0" text="Hours" />
-            <TableColumn fx:id="hourlyRateCollumn" minWidth="5.0" prefWidth="79.0" text="Hourly rate" />
-            <TableColumn fx:id="dailyRateCollumn" minWidth="0.0" prefWidth="73.0" text="Day rate" />
-            <TableColumn fx:id="OMP" prefWidth="71.99996948242188" text="OMP" visible="false" />
+          <TableColumn fx:id="continentColumn" prefWidth="96.80001640319824" text="Continent" />
+          <TableColumn fx:id="countryColumn" prefWidth="106.40003204345703" text="Country" />
+            <TableColumn fx:id="teamColumn" prefWidth="104.79998779296875" text="Team" />
+            <TableColumn fx:id="workingHoursColumn" prefWidth="61.5999755859375" text="Hours" />
+            <TableColumn fx:id="hourlyRateCollumn" minWidth="2.4000244140625" prefWidth="107.20001220703125" text="Hourly rate" />
+            <TableColumn fx:id="dailyRateCollumn" minWidth="0.0" prefWidth="108.79995727539062" text="Day rate" />
+            <TableColumn fx:id="OMP" minWidth="0.0" prefWidth="0.0" text="OMP" visible="false" />
             <TableColumn fx:id="CFAA" prefWidth="71.99996948242188" text="CFAA" visible="false" />
             <TableColumn fx:id="annualSalaryColumn" prefWidth="71.99996948242188" text="AnnualSalary" visible="false" />
             <TableColumn fx:id="employeeTypeColumn" prefWidth="56.0" text="EmployeeType" visible="false" />
             <TableColumn fx:id="utilizationPercentage" prefWidth="56.0" text="UtilizationPercentage" visible="false" />
         </columns>
       </TableView>
-      <Button layoutX="758.0" layoutY="552.0" mnemonicParsing="false" onAction="#DeleteTeams" stylesheets="@../../StyleClass.css" text="Delete team" />
-      <TextField fx:id="searchBar" layoutX="98.0" layoutY="111.0" prefHeight="0.0" prefWidth="154.0" style="-fx-border-color: white; -fx-font-size: 11;" styleClass="text-field" stylesheets="@../../StyleClass.css">
+      <Button layoutX="797.0" layoutY="567.0" mnemonicParsing="false" onAction="#DeleteTeams" prefHeight="34.0" prefWidth="102.0" stylesheets="@../../StyleClass.css" text="Delete team" />
+      <TextField fx:id="searchBar" layoutX="79.0" layoutY="111.0" prefHeight="0.0" prefWidth="154.0" style="-fx-border-color: white; -fx-font-size: 11;" styleClass="text-field" stylesheets="@../../StyleClass.css">
          <font>
             <Font size="18.0" />
          </font></TextField>
-      <Button layoutX="658.0" layoutY="552.0" mnemonicParsing="false" onAction="#editTeam" prefHeight="31.0" prefWidth="85.0" stylesheets="@../../StyleClass.css" text="Edit Team" />
-      <TableView fx:id="groupTable" layoutX="658.0" layoutY="151.0" prefHeight="375.0" prefWidth="176.0" stylesheets="@../../StyleClass.css">
+      <Button layoutX="680.0" layoutY="567.0" mnemonicParsing="false" onAction="#editTeam" prefHeight="34.0" prefWidth="102.0" stylesheets="@../../StyleClass.css" text="Edit Team" />
+      <TableView fx:id="groupTable" layoutX="680.0" layoutY="151.0" prefHeight="402.0" prefWidth="214.0" stylesheets="@../../StyleClass.css">
         <columns>
-          <TableColumn fx:id="teamNameColumn" prefWidth="175.0" text="Team name" />
+          <TableColumn fx:id="teamNameColumn" prefWidth="199.20001220703125" text="Team name" />
         </columns>
       </TableView>
 
-      <ToggleButton layoutX="820.0" layoutY="29.0" mnemonicParsing="false" onAction="#swichCurency" prefHeight="26.0" prefWidth="57.0" stylesheets="@../../StyleClass.css" text="Switch">
+      <ToggleButton layoutX="817.0" layoutY="26.0" mnemonicParsing="false" onAction="#swichCurency" prefHeight="34.0" prefWidth="62.0" stylesheets="@../../StyleClass.css" text="Switch">
          <font>
             <Font size="10.0" />
          </font></ToggleButton>
@@ -64,7 +64,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label layoutX="42.0" layoutY="119.0" text="Search:" textFill="WHITE">
+      <Label layoutX="21.0" layoutY="119.0" text="Search:" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>

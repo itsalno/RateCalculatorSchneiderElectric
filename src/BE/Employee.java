@@ -162,7 +162,7 @@ public class Employee {
 
     public double calculateHourlyRate() {
 
-        double hourlyRate = (double) (annualSalary + confFixedAnnualAmount) / (workingHours * (utilizationPercent / 100.0)) * (overheadMultiPercent / 100.0);
+        double hourlyRate = (double) (annualSalary) / (((workingHours * 52 * 5) * (utilizationPercent / 100.0)) * (overheadMultiPercent / 100.0));
         return hourlyRate;
     }
 
@@ -170,7 +170,7 @@ public class Employee {
     // You'll need to decide how you want to pass the number of working hours in a day.
     // Here it's assumed to be a constant value, typical values are 7-9 hours depending on the country's full-time work policy.
     public double calculateDailyRate(int hoursInWorkDay) {
-        double dailyRate = calculateHourlyRate() * hoursInWorkDay;
+        double dailyRate = calculateHourlyRate() * ((double) hoursInWorkDay);
         return dailyRate;
     }
     public String getCalculatedHourlyRate() {

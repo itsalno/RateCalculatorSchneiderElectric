@@ -2,8 +2,6 @@ package GUI.Controllers;
 import BE.Employee;
 import GUI.Model.model;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import BE.Group;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,11 +14,7 @@ import javafx.stage.Stage;
 import javafx.beans.property.SimpleIntegerProperty;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.List;
 
 public class MSController implements Initializable {
 
@@ -64,7 +58,7 @@ public class MSController implements Initializable {
 
 
 
-    //dont know which
+    //don't know which
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         countryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountry()));
@@ -89,8 +83,9 @@ public class MSController implements Initializable {
         teamNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
 
 
-        populateEmpTable();
-        populateGrpTable();
+        //remember
+        model.getInstance().populateEmpTable(profileTable);
+        model.getInstance().populateGrpTable(groupTable);
 
 
 
@@ -111,37 +106,13 @@ public class MSController implements Initializable {
         });
 
         searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
-            searchInfo();
+            model.getInstance().searchInfo(searchBar, profileTable);
         });
         curency.setText("EUR");
-        setUSDtoEURRate();
+        model.getInstance().setUSDtoEURRate(EURtoUSDRate);
     }
 
-
-    // This method is also used to refresh the table when updating a emplyee
-    //Give it our own exception
-    //model
-    public void populateEmpTable() {
-
-            ObservableList<Employee> employees = FXCollections.observableArrayList();
-
-            employees.addAll(model.getInstance().getAllEmployees());
-
-            profileTable.setItems(employees);
-    }
-
-
-    //model
-    public void populateGrpTable () {
-            ObservableList<Group> teams = FXCollections.observableArrayList();
-            teams.addAll(model.getInstance().getAllTeams());
-            groupTable.setItems(teams);
-    }
-
-
-
-
-    public void DeleteTeams (ActionEvent actionEvent){
+    public void DeleteTeams(ActionEvent actionEvent){
         Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
         if (selectedGroup != null) {
             model.getInstance().deleteTeam(selectedGroup);
@@ -160,7 +131,7 @@ public class MSController implements Initializable {
         Stage primaryStage = new Stage();
         primaryStage.setScene(new Scene(root));
         primaryStage.setOnHidden(event -> {
-            populateEmpTable();
+            model.getInstance().populateEmpTable(profileTable);
         });
         primaryStage.show();
     }
@@ -184,7 +155,6 @@ public class MSController implements Initializable {
         controller.setMsController(this);
         controller.setEmployee(employee);
 
-        controller.updateUIInfo();
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.show();
@@ -204,6 +174,9 @@ public class MSController implements Initializable {
 
                     Stage primaryStage = new Stage();
                     primaryStage.setScene(new Scene(root));
+                    primaryStage.setOnHidden(event -> {
+                        model.getInstance().populateEmpTable(profileTable);
+                    });
                     primaryStage.show();
             }
     }
@@ -215,17 +188,11 @@ public class MSController implements Initializable {
         newTeamController.setMsController(this);
         Stage primaryStage = new Stage();
         primaryStage.setScene(new Scene(root));
+        primaryStage.setOnHidden(event -> {
+            model.getInstance().populateGrpTable(groupTable);
+        });
         primaryStage.show();
     }
-
-
-    //model
-    public void searchInfo () {
-        String searchText = searchBar.getText().trim().toLowerCase();
-        List<Employee> matchingEmployees = model.getInstance().searchEmployees(searchText);
-        profileTable.setItems(FXCollections.observableArrayList(matchingEmployees));
-    }
-
 
     public void editTeam (ActionEvent actionEvent) throws IOException {
         Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
@@ -239,118 +206,24 @@ public class MSController implements Initializable {
 
             Stage primaryStage = new Stage();
             primaryStage.setScene(new Scene(root));
+            primaryStage.setOnHidden(event -> {
+                model.getInstance().populateGrpTable(groupTable);
+            });
             primaryStage.show();
 
         }
     }
     //Starts here
+
+    //fix so its private
     public int curentCurency = 0;
     public double EURtoUSDRate = 1.07;
 
     //Used for creating and edditing when program is in the USD mode
     public double USDtoEURRate =0;
     public void swichCurency (ActionEvent actionEvent){
-        // this method swches curentCurency int between 1 and 0.
-        // Each number represent a curency and everything is set acordingly to that curency.
 
-        //logic
-        curentCurency = (curentCurency + 1) % 2;
-
-        //call from model
-        setCurencyLabel();
-
-        //call from model
-        calculateExchange();
-
-        //model
-        profileTable.refresh();
-    }
-
-    //logic
-    private void setUSDtoEURRate(){
-        //this method sets USDtoEUR exchange its done as a method because if we change EURtoUSD the USDtoEUR changes
-        //this setting is accured when the program starts in initialize method
-        //this is the formula so we dont have to change it twice if the rate of exchane changes
-        double USDtoEURRate1 = (1 - EURtoUSDRate) + 1;
-
-        // Set the locale to use a period as the decimal separator ad not a comma because it gives a error
-        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
-        DecimalFormat df = new DecimalFormat("#.##", symbols);
-
-        // Format the double value with the specified decimal format
-        String formattedValue = df.format(USDtoEURRate1);
-        USDtoEURRate = Double.parseDouble(formattedValue);
-    }
-
-
-    //logic and model
-    private void setCurencyLabel () {
-        if (curentCurency == 0) {
-            curency.setText("EUR");
-        }
-        if (curentCurency == 1) {
-            curency.setText("USD");
-        }
-    }
-
-    //logic
-    private void calculateExchange () {
-        if (curentCurency == 0) {
-            hourlyRateCollumn.setCellValueFactory(cellData -> {
-                String originalValueString = cellData.getValue().getCalculatedHourlyRate();
-                // Replace commas with periods if present because math would work with commas
-                String modifiedValueString = originalValueString.replace(',', '.');
-                // Parse the modified string to a double
-                Double originalValue = Double.valueOf(modifiedValueString);
-                // Convert the original value to a string
-                String modifiedValueAsString = String.valueOf(originalValue);
-                //we are not multiplying because this is the original value and the defolt is EUR
-                //so when we come back from dollar we want the value that was already there
-                return new SimpleStringProperty(modifiedValueAsString + "€");
-            });
-            dailyRateCollumn.setCellValueFactory(cellData -> {
-                //has to be changed to accomodate different hours in work days
-                String originalValueString = cellData.getValue().getCalculatedDailyRate(8);
-                // Replace commas with periods if present because math would work with commas
-                String modifiedValueString = originalValueString.replace(',', '.');
-                // Parse the modified string to a double
-                Double originalValue = Double.valueOf(modifiedValueString);
-                // Convert the original value to a string
-                String modifiedValueAsString = String.valueOf(originalValue);
-                //we are not multiplying because this is the original value and the defolt is EUR
-                //so when we come back from dollar we want the value that was already there
-                return new SimpleStringProperty(modifiedValueAsString + "€");
-            });
-        }
-        if (curentCurency == 1) {
-            hourlyRateCollumn.setCellValueFactory(cellData -> {
-                String originalValueString = cellData.getValue().getCalculatedHourlyRate();
-                // Replace commas with periods if present
-                String modifiedValueString = originalValueString.replace(',', '.');
-                // Parse the modified string to a double
-                Double originalValue = Double.valueOf(modifiedValueString);
-                // Multiply the original value by conversion rate
-                Double modifiedValue = originalValue * EURtoUSDRate;
-                // Convert the modified value to a string
-                String modifiedValueAsString = String.valueOf(modifiedValue);
-                // Return the modified value as an ObservableValue<String>
-                return new SimpleStringProperty("$" + modifiedValueAsString);
-            });
-            dailyRateCollumn.setCellValueFactory(cellData -> {
-                //has to be changed to accomodate different hours in work days
-                String originalValueString = cellData.getValue().getCalculatedDailyRate(8);
-                // Replace commas with periods if present
-                String modifiedValueString = originalValueString.replace(',', '.');
-                // Parse the modified string to a double
-                Double originalValue = Double.valueOf(modifiedValueString);
-                // Multiply the original value by conversion rate
-                Double modifiedValue = originalValue * EURtoUSDRate;
-                // Convert the modified value to a string
-                String modifiedValueAsString = String.valueOf(modifiedValue);
-                // Return the modified value as an ObservableValue<String>
-                return new SimpleStringProperty("$" + modifiedValueAsString);
-            });
-        }
+        curentCurency = model.getInstance().swichCurency(curentCurency, profileTable, curency, hourlyRateCollumn, dailyRateCollumn);
     }
 
     public void openMultipliers(ActionEvent actionEvent) throws IOException {
@@ -359,6 +232,14 @@ public class MSController implements Initializable {
         Stage primaryStage = new Stage();
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+    }
+
+    public TableView<Employee> getProfileTable(){
+        return profileTable;
+    }
+
+    public TableView<Group> getGroupTable(){
+        return groupTable;
     }
 }
 

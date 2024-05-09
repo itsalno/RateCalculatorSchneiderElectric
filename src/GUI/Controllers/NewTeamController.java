@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,8 +36,7 @@ public class NewTeamController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Image img =new Image("file:src/SchneiderLogo.png");
-        newTeamImage.setImage(img);
+        model.getInstance().setImage(newTeamImage);
     }
 
 
@@ -58,8 +58,6 @@ public class NewTeamController implements Initializable {
         }
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
-
-        msController.populateGrpTable();
     }
 
 
@@ -79,8 +77,6 @@ public class NewTeamController implements Initializable {
 
     public void setGroupToEdit(Group selectedGroup) {
         this.groupToEdit=selectedGroup;
-
-        //model
         fieldName.setText(groupToEdit.getName());
 
     }

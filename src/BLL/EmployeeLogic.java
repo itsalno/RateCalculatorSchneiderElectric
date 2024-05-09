@@ -30,16 +30,6 @@ public class EmployeeLogic {
         return eDAO.searchEmployees(searchText);
     }
 
-    public void updateRate(Employee employee) {
-        double hourlyRate = employee.calculateHourlyRate();
-        double dailyRate = employee.calculateDailyRate(employee.getWorkingHours()); // Assuming an 8-hour workday.
 
-        // Here, you'd convert these to strings if your database fields are VARCHAR or similar,
-        // otherwise, you should change your database fields to be of a DECIMAL type.
-        employee.setHourlyRate(String.format("%.2f", hourlyRate));
-        employee.setDailyRate(String.format("%.2f", dailyRate));
 
-        // Then, you might want to update the employee object in the database with these new rates.
-        eDAO.edit(employee);
-    }
 }

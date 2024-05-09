@@ -47,10 +47,13 @@ public class VMController implements Initializable {
         Parent root = loader.load();
         Stage primaryStage = new Stage();
         primaryStage.setScene(new Scene(root));
+        primaryStage.setOnHidden(event ->{
+            model.getInstance().updateTable(multiTable);
+        });
         primaryStage.show();
     }
 
-    public void deleteMulti(ActionEvent actionEvent) throws IOException {
+    public void deleteMulti(ActionEvent actionEvent) {
         Multiplier multiplier = multiTable.getSelectionModel().getSelectedItem();
         if(multiplier != null){
             model.getInstance().deleteMulti(multiplier.getId());

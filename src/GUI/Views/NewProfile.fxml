@@ -15,7 +15,7 @@
       <TextField fx:id="configFixAnnAmountField" layoutX="366.0" layoutY="160.0" prefHeight="25.0" prefWidth="107.0" />
       <TextField fx:id="countryField" layoutX="100.0" layoutY="126.0" prefHeight="25.0" prefWidth="121.0" />
       <TextField fx:id="annualSalaryField" layoutX="111.0" layoutY="218.0" prefHeight="25.0" prefWidth="99.0" />
-      <TextField fx:id="utilPercentField" layoutX="391.0" layoutY="249.0" prefHeight="25.0" prefWidth="54.0" />
+      <TextField fx:id="utilPercentField" layoutX="392.0" layoutY="249.0" prefHeight="25.0" prefWidth="54.0" />
       <TextField fx:id="workingHoursField" layoutX="111.0" layoutY="257.0" prefHeight="25.0" prefWidth="54.0" />
       <Label layoutX="189.0" layoutY="27.0" text="Add New Profile" textFill="WHITE">
          <font>
@@ -26,8 +26,8 @@
       <Label layoutX="18.0" layoutY="222.0" text="Annual salary" textFill="WHITE" />
       <Label layoutX="366.0" layoutY="296.0" text="Overhead multiplier" textFill="WHITE" />
       <Label layoutX="332.0" layoutY="130.0" text="Configured fixed annual amount" textFill="WHITE" />
-      <Label layoutX="32.0" layoutY="130.0" text="Country" textFill="WHITE" />
-      <Label layoutX="38.0" layoutY="176.0" text="Team" textFill="WHITE" />
+      <Label layoutX="21.0" layoutY="130.0" text="Country" textFill="WHITE" />
+      <Label layoutX="21.0" layoutY="177.0" text="Teams" textFill="WHITE" />
       <Label layoutX="14.0" layoutY="261.0" text="Working hours" textFill="WHITE" />
       <Label layoutX="360.0" layoutY="210.0" text="Utilization percentage" textFill="WHITE" />
       <Label layoutX="27.0" layoutY="304.0" text="Continent" textFill="WHITE" />
@@ -52,6 +52,6 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="teamChoiceBox" layoutX="97.0" layoutY="173.0" prefHeight="25.0" prefWidth="133.0" style="-fx-background-color: white;" />
+      <ChoiceBox fx:id="teamChoiceBox" layoutX="102.0" layoutY="172.0" prefHeight="26.0" prefWidth="117.0" style="-fx-background-color: white;" />
    </children>
 </AnchorPane>

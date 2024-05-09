@@ -25,18 +25,16 @@ public class NewMultiController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<String> types= FXCollections.observableArrayList();
-        types.add("Markup");
-        types.add("Gross market");
+        types.addAll("Markup", "Gross market");
         choiceType.setItems(types);
     }
 
     public void createMulti(ActionEvent actionEvent) {
         //Needs alert pls
-        //Not sure if logic, model or here
         model.getInstance().createMulti(new Multiplier(choiceType.getSelectionModel().getSelectedItem(),Integer.parseInt(textPerc.getText())));
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
-        //model.getInstance().updateTable();
+
     }
 
 
