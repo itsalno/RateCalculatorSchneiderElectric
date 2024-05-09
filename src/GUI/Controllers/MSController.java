@@ -105,8 +105,19 @@ public class MSController implements Initializable {
             return row;
         });
 
+        groupTable.setRowFactory(tv -> {
+            TableRow<Group> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                    Group selectedGroup = row.getItem();
+                    model.getInstance().searchInfo(searchBar,profileTable,selectedGroup.getName());
+                }
+            });
+            return row;
+        });
+
         searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
-            model.getInstance().searchInfo(searchBar, profileTable);
+            model.getInstance().searchInfo(searchBar, profileTable,null);
         });
         curency.setText("EUR");
         model.getInstance().setUSDtoEURRate(EURtoUSDRate);
@@ -234,12 +245,10 @@ public class MSController implements Initializable {
         primaryStage.show();
     }
 
-    public TableView<Employee> getProfileTable(){
-        return profileTable;
-    }
 
-    public TableView<Group> getGroupTable(){
-        return groupTable;
+    public void resetTable(ActionEvent actionEvent) {
+        groupTable.getSelectionModel().clearSelection();
+        model.getInstance().populateEmpTable(profileTable);
     }
 }
 

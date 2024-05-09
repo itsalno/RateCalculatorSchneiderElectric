@@ -123,8 +123,12 @@ public class model {
         groupTable.setItems(teams);
     }
 
-    public void searchInfo(TextField searchBar, TableView<Employee> profileTable) {
-        String searchText = searchBar.getText().trim().toLowerCase();
+    public void searchInfo(TextField searchBar, TableView<Employee> profileTable, String searchText) {
+        if (searchText == null || searchText.isEmpty()) {
+            searchText = searchBar.getText().trim().toLowerCase();
+        } else {
+            searchText = searchText.trim().toLowerCase();
+        }
         List<Employee> matchingEmployees = searchEmployees(searchText);
         profileTable.setItems(FXCollections.observableArrayList(matchingEmployees));
     }
