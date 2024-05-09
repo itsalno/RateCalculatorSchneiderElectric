@@ -70,5 +70,6 @@
          </font>
       </Label>
       <Button layoutX="176.0" layoutY="568.0" mnemonicParsing="false" onAction="#resetTable" stylesheets="@../../StyleClass.css" text="Reset table" />
+      <Button layoutX="722.0" layoutY="106.0" mnemonicParsing="false" onAction="#removeFromTeam" stylesheets="@../../StyleClass.css" text="Remove from team" />
    </children>
 </AnchorPane>

@@ -250,6 +250,20 @@ public class MSController implements Initializable {
         groupTable.getSelectionModel().clearSelection();
         model.getInstance().populateEmpTable(profileTable);
     }
+
+    //DONT TOUCH AT THE MOMENT!!!
+    /*public void removeFromTeam(ActionEvent actionEvent) {
+        Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
+        Employee selecetedEmployee=profileTable.getSelectionModel().getSelectedItem();
+
+        if (selectedGroup!=null && selecetedEmployee!=null){
+            selecetedEmployee.setTeam(null);
+            resetTable(actionEvent);
+        }
+
+    }
+
+     */
 }
 
 
