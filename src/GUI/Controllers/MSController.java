@@ -108,6 +108,7 @@ public class MSController implements Initializable {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     Group selectedGroup = row.getItem();
                     model.getInstance().searchInfo(searchBar,profileTable,selectedGroup.getName());
+                    groupTable.getSelectionModel().clearSelection();
                 }
             });
             return row;
@@ -246,16 +247,17 @@ public class MSController implements Initializable {
         model.getInstance().populateEmpTable(profileTable);
     }
 
-    //DONT TOUCH AT THE MOMENT!!!
+
     public void removeFromTeam(ActionEvent actionEvent) {
-      /*  Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
+      Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
+      System.out.println(selectedGroup);
         Employee selecetedEmployee=profileTable.getSelectionModel().getSelectedItem();
+        System.out.println(selecetedEmployee);
 
         if (selectedGroup!=null && selecetedEmployee!=null){
-            selecetedEmployee.setTeam(null);
+            model.getInstance().removeTeamFromEmployee(selecetedEmployee);
             resetTable(actionEvent);
         }
-*/
     }
 
 
