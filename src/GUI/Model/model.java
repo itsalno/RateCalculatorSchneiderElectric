@@ -26,7 +26,7 @@ public class model {
 
     private double EURtoUSDRate = 1.07;
 
-    private double USDtoEURRate;
+    private double USDtoEURRate= 0;
     private int curentCurency;
     private final static model instance = new model();
     private GroupLogic groupLogic;
@@ -84,7 +84,6 @@ public class model {
         return eLogic.searchEmployees(searchText);
     }
 
-
     //MULTIPLIER OPERATIONS
 
     public void createMulti(Multiplier multiplier){multiplierLogic.createMulti(multiplier);}
@@ -133,12 +132,12 @@ public class model {
         profileTable.setItems(FXCollections.observableArrayList(matchingEmployees));
     }
 
-    public int swichCurency(int curentCurency, TableView<Employee> profileTable, Label curency, TableColumn<Employee, String> hourlyRateCollumn, TableColumn<Employee, String> dailyRateCollumn){
+    public int swichCurency(int curentCurency, TableView<Employee> profileTable, ToggleButton curencyBTN, TableColumn<Employee, String> hourlyRateCollumn, TableColumn<Employee, String> dailyRateCollumn){
         // this method swches curentCurency int between 1 and 0.
         // Each number represent a curency and everything is set acordingly to that curency.
         curentCurency = (curentCurency + 1) % 2;
 
-        setCurencyLabel(curentCurency, curency);
+        setCurencyLabel(curentCurency, curencyBTN);
 
         calculateExchange(curentCurency,hourlyRateCollumn, dailyRateCollumn);
 
@@ -147,12 +146,12 @@ public class model {
         return curentCurency;
     }
 
-    private void setCurencyLabel(int curentCurency, Label curency) {
+    private void setCurencyLabel(int curentCurency, ToggleButton curencyBTN) {
         if (curentCurency == 0) {
-            curency.setText("EUR");
+            curencyBTN.setText("EUR");
         }
         if (curentCurency == 1) {
-            curency.setText("USD");
+            curencyBTN.setText("USD");
         }
     }
 
@@ -253,11 +252,9 @@ public class model {
             }
 
             else{
-                double annualSalaryUSD = selectedEmployee.getAnnualSalary() * EURtoUSDRate;
-                annualSalaryLbl.setText(String.valueOf(annualSalaryUSD));
                 utilPercentLbl.setText(String.valueOf(selectedEmployee.getUtilizationPercent()));
-                double configFixedAnnualAmaount= selectedEmployee.getConfFixedAnnualAmount()* EURtoUSDRate;
-                cfaaLbl.setText(String.valueOf(configFixedAnnualAmaount));
+                cfaaLbl.setText(String.valueOf(eLogic.getConFixAnnAmount(selectedEmployee)));
+                annualSalaryLbl.setText(String.valueOf(eLogic.getAnnualSllaryUSD(selectedEmployee)));;
             }
         }
     }
@@ -288,8 +285,8 @@ public class model {
             // USD
             anualSalaryUSD = annualSalary;
             confFixedAnnualAmountUSD = confFixedAnnualAmount;
-            annualSalary = (int) (annualSalary / USDtoEURRate);
-            confFixedAnnualAmount = (int) (confFixedAnnualAmount / USDtoEURRate);
+            annualSalary = (int) (annualSalary * USDtoEURRate);
+            confFixedAnnualAmount = (int) (confFixedAnnualAmount * USDtoEURRate);
         }
 
         Employee newEmployee = new Employee(annualSalary, overheadMultiPercent, confFixedAnnualAmount,
@@ -345,10 +342,8 @@ public class model {
 
         }
         if(curentCurency==1) {
-            double annualSalaryUSD = employee.getAnnualSalary() * EURtoUSDRate;
-            annualSalaryField.setText(String.valueOf(annualSalaryUSD));
-            double configFixAnnAmountUSD = employee.getConfFixedAnnualAmount() * EURtoUSDRate;
-            configFixAnnAmountField.setText(String.valueOf(configFixAnnAmountUSD));
+            configFixAnnAmountField.setText(String.valueOf(eLogic.getConFixAnnAmount(employee)));
+            annualSalaryField.setText(String.valueOf(eLogic.getAnnualSllaryUSD(employee)));;
         }
     }
 

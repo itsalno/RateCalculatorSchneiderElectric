@@ -3,7 +3,6 @@ package DAL;
 import BE.Employee;
 import javafx.collections.ObservableList;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface IEmployeeDAO {
@@ -14,4 +13,8 @@ public interface IEmployeeDAO {
     void delete(Employee employee);
     void edit(Employee employee) ;
     List<Employee> searchEmployees(String searchText);
+
+    List<Integer> getAnuallSalaryUSD(Employee e);
+    List<Integer> getConFixAmountUSD(Employee e);
+
 }

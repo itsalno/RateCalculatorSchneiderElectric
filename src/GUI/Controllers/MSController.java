@@ -18,15 +18,12 @@ import java.util.ResourceBundle;
 
 public class MSController implements Initializable {
 
-
+    @FXML
+    public ToggleButton curencyBTN;
     @FXML
     private TableView<Group> groupTable;
     @FXML
     private TableColumn<Group, String> teamNameColumn;
-
-    @FXML
-    private Label curency;
-
     @FXML
     private TextField searchBar;
     @FXML
@@ -119,7 +116,7 @@ public class MSController implements Initializable {
         searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
             model.getInstance().searchInfo(searchBar, profileTable,null);
         });
-        curency.setText("EUR");
+        curencyBTN.setText("EUR");
         model.getInstance().setUSDtoEURRate(EURtoUSDRate);
     }
 
@@ -230,11 +227,9 @@ public class MSController implements Initializable {
     public int curentCurency = 0;
     public double EURtoUSDRate = 1.07;
 
-    //Used for creating and edditing when program is in the USD mode
-    public double USDtoEURRate =0;
     public void swichCurency (ActionEvent actionEvent){
 
-        curentCurency = model.getInstance().swichCurency(curentCurency, profileTable, curency, hourlyRateCollumn, dailyRateCollumn);
+        curentCurency = model.getInstance().swichCurency(curentCurency, profileTable, curencyBTN, hourlyRateCollumn, dailyRateCollumn);
     }
 
     public void openMultipliers(ActionEvent actionEvent) throws IOException {
@@ -252,19 +247,21 @@ public class MSController implements Initializable {
     }
 
     //DONT TOUCH AT THE MOMENT!!!
-    /*public void removeFromTeam(ActionEvent actionEvent) {
-        Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
+    public void removeFromTeam(ActionEvent actionEvent) {
+      /*  Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
         Employee selecetedEmployee=profileTable.getSelectionModel().getSelectedItem();
 
         if (selectedGroup!=null && selecetedEmployee!=null){
             selecetedEmployee.setTeam(null);
             resetTable(actionEvent);
         }
-
+*/
     }
 
-     */
+
 }
+
+
 
 
 

@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class EmployeeDAO implements IEmployeeDAO {
@@ -43,7 +44,7 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
-    public ObservableList<Employee> getAllEmployees()  {
+    public ObservableList<Employee> getAllEmployees() {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
 
         try (Connection conn = dbConnector.getConn()) {
@@ -69,7 +70,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                 }
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -77,14 +78,14 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
-    public void delete(Employee employee)  {
+    public void delete(Employee employee) {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "DELETE FROM Employee WHERE id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, employee.getId());
                 stmt.executeUpdate();
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -103,8 +104,8 @@ public class EmployeeDAO implements IEmployeeDAO {
                 pstmt.setInt(7, employee.getWorkingHours());
                 pstmt.setInt(8, employee.getUtilizationPercent());
                 pstmt.setString(9, employee.getEmployeeType());
-                pstmt.setDouble(10,employee.getAnnualSalaryUSD());
-                pstmt.setDouble(11,employee.getConfFixedAnnualAmountUSD());
+                pstmt.setDouble(10, employee.getAnnualSalaryUSD());
+                pstmt.setDouble(11, employee.getConfFixedAnnualAmountUSD());
                 pstmt.setInt(12, employee.getId());
 
                 pstmt.executeUpdate();
@@ -144,5 +145,42 @@ public class EmployeeDAO implements IEmployeeDAO {
             throw new RuntimeException(e);
         }
         return matchingEmployees;
+    }
+
+    @Override
+    public List<Integer> getAnuallSalaryUSD(Employee e) {
+        List<Integer> USDAnualSalary = new LinkedList<>();
+        try (Connection con = dbConnector.getConn()) {
+            String sql = "SELECT AnnualSalaryUSD FROM Employee WHERE id=?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, e.getId());
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int AnnualSalaryUSD = rs.getInt("AnnualSalaryUSD");
+                USDAnualSalary.add(AnnualSalaryUSD);
+            }
+            return USDAnualSalary;
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+    }
+
+    @Override
+    public List<Integer> getConFixAmountUSD(Employee e) {
+        List<Integer> USDConFixAmount = new LinkedList<>();
+        try (Connection con = dbConnector.getConn()) {
+            String sql = "SELECT ConfigurableFixedAnnualAmountUSD FROM Employee WHERE id=?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, e.getId());
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int ConfigurableFixedAnnualAmountUSD = rs.getInt("ConfigurableFixedAnnualAmountUSD");
+                USDConFixAmount.add(ConfigurableFixedAnnualAmountUSD);
+            }
+            return USDConFixAmount;
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

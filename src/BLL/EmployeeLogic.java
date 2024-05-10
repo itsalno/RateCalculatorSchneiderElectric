@@ -4,7 +4,6 @@ import BE.Employee;
 import DAL.EmployeeDAO;
 import javafx.collections.ObservableList;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class EmployeeLogic {
@@ -28,6 +27,13 @@ public class EmployeeLogic {
 
     public List<Employee> searchEmployees(String searchText){
         return eDAO.searchEmployees(searchText);
+    }
+
+    public List<Integer> getAnnualSllaryUSD(Employee employee){
+       return eDAO.getAnuallSalaryUSD(employee);
+    }
+    public List<Integer> getConFixAnnAmount(Employee employee){
+        return eDAO.getConFixAmountUSD(employee);
     }
 
 

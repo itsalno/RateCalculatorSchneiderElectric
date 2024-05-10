@@ -50,16 +50,11 @@
         </columns>
       </TableView>
 
-      <ToggleButton layoutX="817.0" layoutY="26.0" mnemonicParsing="false" onAction="#swichCurency" prefHeight="34.0" prefWidth="62.0" stylesheets="@../../StyleClass.css" text="Switch">
+      <ToggleButton fx:id="curencyBTN" layoutX="782.0" layoutY="26.0" mnemonicParsing="false" onAction="#swichCurency" prefHeight="34.0" prefWidth="62.0" stylesheets="@../../StyleClass.css">
          <font>
             <Font size="10.0" />
          </font></ToggleButton>
       <Label layoutX="709.0" layoutY="33.0" text="Currency:" textFill="WHITE">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label fx:id="curency" alignment="CENTER" layoutX="771.0" layoutY="33.0" prefHeight="18.0" prefWidth="33.0" textFill="#fffefe">
          <font>
             <Font size="15.0" />
          </font>
