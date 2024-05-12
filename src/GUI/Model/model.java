@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
@@ -167,8 +168,11 @@ public class model {
                 String modifiedValueString = originalValueString.replace(',', '.');
                 // Parse the modified string to a double
                 Double originalValue = Double.valueOf(modifiedValueString);
+
+                DecimalFormat df = new DecimalFormat("#.##");
+                df.setRoundingMode(RoundingMode.HALF_UP); // Round to nearest cent
                 // Convert the original value to a string
-                String modifiedValueAsString = String.valueOf(originalValue);
+                String modifiedValueAsString = df.format(originalValue);
                 //we are not multiplying because this is the original value and the defolt is EUR
                 //so when we come back from dollar we want the value that was already there
                 return new SimpleStringProperty(modifiedValueAsString + "€");
@@ -180,8 +184,10 @@ public class model {
                 String modifiedValueString = originalValueString.replace(',', '.');
                 // Parse the modified string to a double
                 Double originalValue = Double.valueOf(modifiedValueString);
+                DecimalFormat df = new DecimalFormat("#.##");
+                df.setRoundingMode(RoundingMode.HALF_UP); // Round to nearest cent
                 // Convert the original value to a string
-                String modifiedValueAsString = String.valueOf(originalValue);
+                String modifiedValueAsString = df.format(originalValue);
                 //we are not multiplying because this is the original value and the defolt is EUR
                 //so when we come back from dollar we want the value that was already there
                 return new SimpleStringProperty(modifiedValueAsString + "€");
@@ -196,8 +202,11 @@ public class model {
                 Double originalValue = Double.valueOf(modifiedValueString);
                 // Multiply the original value by conversion rate
                 Double modifiedValue = originalValue * EURtoUSDRate;
+                //2 decimal points only
+                DecimalFormat df = new DecimalFormat("#.##");
+                df.setRoundingMode(RoundingMode.HALF_UP); // Round to nearest cent
                 // Convert the modified value to a string
-                String modifiedValueAsString = String.valueOf(modifiedValue);
+                String modifiedValueAsString = df.format(modifiedValue);
                 // Return the modified value as an ObservableValue<String>
                 return new SimpleStringProperty("$" + modifiedValueAsString);
             });
@@ -210,8 +219,11 @@ public class model {
                 Double originalValue = Double.valueOf(modifiedValueString);
                 // Multiply the original value by conversion rate
                 Double modifiedValue = originalValue * EURtoUSDRate;
+                //2 decimal points only
+                DecimalFormat df = new DecimalFormat("#.##");
+                df.setRoundingMode(RoundingMode.HALF_UP); // Round to nearest cent
                 // Convert the modified value to a string
-                String modifiedValueAsString = String.valueOf(modifiedValue);
+                String modifiedValueAsString = df.format(modifiedValue);
                 // Return the modified value as an ObservableValue<String>
                 return new SimpleStringProperty("$" + modifiedValueAsString);
             });
