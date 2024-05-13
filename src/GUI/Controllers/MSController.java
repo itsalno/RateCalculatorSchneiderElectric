@@ -249,12 +249,14 @@ public class MSController implements Initializable {
 
 
     public void removeFromTeam(ActionEvent actionEvent) {
-      Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
-      System.out.println(selectedGroup);
+        Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
+        //Use with id
         Employee selecetedEmployee=profileTable.getSelectionModel().getSelectedItem();
-        System.out.println(selecetedEmployee);
+
 
         if (selectedGroup!=null && selecetedEmployee!=null){
+            System.out.println(selectedGroup);
+            System.out.println(selecetedEmployee);
             model.getInstance().removeTeamFromEmployee(selecetedEmployee);
             resetTable(actionEvent);
         }

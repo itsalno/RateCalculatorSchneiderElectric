@@ -29,10 +29,10 @@ public class EmployeeLogic {
         return eDAO.searchEmployees(searchText);
     }
 
-    public List<Integer> getAnnualSllaryUSD(Employee employee){
+    public int getAnnualSllaryUSD(Employee employee){
        return eDAO.getAnuallSalaryUSD(employee);
     }
-    public List<Integer> getConFixAnnAmount(Employee employee){
+    public int getConFixAnnAmount(Employee employee){
         return eDAO.getConFixAmountUSD(employee);
     }
     public void removeTeamFromEmployee(Employee employee){

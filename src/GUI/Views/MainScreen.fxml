@@ -36,6 +36,7 @@
             <TableColumn fx:id="annualSalaryColumn" prefWidth="71.99996948242188" text="AnnualSalary" visible="false" />
             <TableColumn fx:id="employeeTypeColumn" prefWidth="56.0" text="EmployeeType" visible="false" />
             <TableColumn fx:id="utilizationPercentage" prefWidth="56.0" text="UtilizationPercentage" visible="false" />
+            <TableColumn fx:id="employeeId" prefWidth="71.99996948242188" text="ID" visible="false" />
         </columns>
       </TableView>
       <Button layoutX="797.0" layoutY="567.0" mnemonicParsing="false" onAction="#DeleteTeams" prefHeight="34.0" prefWidth="102.0" stylesheets="@../../StyleClass.css" text="Delete team" />
@@ -46,7 +47,8 @@
       <Button layoutX="680.0" layoutY="567.0" mnemonicParsing="false" onAction="#editTeam" prefHeight="34.0" prefWidth="102.0" stylesheets="@../../StyleClass.css" text="Edit Team" />
       <TableView fx:id="groupTable" layoutX="680.0" layoutY="151.0" prefHeight="402.0" prefWidth="214.0" stylesheets="@../../StyleClass.css">
         <columns>
-          <TableColumn fx:id="teamNameColumn" prefWidth="199.20001220703125" text="Team name" />
+          <TableColumn fx:id="teamNameColumn" prefWidth="120.79986572265625" text="Team name" />
+            <TableColumn fx:id="groupMulti" minWidth="0.0" prefWidth="78.4000244140625" text="Multiplier" />
         </columns>
       </TableView>
 

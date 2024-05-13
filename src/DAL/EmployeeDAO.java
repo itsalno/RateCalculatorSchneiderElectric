@@ -148,18 +148,17 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
-    public List<Integer> getAnuallSalaryUSD(Employee e) {
-        List<Integer> USDAnualSalary = new LinkedList<>();
+    public int getAnuallSalaryUSD(Employee e) {
         try (Connection con = dbConnector.getConn()) {
+            int AnnualSalaryUSD = 0;
             String sql = "SELECT AnnualSalaryUSD FROM Employee WHERE id=?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, e.getId());
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                int AnnualSalaryUSD = rs.getInt("AnnualSalaryUSD");
-                USDAnualSalary.add(AnnualSalaryUSD);
+                AnnualSalaryUSD = rs.getInt("AnnualSalaryUSD");
             }
-            return USDAnualSalary;
+            return AnnualSalaryUSD;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -167,18 +166,18 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
-    public List<Integer> getConFixAmountUSD(Employee e) {
-        List<Integer> USDConFixAmount = new LinkedList<>();
+    public int getConFixAmountUSD(Employee e) {
+        int ConfigurableFixedAnnualAmountUSD = 0;
+
         try (Connection con = dbConnector.getConn()) {
             String sql = "SELECT ConfigurableFixedAnnualAmountUSD FROM Employee WHERE id=?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, e.getId());
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                int ConfigurableFixedAnnualAmountUSD = rs.getInt("ConfigurableFixedAnnualAmountUSD");
-                USDConFixAmount.add(ConfigurableFixedAnnualAmountUSD);
+                ConfigurableFixedAnnualAmountUSD = rs.getInt("ConfigurableFixedAnnualAmountUSD");
             }
-            return USDConFixAmount;
+            return ConfigurableFixedAnnualAmountUSD;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }

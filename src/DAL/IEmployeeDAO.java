@@ -14,7 +14,7 @@ public interface IEmployeeDAO {
     void edit(Employee employee) ;
     List<Employee> searchEmployees(String searchText);
 
-    List<Integer> getAnuallSalaryUSD(Employee e);
-    List<Integer> getConFixAmountUSD(Employee e);
+    int getAnuallSalaryUSD(Employee e);
+    int getConFixAmountUSD(Employee e);
     void removeTeamFromEmployee(Employee employee);
 }
