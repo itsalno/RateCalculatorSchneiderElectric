@@ -25,7 +25,7 @@ import java.util.Locale;
 
 public class model {
 
-    private double EURtoUSDRate = 1.07;
+    private double EURtoUSDRate = 1.0775286;
 
     private double USDtoEURRate= 0;
     private int curentCurency;
@@ -161,6 +161,7 @@ public class model {
     }
 
     private void calculateExchange(int curentCurency, TableColumn<Employee, String> hourlyRateCollumn, TableColumn<Employee, String> dailyRateCollumn) {
+        DecimalFormat df = new DecimalFormat("#.##");
         if (curentCurency == 0) {
             hourlyRateCollumn.setCellValueFactory(cellData -> {
                 String originalValueString = cellData.getValue().getCalculatedHourlyRate();
@@ -169,7 +170,6 @@ public class model {
                 // Parse the modified string to a double
                 Double originalValue = Double.valueOf(modifiedValueString);
 
-                DecimalFormat df = new DecimalFormat("#.##");
                 df.setRoundingMode(RoundingMode.HALF_UP); // Round to nearest cent
                 // Convert the original value to a string
                 String modifiedValueAsString = df.format(originalValue);
@@ -184,7 +184,6 @@ public class model {
                 String modifiedValueString = originalValueString.replace(',', '.');
                 // Parse the modified string to a double
                 Double originalValue = Double.valueOf(modifiedValueString);
-                DecimalFormat df = new DecimalFormat("#.##");
                 df.setRoundingMode(RoundingMode.HALF_UP); // Round to nearest cent
                 // Convert the original value to a string
                 String modifiedValueAsString = df.format(originalValue);
@@ -202,13 +201,11 @@ public class model {
                 Double originalValue = Double.valueOf(modifiedValueString);
                 // Multiply the original value by conversion rate
                 Double modifiedValue = originalValue * EURtoUSDRate;
-                //2 decimal points only
-                DecimalFormat df = new DecimalFormat("#.##");
                 df.setRoundingMode(RoundingMode.HALF_UP); // Round to nearest cent
                 // Convert the modified value to a string
                 String modifiedValueAsString = df.format(modifiedValue);
                 // Return the modified value as an ObservableValue<String>
-                return new SimpleStringProperty("$" + modifiedValueAsString);
+                return new SimpleStringProperty( modifiedValueAsString + "$");
             });
             dailyRateCollumn.setCellValueFactory(cellData -> {
                 //has to be changed to accomodate different hours in work days
@@ -219,13 +216,11 @@ public class model {
                 Double originalValue = Double.valueOf(modifiedValueString);
                 // Multiply the original value by conversion rate
                 Double modifiedValue = originalValue * EURtoUSDRate;
-                //2 decimal points only
-                DecimalFormat df = new DecimalFormat("#.##");
                 df.setRoundingMode(RoundingMode.HALF_UP); // Round to nearest cent
                 // Convert the modified value to a string
                 String modifiedValueAsString = df.format(modifiedValue);
                 // Return the modified value as an ObservableValue<String>
-                return new SimpleStringProperty("$" + modifiedValueAsString);
+                return new SimpleStringProperty(modifiedValueAsString + "$");
             });
         }
     }

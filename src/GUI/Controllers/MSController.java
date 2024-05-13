@@ -226,7 +226,7 @@ public class MSController implements Initializable {
 
     //fix so its private
     public int curentCurency = 0;
-    public double EURtoUSDRate = 1.07;
+    public double EURtoUSDRate = 1.0775286;
 
     public void swichCurency (ActionEvent actionEvent){
 
