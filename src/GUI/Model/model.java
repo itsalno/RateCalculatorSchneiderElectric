@@ -85,8 +85,8 @@ public class model {
         return eLogic.searchEmployees(searchText);
     }
 
-    public void removeTeamFromEmployee(Employee employee){
-        eLogic.removeTeamFromEmployee(employee);
+    public void removeTeamFromEmployee(int id){
+        eLogic.removeTeamFromEmployee(id);
     }
 
     //MULTIPLIER OPERATIONS

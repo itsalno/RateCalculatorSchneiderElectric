@@ -35,8 +35,8 @@ public class EmployeeLogic {
     public int getConFixAnnAmount(Employee employee){
         return eDAO.getConFixAmountUSD(employee);
     }
-    public void removeTeamFromEmployee(Employee employee){
-        eDAO.removeTeamFromEmployee(employee);
+    public void removeTeamFromEmployee(int id){
+        eDAO.removeTeamFromEmployee(id);
     }
 
 

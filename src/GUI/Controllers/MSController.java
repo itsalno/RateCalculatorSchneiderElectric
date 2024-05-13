@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.beans.property.SimpleIntegerProperty;
 import java.io.IOException;
@@ -108,7 +109,6 @@ public class MSController implements Initializable {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     Group selectedGroup = row.getItem();
                     model.getInstance().searchInfo(searchBar,profileTable,selectedGroup.getName());
-                    groupTable.getSelectionModel().clearSelection();
                 }
             });
             return row;
@@ -242,23 +242,19 @@ public class MSController implements Initializable {
     }
 
 
-    public void resetTable(ActionEvent actionEvent) {
+    public void resetTable(MouseEvent actionEvent) {
         groupTable.getSelectionModel().clearSelection();
+        profileTable.getSelectionModel().clearSelection();
         model.getInstance().populateEmpTable(profileTable);
     }
 
 
     public void removeFromTeam(ActionEvent actionEvent) {
-        Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
-        //Use with id
-        Employee selecetedEmployee=profileTable.getSelectionModel().getSelectedItem();
+      Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
+        Employee selectedEmployee=profileTable.getSelectionModel().getSelectedItem();
 
-
-        if (selectedGroup!=null && selecetedEmployee!=null){
-            System.out.println(selectedGroup);
-            System.out.println(selecetedEmployee);
-            model.getInstance().removeTeamFromEmployee(selecetedEmployee);
-            resetTable(actionEvent);
+        if (selectedGroup!=null && selectedEmployee!=null){
+                model.getInstance().removeTeamFromEmployee(selectedEmployee.getId());
         }
     }
 

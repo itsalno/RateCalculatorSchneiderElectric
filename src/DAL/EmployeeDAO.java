@@ -184,12 +184,12 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
-    public void removeTeamFromEmployee(Employee employee) {
+    public void removeTeamFromEmployee(int id) {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "UPDATE Employee SET Team=? WHERE id=?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, "None");
-                pstmt.setInt(2, employee.getId());
+                pstmt.setInt(2, id);
                 pstmt.executeUpdate();
                 conn.commit();
             }

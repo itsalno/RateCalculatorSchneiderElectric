@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="632.0" prefWidth="923.0" style="-fx-background-color: #134658;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.MSController">
+<AnchorPane onMouseClicked="#resetTable" prefHeight="632.0" prefWidth="923.0" style="-fx-background-color: #134658;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.MSController">
    <children>
       <ImageView fitHeight="80.0" fitWidth="214.0" layoutX="21.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -66,7 +66,6 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="176.0" layoutY="568.0" mnemonicParsing="false" onAction="#resetTable" stylesheets="@../../StyleClass.css" text="Reset table" />
       <Button layoutX="722.0" layoutY="106.0" mnemonicParsing="false" onAction="#removeFromTeam" stylesheets="@../../StyleClass.css" text="Remove from team" />
    </children>
 </AnchorPane>
