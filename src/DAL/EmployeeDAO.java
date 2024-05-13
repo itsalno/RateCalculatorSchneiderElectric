@@ -19,8 +19,8 @@ public class EmployeeDAO implements IEmployeeDAO {
     public void create(Employee employee) {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "INSERT INTO Employee (AnnualSalary, OverheadMultiplierPercentage, ConfigurableFixedAnnualAmount, " +
-                    "Country, Continent, Team, WorkingHours, UtilizationPercentage, EmployeeType, AnnualSalaryUSD, ConfigurableFixedAnnualAmountUSD ) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+                    "Country, Continent, Team, WorkingHours, UtilizationPercentage, EmployeeType, AnnualSalaryUSD, ConfigurableFixedAnnualAmountUSD,Name ) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setDouble(1, employee.getAnnualSalary());
                 stmt.setInt(2, employee.getOverheadMultiPercent());
@@ -33,6 +33,8 @@ public class EmployeeDAO implements IEmployeeDAO {
                 stmt.setString(9, employee.getEmployeeType());
                 stmt.setDouble(10, employee.getAnnualSalaryUSD());
                 stmt.setDouble(11, employee.getConfFixedAnnualAmountUSD());
+                stmt.setString(12, employee.getFullName());
+
 
                 stmt.executeUpdate();
             } catch (SQLException e) {
@@ -53,6 +55,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
                         int id = rs.getInt("id");
+                        String fullname=rs.getString("Name");
                         int annualSalary = rs.getInt("AnnualSalary");
                         int overheadMultiPercent = rs.getInt("OverheadMultiplierPercentage");
                         int confFixedAnnualAmount = rs.getInt("ConfigurableFixedAnnualAmount");
@@ -63,7 +66,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                         int utilizationPercent = rs.getInt("UtilizationPercentage");
                         String employeeType = rs.getString("EmployeeType");
 
-                        Employee employee = new Employee(id, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+                        Employee employee = new Employee(id,fullname, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
                                 country, continent, team, workingHours, utilizationPercent, employeeType);
                         employees.add(employee);
                     }
@@ -92,21 +95,22 @@ public class EmployeeDAO implements IEmployeeDAO {
 
     public void edit(Employee employee) {
         try (Connection conn = dbConnector.getConn()) {
-            String sql = "UPDATE Employee SET AnnualSalary=?, OverheadMultiplierPercentage=?,  ConfigurableFixedAnnualAmount=?, Country=?," +
+            String sql = "UPDATE Employee SET Name=?,AnnualSalary=?, OverheadMultiplierPercentage=?,  ConfigurableFixedAnnualAmount=?, Country=?," +
                     "Continent=?, Team=?, WorkingHours=?, UtilizationPercentage=?, EmployeeType=?, AnnualSalaryUSD=?, ConfigurableFixedAnnualAmountUSD=? WHERE id=?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setDouble(1, employee.getAnnualSalary());
-                pstmt.setInt(2, employee.getOverheadMultiPercent());
-                pstmt.setDouble(3, employee.getConfFixedAnnualAmount());
-                pstmt.setString(4, employee.getCountry());
-                pstmt.setString(5, employee.getContinent());
-                pstmt.setString(6, employee.getTeam());
-                pstmt.setInt(7, employee.getWorkingHours());
-                pstmt.setInt(8, employee.getUtilizationPercent());
-                pstmt.setString(9, employee.getEmployeeType());
-                pstmt.setDouble(10, employee.getAnnualSalaryUSD());
-                pstmt.setDouble(11, employee.getConfFixedAnnualAmountUSD());
-                pstmt.setInt(12, employee.getId());
+                pstmt.setString(1,employee.getFullName());
+                pstmt.setDouble(2, employee.getAnnualSalary());
+                pstmt.setInt(3, employee.getOverheadMultiPercent());
+                pstmt.setDouble(4, employee.getConfFixedAnnualAmount());
+                pstmt.setString(5, employee.getCountry());
+                pstmt.setString(6, employee.getContinent());
+                pstmt.setString(7, employee.getTeam());
+                pstmt.setInt(8, employee.getWorkingHours());
+                pstmt.setInt(9, employee.getUtilizationPercent());
+                pstmt.setString(10, employee.getEmployeeType());
+                pstmt.setDouble(11, employee.getAnnualSalaryUSD());
+                pstmt.setDouble(12, employee.getConfFixedAnnualAmountUSD());
+                pstmt.setInt(13, employee.getId());
 
                 pstmt.executeUpdate();
 
@@ -122,15 +126,17 @@ public class EmployeeDAO implements IEmployeeDAO {
     public List<Employee> searchEmployees(String searchText) {
         List<Employee> matchingEmployees = new ArrayList<>();
         try (Connection con = dbConnector.getConn()) {
-            String sql = "SELECT * FROM Employee WHERE Country LIKE ? OR Continent LIKE ? OR Team LIKE ?";
+            String sql = "SELECT * FROM Employee WHERE Country LIKE ? OR Continent LIKE ? OR Team LIKE ? OR Name LIKE ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setString(1, "%" + searchText + "%");
             pstmt.setString(2, "%" + searchText + "%");
             pstmt.setString(3, "%" + searchText + "%");
+            pstmt.setString(4, "%" + searchText + "%");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 Employee employee = new Employee();
                 employee.setCountry(rs.getString("Country"));
+                employee.setFullName(rs.getString("Name"));
                 employee.setConfFixedAnnualAmount(rs.getInt("ConfigurableFixedAnnualAmount"));
                 employee.setTeam(rs.getString("Team"));
                 employee.setWorkingHours(rs.getInt("WorkingHours"));

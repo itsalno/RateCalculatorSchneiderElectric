@@ -22,6 +22,8 @@ public class MSController implements Initializable {
     @FXML
     public ToggleButton curencyBTN;
     @FXML
+    private TableColumn<Employee,String> fullNameCollumn;
+    @FXML
     private TableView<Group> groupTable;
     @FXML
     private TableColumn<Group, String> teamNameColumn;
@@ -59,6 +61,7 @@ public class MSController implements Initializable {
     //don't know which
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        fullNameCollumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFullName()));
         countryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountry()));
         continentColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContinent()));
         teamColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeam()));

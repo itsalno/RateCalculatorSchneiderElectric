@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="444.0" prefWidth="535.0" style="-fx-background-color: #134658;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.NPController">
+<AnchorPane prefHeight="474.0" prefWidth="535.0" style="-fx-background-color: #134658;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.NPController">
    <children>
       <TextField fx:id="overheadMultiField" layoutX="391.0" layoutY="327.0" prefHeight="25.0" prefWidth="54.0" />
       <TextField fx:id="configFixAnnAmountField" layoutX="366.0" layoutY="160.0" prefHeight="25.0" prefWidth="107.0" />
@@ -32,8 +32,8 @@
       <Label layoutX="16.0" layoutY="261.0" text="Working hours" textFill="WHITE" />
       <Label layoutX="360.0" layoutY="210.0" text="Utilization percentage" textFill="WHITE" />
       <Label layoutX="16.0" layoutY="304.0" text="Continent" textFill="WHITE" />
-      <Button layoutX="391.0" layoutY="396.0" mnemonicParsing="false" onAction="#create" stylesheets="@../../StyleClass.css" text="Create" />
-      <Button layoutX="102.0" layoutY="396.0" mnemonicParsing="false" onAction="#cancel" stylesheets="@../../StyleClass.css" text="Cancel" />
+      <Button layoutX="392.0" layoutY="427.0" mnemonicParsing="false" onAction="#create" stylesheets="@../../StyleClass.css" text="Create" />
+      <Button layoutX="102.0" layoutY="427.0" mnemonicParsing="false" onAction="#cancel" stylesheets="@../../StyleClass.css" text="Cancel" />
       <Label layoutX="15.0" layoutY="344.0" text="Employee Type" textFill="WHITE" />
       <TextField fx:id="employeeTypeField" layoutX="102.0" layoutY="340.0" prefHeight="25.0" prefWidth="99.0" />
       <Label layoutX="460.0" layoutY="253.0" text="\%" textFill="WHITE" />
@@ -55,5 +55,7 @@
       </Label>
       <ChoiceBox fx:id="teamChoiceBox" layoutX="102.0" layoutY="172.0" prefHeight="26.0" prefWidth="117.0" style="-fx-background-color: white;" />
       <ListView fx:id="ListViewEx" layoutX="209.0" layoutY="234.0" prefHeight="54.0" prefWidth="173.0" />
+      <Label layoutX="16.0" layoutY="382.0" text="Full Name" textFill="WHITE" />
+      <TextField fx:id="nameField" layoutX="102.0" layoutY="378.0" prefHeight="25.0" prefWidth="99.0" />
    </children>
 </AnchorPane>

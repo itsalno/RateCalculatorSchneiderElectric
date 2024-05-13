@@ -21,6 +21,8 @@ public class NPController implements Initializable {
 
 
     @FXML
+    private TextField nameField;
+    @FXML
     private ListView<Group> ListViewEx;
     @FXML
     private ChoiceBox<Group> teamChoiceBox;
@@ -67,10 +69,10 @@ public class NPController implements Initializable {
     public void create(ActionEvent actionEvent) {
         if(emplyeeToUpdate!=null){
             model.getInstance().updateP(emplyeeToUpdate,annualSalaryField, overheadMultiField, configFixAnnAmountField,
-                    countryField, continentField, teamChoiceBox, workingHoursField, utilPercentField, employeeTypeField);
+                    countryField, continentField, teamChoiceBox, workingHoursField, utilPercentField, employeeTypeField,nameField);
         }else {
             model.getInstance().createP(annualSalaryField, overheadMultiField, configFixAnnAmountField,
-                    countryField, continentField, teamChoiceBox, workingHoursField, utilPercentField, employeeTypeField);
+                    countryField, continentField, teamChoiceBox, workingHoursField, utilPercentField, employeeTypeField,nameField);
         }
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
@@ -81,7 +83,7 @@ public class NPController implements Initializable {
     public void setEmployeeToUpdate(Employee employee) {
         this.emplyeeToUpdate = employee;
         model.getInstance().setEmployeeToUpdateM(emplyeeToUpdate,annualSalaryField, overheadMultiField,configFixAnnAmountField,
-                countryField, continentField, teamChoiceBox, workingHoursField, utilPercentField, employeeTypeField);
+                countryField, continentField, teamChoiceBox, workingHoursField, utilPercentField, employeeTypeField,nameField);
     }
 
     public void cancel(ActionEvent actionEvent) {

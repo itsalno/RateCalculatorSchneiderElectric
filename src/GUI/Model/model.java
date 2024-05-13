@@ -244,7 +244,7 @@ public class model {
     //ViewProfController//////////////////////
 
     public void updateUIInfo(Employee selectedEmployee, Label workingHoursLbl, Label countryLbl, Label continentLbl, Label annualSalaryLbl, Label empTypeLbl,
-                             Label utilPercentLbl, Label ompLbl, Label cfaaLbl, Label hourlyRateLbl, Label dailyRateLbl, Label teamLbl) {
+                             Label utilPercentLbl, Label ompLbl, Label cfaaLbl, Label hourlyRateLbl, Label dailyRateLbl, Label teamLbl,Label namaField) {
         if (selectedEmployee != null) {
 
             workingHoursLbl.setText(String.valueOf(selectedEmployee.getWorkingHours()));
@@ -256,6 +256,7 @@ public class model {
             teamLbl.setText(selectedEmployee.getTeam());
             hourlyRateLbl.setText(selectedEmployee.getHourlyRate());
             dailyRateLbl.setText(selectedEmployee.getDailyRate());
+            namaField.setText(selectedEmployee.getFullName());
 
             if (curentCurency == 0) {
                 annualSalaryLbl.setText(String.valueOf(selectedEmployee.getAnnualSalary()));
@@ -273,7 +274,7 @@ public class model {
     //NewProfileController///////////////////////////////////
 
     public void createP(TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
-                        ChoiceBox<Group> teamChoiceBox, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField ) {
+                        ChoiceBox<Group> teamChoiceBox, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField , TextField  nameField) {
         setUSDtoEURRate(EURtoUSDRate);
         int annualSalary = Integer.parseInt(annualSalaryField.getText());
         int overheadMultiPercent = Integer.parseInt(overheadMultiField.getText());
@@ -284,6 +285,7 @@ public class model {
         int workingHours = Integer.parseInt(workingHoursField.getText());
         int utilizationPercent = Integer.parseInt(utilPercentField.getText());
         String employeeType = employeeTypeField.getText();
+        String fullName=nameField.getText();
 
         double anualSalaryUSD;
         double confFixedAnnualAmountUSD;
@@ -300,7 +302,7 @@ public class model {
             confFixedAnnualAmount = (int) (confFixedAnnualAmount * USDtoEURRate);
         }
 
-        Employee newEmployee = new Employee(annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+        Employee newEmployee = new Employee(fullName,annualSalary, overheadMultiPercent, confFixedAnnualAmount,
                 country, continent, team, workingHours, utilizationPercent, employeeType,
                 anualSalaryUSD, confFixedAnnualAmountUSD);
 
@@ -308,7 +310,7 @@ public class model {
     }
 
     public void updateP(Employee emplyeeToUpdate, TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
-                        ChoiceBox<Group> teamChoiceBox, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField) {
+                        ChoiceBox<Group> teamChoiceBox, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
         emplyeeToUpdate.setUtilizationPercent(Integer.parseInt(utilPercentField.getText()));
         emplyeeToUpdate.setTeam(String.valueOf(teamChoiceBox.getSelectionModel().getSelectedItem()));
         emplyeeToUpdate.setWorkingHours(Integer.parseInt(workingHoursField.getText()));
@@ -316,6 +318,7 @@ public class model {
         emplyeeToUpdate.setContinent(continentField.getText());
         emplyeeToUpdate.setCountry(countryField.getText());
         emplyeeToUpdate.setEmployeeType(employeeTypeField.getText());
+        emplyeeToUpdate.setFullName(nameField.getText());
 
         if (curentCurency == 0) {
             double annualSalary = Double.parseDouble(annualSalaryField.getText());
@@ -341,12 +344,13 @@ public class model {
     }
 
     public void setEmployeeToUpdateM(Employee employee, TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
-                                    ChoiceBox<Group> teamChoiceBox, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField) {
+                                    ChoiceBox<Group> teamChoiceBox, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField,TextField nameField) {
         overheadMultiField.setText(String.valueOf(employee.getOverheadMultiPercent()));countryField.setText(employee.getCountry());
         continentField.setText(employee.getContinent());
         workingHoursField.setText(String.valueOf(employee.getWorkingHours()));
         utilPercentField.setText(String.valueOf(employee.getUtilizationPercent()));
         employeeTypeField.setText(employee.getEmployeeType());
+        nameField.setText(employee.getFullName());
         if (curentCurency == 0) {
             annualSalaryField.setText(String.valueOf(employee.getAnnualSalary()));
             configFixAnnAmountField.setText(String.valueOf(employee.getConfFixedAnnualAmount()));

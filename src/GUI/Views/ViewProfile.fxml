@@ -44,5 +44,7 @@
       </ImageView>
       <Label layoutX="29.0" layoutY="163.0" text="Team:" textFill="WHITE" />
       <Label fx:id="teamLbl" layoutX="73.0" layoutY="163.0" text="Label" textFill="WHITE" />
+      <Label fx:id="nameField" layoutX="111.0" layoutY="275.0" text="Label" textFill="WHITE" />
+      <Label layoutX="43.0" layoutY="275.0" text="Full Name" textFill="WHITE" />
    </children>
 </AnchorPane>

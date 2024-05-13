@@ -18,6 +18,8 @@ public class ViewProfController implements Initializable {
 
 
     @FXML
+    private Label nameField;
+    @FXML
     private ImageView profileInfoImage;
     @FXML
     private Label workingHoursLbl,countryLbl,continentLbl,annualSalaryLbl,empTypeLbl,
@@ -34,7 +36,7 @@ public class ViewProfController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         model.getInstance().setImage(profileInfoImage);
         //fix hourly rate and daily rate
-        model.getInstance().updateUIInfo(selectedEmployee, workingHoursLbl, countryLbl, continentLbl, annualSalaryLbl, empTypeLbl, utilPercentLbl, ompLbl, cfaaLbl, hourlyRateLbl, dailyRateLbl, teamLbl);
+        model.getInstance().updateUIInfo(selectedEmployee, workingHoursLbl, countryLbl, continentLbl, annualSalaryLbl, empTypeLbl, utilPercentLbl, ompLbl, cfaaLbl, hourlyRateLbl, dailyRateLbl, teamLbl,nameField);
     }
     public void setMsController(MSController msController){
         this.msController=msController;
@@ -43,7 +45,7 @@ public class ViewProfController implements Initializable {
 
     public void setEmployee(Employee employee) {
         this.selectedEmployee = employee;
-        model.getInstance().updateUIInfo(selectedEmployee, workingHoursLbl, countryLbl, continentLbl, annualSalaryLbl, empTypeLbl, utilPercentLbl, ompLbl, cfaaLbl, hourlyRateLbl, dailyRateLbl, teamLbl);
+        model.getInstance().updateUIInfo(selectedEmployee, workingHoursLbl, countryLbl, continentLbl, annualSalaryLbl, empTypeLbl, utilPercentLbl, ompLbl, cfaaLbl, hourlyRateLbl, dailyRateLbl, teamLbl,nameField);
     }
 
     public void close(ActionEvent actionEvent) {

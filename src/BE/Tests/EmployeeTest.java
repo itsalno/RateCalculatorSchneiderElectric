@@ -23,8 +23,9 @@ public class EmployeeTest {
         int workingHours = 2080; // 40 hours/week * 52 weeks
         int utilizationPercent = 100; // Fully utilized
         String employeeType = "Full-time";
+        String fullname="Martins Lavely";
 
-        employee = new Employee(
+        employee = new Employee(fullname,
                 annualSalary, overheadMultiPercent, confFixedAnnualAmount, country, continent, team,
                 workingHours, utilizationPercent, employeeType, annualSalaryUSD, confFixedAnnualAmountUSD
         );

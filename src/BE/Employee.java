@@ -3,6 +3,7 @@ package BE;
 public class Employee {
 
     private double annualSalary;
+    private String fullName;
     private int overheadMultiPercent;
     private double confFixedAnnualAmount;
     private String country;
@@ -42,7 +43,7 @@ public class Employee {
         return continent;
     }
 
-    public Employee(int id,double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType) {
+    public Employee(int id,String fullName,double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType) {
         this.annualSalary = annualSalary;
         this.overheadMultiPercent = overheadMultiPercent;
         this.confFixedAnnualAmount = confFixedAnnualAmount;
@@ -53,9 +54,10 @@ public class Employee {
         this.continent=continent;
         this.employeeType=employeeType;
         this.id=id;
+        this.fullName=fullName;
 
     }
-    public Employee(double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType, double annualSalaryUSD, double confFixedAnnualAmountUSD) {
+    public Employee(String fullName,double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType, double annualSalaryUSD, double confFixedAnnualAmountUSD) {
         this.annualSalary = annualSalary;
         this.overheadMultiPercent = overheadMultiPercent;
         this.confFixedAnnualAmount = confFixedAnnualAmount;
@@ -67,6 +69,7 @@ public class Employee {
         this.employeeType=employeeType;
         this.annualSalaryUSD = annualSalaryUSD;
         this.confFixedAnnualAmountUSD = confFixedAnnualAmountUSD;
+        this.fullName=fullName;
 
     }
 
@@ -80,6 +83,14 @@ public class Employee {
 
     public double getConfFixedAnnualAmount() {
         return confFixedAnnualAmount;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 
     public String getCountry() {
@@ -163,6 +174,7 @@ public class Employee {
     public double calculateHourlyRate() {
 
         double hourlyRate = (double) (annualSalary) / (((workingHours * 52 * 5) * (utilizationPercent / 100.0)) * (overheadMultiPercent / 100.0));
+        setHourlyRate(String.valueOf(hourlyRate));
         return hourlyRate;
     }
 
@@ -171,6 +183,7 @@ public class Employee {
     // Here it's assumed to be a constant value, typical values are 7-9 hours depending on the country's full-time work policy.
     public double calculateDailyRate(int hoursInWorkDay) {
         double dailyRate = calculateHourlyRate() * ((double) hoursInWorkDay);
+        setDailyRate(String.valueOf(dailyRate));
         return dailyRate;
     }
     public String getCalculatedHourlyRate() {
