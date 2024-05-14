@@ -1,4 +1,5 @@
 package GUI.Controllers;
+import BE.Group;
 import BE.Multiplier;
 import GUI.Model.model;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -9,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
@@ -32,12 +34,21 @@ public class VMController implements Initializable {
     @FXML
     private TableColumn<Multiplier, Integer> multiID;
 
+   private MSController msController;
+
+   private Group selectedGroup;
+
+   public void setMsController(MSController msController){
+       this.msController=msController;
+   }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         multiType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));
         multiPerc.setCellValueFactory(cellData ->new SimpleIntegerProperty(cellData.getValue().getPerc()).asObject());
         multiID.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
         model.getInstance().updateTable(multiTable);
+
     }
 
 
@@ -60,4 +71,17 @@ public class VMController implements Initializable {
             model.getInstance().updateTable(multiTable);
         }
     }
+
+    public void ApplyMutiplier(ActionEvent actionEvent) {
+        model.getInstance().applyMultiplierToGroup(multiTable.getSelectionModel().getSelectedItem().getPerc(), selectedGroup.getId());
+        Group allGroups= model.getInstance().updateGroupTable(selectedGroup.getId());
+        msController.updateGroupTable(allGroups);
+        Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+        currentStage.close();
+    }
+
+    public void setSelectedGroup(Group selectedGroup){
+       this.selectedGroup=selectedGroup;
+    }
+
 }

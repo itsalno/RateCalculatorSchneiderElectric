@@ -1,8 +1,12 @@
 package BE;
 
+import java.util.List;
+
 public class Group {
     private String name;
     private int id;
+
+    private int multiplier;
 
 
 
@@ -12,6 +16,11 @@ public class Group {
     public Group(String name,int id) {
         this.name = name;
         this.id=id;
+    }
+    public Group(String name, int id, int multiplier){
+        this.name = name;
+        this.id=id;
+        this.multiplier=multiplier;
     }
 
     public String getName() {
@@ -25,6 +34,13 @@ public class Group {
     public int getId() {
         return id;
     }
+
+    public int getMultiplier() {
+        return multiplier;
+    }
+
+
+
     @Override
     public String toString() {
         return name;

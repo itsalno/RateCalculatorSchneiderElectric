@@ -53,14 +53,24 @@ public class model {
         groupLogic.createGroup(group);
     }
 
-    public List<Group> getAllTeams(){
+    public ObservableList<Group> getAllTeams(){
         return groupLogic.getAllGroups();
+    }
+    public Group updateGroupTable(int id){
+        return groupLogic.updateGroupTable(id);
     }
     public void deleteTeam(Group group){
         groupLogic.deleteGroup(group);
     }
     public void updateTeam(Group group){
         groupLogic.editGroup(group);
+    }
+
+    public void applyMultiplierToGroup(int multiplier, int id){
+        groupLogic.applyMultiplierToGroup(multiplier, id);
+    }
+    public void updateTeamTable(TableView<Group> groupTable){
+
     }
 
 
@@ -121,7 +131,7 @@ public class model {
         profileTable.setItems(employees);
     }
 
-    public void populateGrpTable(TableView<Group> groupTable) {
+    public void populateGrpTable(TableView<Group> groupTable ) {
         ObservableList<Group> teams = FXCollections.observableArrayList();
         teams.addAll(getAllTeams());
         groupTable.setItems(teams);
@@ -254,8 +264,11 @@ public class model {
             utilPercentLbl.setText(String.valueOf(selectedEmployee.getUtilizationPercent()));
             ompLbl.setText(String.valueOf(selectedEmployee.getOverheadMultiPercent()));
             teamLbl.setText(selectedEmployee.getTeam());
-            hourlyRateLbl.setText(selectedEmployee.getHourlyRate());
-            dailyRateLbl.setText(selectedEmployee.getDailyRate());
+
+            String hourlyRate = String.format("%.2f", Double.parseDouble(selectedEmployee.getHourlyRate()));
+            String dailyRate = String.format("%.2f", Double.parseDouble(selectedEmployee.getDailyRate()));
+            hourlyRateLbl.setText(hourlyRate);
+            dailyRateLbl.setText(dailyRate);
             namaField.setText(selectedEmployee.getFullName());
 
             if (curentCurency == 0) {
@@ -345,7 +358,8 @@ public class model {
 
     public void setEmployeeToUpdateM(Employee employee, TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
                                     ChoiceBox<Group> teamChoiceBox, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField,TextField nameField) {
-        overheadMultiField.setText(String.valueOf(employee.getOverheadMultiPercent()));countryField.setText(employee.getCountry());
+        overheadMultiField.setText(String.valueOf(employee.getOverheadMultiPercent()));
+        countryField.setText(employee.getCountry());
         continentField.setText(employee.getContinent());
         workingHoursField.setText(String.valueOf(employee.getWorkingHours()));
         utilPercentField.setText(String.valueOf(employee.getUtilizationPercent()));
@@ -361,7 +375,20 @@ public class model {
             annualSalaryField.setText(String.valueOf(eLogic.getAnnualSllaryUSD(employee)));;
         }
     }
+public void updateGroupTable(Group group, TableView<Group> groupTable){
+    // Get the selected group
+    Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
+    if (selectedGroup != null) {
+        // Get the index of the selected group
+        int selectedIndex = groupTable.getSelectionModel().getSelectedIndex();
 
+        // Remove the selected group
+        groupTable.getItems().remove(selectedGroup);
+
+        // Add the updated group at the same index
+        groupTable.getItems().add(selectedIndex, group);
+    }
+}
 
 
     public void setImage(ImageView imageview){

@@ -20,7 +20,9 @@ import java.util.ResourceBundle;
 public class MSController implements Initializable {
 
     @FXML
-    public ToggleButton curencyBTN;
+    private ToggleButton curencyBTN;
+    @FXML
+    private TableColumn<Group, Integer> groupMulti;
     @FXML
     private TableColumn<Employee,String> fullNameCollumn;
     @FXML
@@ -82,6 +84,7 @@ public class MSController implements Initializable {
         utilizationPercentage.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getUtilizationPercent()).asObject());
         employeeTypeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeType()));
         teamNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
+        groupMulti.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getMultiplier()).asObject());
 
 
         //remember
@@ -237,8 +240,12 @@ public class MSController implements Initializable {
     }
 
     public void openMultipliers(ActionEvent actionEvent) throws IOException {
+        Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/ViewMulti.fxml"));
         Parent root = loader.load();
+        VMController vmController= loader.getController();
+        vmController.setMsController(this);
+        vmController.setSelectedGroup(selectedGroup);
         Stage primaryStage = new Stage();
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
@@ -260,9 +267,13 @@ public class MSController implements Initializable {
                 model.getInstance().removeTeamFromEmployee(selectedEmployee.getId());
         }
     }
-
-
+    public void updateGroupTable(Group group){
+       model.getInstance().updateGroupTable(group, groupTable);
+    }
 }
+
+
+
 
 
 

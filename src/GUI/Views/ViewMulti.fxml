@@ -8,7 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="249.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.VMController">
+<AnchorPane prefHeight="430.0" prefWidth="249.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controllers.VMController">
    <children>
       <TableView fx:id="multiTable" layoutX="13.0" layoutY="109.0" prefHeight="226.0" prefWidth="222.0">
         <columns>
@@ -25,5 +25,6 @@
       <Label layoutX="13.0" layoutY="83.0" text="Multipliers:" />
       <Button layoutX="125.0" layoutY="360.0" mnemonicParsing="false" onAction="#createMulti" text="Create Multiplier" />
       <Button layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#deleteMulti" text="Delete Multiplier" />
+      <Button layoutX="74.0" layoutY="397.0" mnemonicParsing="false" onAction="#ApplyMutiplier" style="-fx-background-color: #21b858;" styleClass="f" text="Apply Multiplier" textFill="WHITE" />
    </children>
 </AnchorPane>
