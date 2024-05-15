@@ -38,6 +38,9 @@ public class EmployeeLogic {
     public void removeTeamFromEmployee(int id){
         eDAO.removeTeamFromEmployee(id);
     }
+    public Employee getEmployeeById(int id){
+        return eDAO.getEmployeeById(id);
+    }
 
 
 }

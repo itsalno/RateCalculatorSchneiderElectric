@@ -23,7 +23,7 @@
       <Button layoutX="427.0" layoutY="27.0" mnemonicParsing="false" onAction="#createProfile" stylesheets="@../../StyleClass.css" text="Create profile" />
       <Button layoutX="546.0" layoutY="27.0" mnemonicParsing="false" onAction="#openMultipliers" prefHeight="26.0" prefWidth="118.0" stylesheets="@../../StyleClass.css" text="View multipliers" />
       <Button layoutX="307.0" layoutY="27.0" mnemonicParsing="false" onAction="#CreateTeam" stylesheets="@../../StyleClass.css" text="Create teams" />
-      <TableView fx:id="profileTable" layoutX="21.0" layoutY="151.0" prefHeight="402.0" prefWidth="705.0" style="-fx-border-width: 2;" stylesheets="@../../StyleClass.css">
+      <TableView fx:id="profileTable" layoutX="21.0" layoutY="151.0" onDragDetected="#handleEmployeeDragDetected" prefHeight="402.0" prefWidth="705.0" style="-fx-border-width: 2;" stylesheets="@../../StyleClass.css">
         <columns>
             <TableColumn fx:id="fullNameCollumn" minWidth="0.0" prefWidth="163.0" text="Full Name" />
           <TableColumn fx:id="countryColumn" prefWidth="94.0" text="Country" />
@@ -46,7 +46,7 @@
             <Font size="18.0" />
          </font></TextField>
       <Button layoutX="771.0" layoutY="568.0" mnemonicParsing="false" onAction="#editTeam" prefHeight="34.0" prefWidth="102.0" stylesheets="@../../StyleClass.css" text="Edit Team" />
-      <TableView fx:id="groupTable" layoutX="770.0" layoutY="151.0" prefHeight="402.0" prefWidth="214.0" stylesheets="@../../StyleClass.css">
+      <TableView fx:id="groupTable" layoutX="770.0" layoutY="151.0" onDragDropped="#handleTeamDragDropped" onDragOver="#handleTeamDragOver" prefHeight="402.0" prefWidth="214.0" stylesheets="@../../StyleClass.css">
         <columns>
           <TableColumn fx:id="teamNameColumn" prefWidth="120.79986572265625" text="Team name" />
             <TableColumn fx:id="groupMulti" minWidth="0.0" prefWidth="78.4000244140625" text="Multiplier" />

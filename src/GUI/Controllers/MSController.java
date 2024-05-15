@@ -10,7 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.stage.Stage;
 import javafx.beans.property.SimpleIntegerProperty;
 import java.io.IOException;
@@ -270,10 +270,48 @@ public class MSController implements Initializable {
     public void updateGroupTable(Group group){
        model.getInstance().updateGroupTable(group, groupTable);
     }
+
+
+
+    public void handleTeamDragDropped(DragEvent dragEvent) {
+        Dragboard db = dragEvent.getDragboard();
+        boolean success = false;
+        if (db.hasString()) {
+            Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
+            int employeeId = Integer.parseInt(db.getString());
+            Employee employee = model.getInstance().getEmployeeById(employeeId);
+            employee.setTeam(String.valueOf(selectedGroup));
+
+
+            model.getInstance().editEmployee(employee);
+            model.getInstance().populateEmpTable(profileTable);
+
+            success = true;
+        }
+        dragEvent.setDropCompleted(success);
+        dragEvent.consume();
+    }
+
+
+    public void handleTeamDragOver(DragEvent dragEvent) {
+        if (dragEvent.getGestureSource() != groupTable && dragEvent.getDragboard().hasString()) {
+            dragEvent.acceptTransferModes(TransferMode.MOVE);
+        }
+        dragEvent.consume();
+    }
+
+    public void handleEmployeeDragDetected(MouseEvent mouseEvent) {
+        Employee selectedEmployee = profileTable.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null) {
+            Dragboard db = profileTable.startDragAndDrop(TransferMode.MOVE);
+            ClipboardContent content = new ClipboardContent();
+            content.put(DataFormat.PLAIN_TEXT, selectedEmployee.getId());
+            db.setContent(content);
+            mouseEvent.consume();
+        }
+    }
+
 }
-
-
-
 
 
 

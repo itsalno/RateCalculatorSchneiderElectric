@@ -203,4 +203,35 @@ public class EmployeeDAO implements IEmployeeDAO {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Employee getEmployeeById(int id) {
+        try (Connection conn = dbConnector.getConn()) {
+            String sql = "SELECT * FROM Employee WHERE id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, id);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        Employee employee = new Employee(
+                                rs.getInt("id"),
+                                rs.getString("Name"),
+                                rs.getDouble("AnnualSalary"),
+                                rs.getInt("OverheadMultiplierPercentage"),
+                                rs.getDouble("ConfigurableFixedAnnualAmount"),
+                                rs.getString("Country"),
+                                rs.getString("Continent"),
+                                rs.getString("Team"),
+                                rs.getInt("WorkingHours"),
+                                rs.getInt("UtilizationPercentage"),
+                                rs.getString("EmployeeType")
+                        );
+                        return employee;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
 }
