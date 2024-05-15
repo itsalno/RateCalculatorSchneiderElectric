@@ -30,5 +30,5 @@ public class GroupLogic {
     public void applyMultiplierToGroup(int multiplier, int id){
         groupDAO.applyMultiplierToGroup(multiplier, id);
     }
-    
+
 }

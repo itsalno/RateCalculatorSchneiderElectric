@@ -131,10 +131,26 @@ public class model {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
 
         List<Group> group = new LinkedList<Group>(getAllTeams());
+        group.addAll(groupLogic.getAllGroups());
 
         employees.addAll(getAllEmployees());
-        
-        //group.get(0).getId();
+        for (Employee employee:employees) {
+            System.out.println(employee.getTeamId()+"AAAAAAA");
+        }
+        for (Group group1:group) {
+            System.out.println(group1.getId()+"BBBBBBB");
+        }
+
+        for (Employee employee:employees) {
+            for (Group group1:group) {
+                if(employee.getTeamId()==group1.getId()){
+                    double hourlyRate = Double.parseDouble(employee.getHourlyRate());
+                    employee.setHourlyRate(String.valueOf(hourlyRate * ((double) group1.getMultiplier() / 100)) + hourlyRate);
+                    System.out.println(employee.getTeamId());
+                    System.out.println(group1.getId());
+                }
+            }
+        }
 
         profileTable.setItems(employees);
     }

@@ -65,9 +65,10 @@ public class EmployeeDAO implements IEmployeeDAO {
                         int workingHours = rs.getInt("WorkingHours");
                         int utilizationPercent = rs.getInt("UtilizationPercentage");
                         String employeeType = rs.getString("EmployeeType");
+                        int employeeTeamID= rs.getInt("TeamId");
 
                         Employee employee = new Employee(id,fullname, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
-                                country, continent, team, workingHours, utilizationPercent, employeeType);
+                                country, continent, team, workingHours, utilizationPercent, employeeType, employeeTeamID);
                         employees.add(employee);
                     }
                 }
@@ -223,7 +224,8 @@ public class EmployeeDAO implements IEmployeeDAO {
                                 rs.getString("Team"),
                                 rs.getInt("WorkingHours"),
                                 rs.getInt("UtilizationPercentage"),
-                                rs.getString("EmployeeType")
+                                rs.getString("EmployeeType"),
+                                rs.getInt("TeamID")
                         );
                         return employee;
                     }
