@@ -53,11 +53,11 @@
         </columns>
       </TableView>
 
-      <ToggleButton fx:id="curencyBTN" layoutX="782.0" layoutY="26.0" mnemonicParsing="false" onAction="#swichCurency" prefHeight="34.0" prefWidth="62.0" stylesheets="@../../StyleClass.css">
+      <ToggleButton fx:id="curencyBTN" layoutX="921.0" layoutY="25.0" mnemonicParsing="false" onAction="#swichCurency" prefHeight="34.0" prefWidth="62.0" stylesheets="@../../StyleClass.css">
          <font>
             <Font size="10.0" />
          </font></ToggleButton>
-      <Label layoutX="709.0" layoutY="33.0" text="Currency:" textFill="WHITE">
+      <Label layoutX="846.0" layoutY="33.0" text="Currency:" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
@@ -67,6 +67,6 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="771.0" layoutY="104.0" mnemonicParsing="false" onAction="#removeFromTeam" stylesheets="@../../StyleClass.css" text="Remove from team" />
+      <Button layoutX="793.0" layoutY="102.0" mnemonicParsing="false" onAction="#removeFromTeam" prefHeight="34.0" prefWidth="118.0" stylesheets="@../../StyleClass.css" text="&lt;" />
    </children>
 </AnchorPane>

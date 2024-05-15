@@ -18,6 +18,8 @@ public class Employee {
     private double confFixedAnnualAmountUSD;
     private int id;
 
+    private int TeamId;
+
     public Employee() {
     }
 
@@ -117,6 +119,10 @@ public class Employee {
         return confFixedAnnualAmountUSD;
     }
 
+    public int getTeamId(){
+        return TeamId;
+    }
+
     public void setAnnualSalary(double annualSalary) {
         this.annualSalary = annualSalary;
     }
@@ -171,6 +177,10 @@ public class Employee {
         this.id = id;
     }
 
+    public void setTeamId(int TeamId){
+        this.TeamId = TeamId;
+    }
+
     public double calculateHourlyRate() {
 
         double hourlyRate = (double) (annualSalary) / (((workingHours * 52 * 5) * (utilizationPercent / 100.0)) * (overheadMultiPercent / 100.0));
@@ -193,6 +203,10 @@ public class Employee {
     public String getCalculatedDailyRate(int hoursInWorkDay) {
         return String.format("%.2f", calculateDailyRate(hoursInWorkDay));
     }
+
+
+
+
 
 
 }

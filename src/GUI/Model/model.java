@@ -20,6 +20,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -129,7 +130,11 @@ public class model {
 
         ObservableList<Employee> employees = FXCollections.observableArrayList();
 
+        List<Group> group = new LinkedList<Group>(getAllTeams());
+
         employees.addAll(getAllEmployees());
+        
+        //group.get(0).getId();
 
         profileTable.setItems(employees);
     }
