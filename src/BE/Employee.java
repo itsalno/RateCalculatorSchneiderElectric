@@ -45,7 +45,7 @@ public class Employee {
         return continent;
     }
 
-    public Employee(int id,String fullName,double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType) {
+    public Employee(int id,int TeamId,String fullName,double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType) {
         this.annualSalary = annualSalary;
         this.overheadMultiPercent = overheadMultiPercent;
         this.confFixedAnnualAmount = confFixedAnnualAmount;
@@ -57,9 +57,10 @@ public class Employee {
         this.employeeType=employeeType;
         this.id=id;
         this.fullName=fullName;
+        this.TeamId=TeamId;
 
     }
-    public Employee(String fullName,double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType, double annualSalaryUSD, double confFixedAnnualAmountUSD) {
+    public Employee(int TeamId,String fullName,double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType, double annualSalaryUSD, double confFixedAnnualAmountUSD) {
         this.annualSalary = annualSalary;
         this.overheadMultiPercent = overheadMultiPercent;
         this.confFixedAnnualAmount = confFixedAnnualAmount;
@@ -72,6 +73,7 @@ public class Employee {
         this.annualSalaryUSD = annualSalaryUSD;
         this.confFixedAnnualAmountUSD = confFixedAnnualAmountUSD;
         this.fullName=fullName;
+        this.TeamId=TeamId;
 
     }
 

@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.beans.property.SimpleIntegerProperty;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MSController implements Initializable {
@@ -265,52 +266,27 @@ public class MSController implements Initializable {
 
         if (selectedGroup!=null && selectedEmployee!=null){
                 model.getInstance().removeTeamFromEmployee(selectedEmployee.getId());
+                model.getInstance().populateEmpTable(profileTable);
+                groupTable.getSelectionModel().clearSelection();
         }
     }
     public void updateGroupTable(Group group){
        model.getInstance().updateGroupTable(group, groupTable);
     }
 
+    public void addToTeam(ActionEvent actionEvent) {
+        Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
+        Employee selectedEmployee=profileTable.getSelectionModel().getSelectedItem();
 
-
-    public void handleTeamDragDropped(DragEvent dragEvent) {
-        Dragboard db = dragEvent.getDragboard();
-        boolean success = false;
-        if (db.hasString()) {
-            Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
-            int employeeId = Integer.parseInt(db.getString());
-            Employee employee = model.getInstance().getEmployeeById(employeeId);
-            employee.setTeam(String.valueOf(selectedGroup));
-
-
-            model.getInstance().editEmployee(employee);
+        if (selectedGroup!=null&& selectedEmployee!=null&& Objects.equals(selectedEmployee.getTeam(), "None")){
+            selectedEmployee.setTeam(selectedGroup.getName());
+            selectedEmployee.setTeamId(selectedGroup.getId());
+            model.getInstance().editEmployee(selectedEmployee);
             model.getInstance().populateEmpTable(profileTable);
-
-            success = true;
-        }
-        dragEvent.setDropCompleted(success);
-        dragEvent.consume();
-    }
-
-
-    public void handleTeamDragOver(DragEvent dragEvent) {
-        if (dragEvent.getGestureSource() != groupTable && dragEvent.getDragboard().hasString()) {
-            dragEvent.acceptTransferModes(TransferMode.MOVE);
-        }
-        dragEvent.consume();
-    }
-
-    public void handleEmployeeDragDetected(MouseEvent mouseEvent) {
-        Employee selectedEmployee = profileTable.getSelectionModel().getSelectedItem();
-        if (selectedEmployee != null) {
-            Dragboard db = profileTable.startDragAndDrop(TransferMode.MOVE);
-            ClipboardContent content = new ClipboardContent();
-            content.put(DataFormat.PLAIN_TEXT, selectedEmployee.getId());
-            db.setContent(content);
-            mouseEvent.consume();
+            groupTable.getSelectionModel().clearSelection();
+            profileTable.getSelectionModel().clearSelection();
         }
     }
-
 }
 
 

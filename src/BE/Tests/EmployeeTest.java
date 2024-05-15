@@ -24,8 +24,9 @@ public class EmployeeTest {
         int utilizationPercent = 100; // Fully utilized
         String employeeType = "Full-time";
         String fullname="Martins Lavely";
+        int teamId=1;
 
-        employee = new Employee(fullname,
+        employee = new Employee(teamId,fullname,
                 annualSalary, overheadMultiPercent, confFixedAnnualAmount, country, continent, team,
                 workingHours, utilizationPercent, employeeType, annualSalaryUSD, confFixedAnnualAmountUSD
         );

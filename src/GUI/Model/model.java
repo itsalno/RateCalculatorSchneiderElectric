@@ -307,6 +307,7 @@ public class model {
         int utilizationPercent = Integer.parseInt(utilPercentField.getText());
         String employeeType = employeeTypeField.getText();
         String fullName=nameField.getText();
+        int TeamId=teamChoiceBox.getSelectionModel().getSelectedItem().getId();
 
         double anualSalaryUSD;
         double confFixedAnnualAmountUSD;
@@ -323,7 +324,7 @@ public class model {
             confFixedAnnualAmount = (int) (confFixedAnnualAmount * USDtoEURRate);
         }
 
-        Employee newEmployee = new Employee(fullName,annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+        Employee newEmployee = new Employee(TeamId,fullName,annualSalary, overheadMultiPercent, confFixedAnnualAmount,
                 country, continent, team, workingHours, utilizationPercent, employeeType,
                 anualSalaryUSD, confFixedAnnualAmountUSD);
 
@@ -340,6 +341,8 @@ public class model {
         emplyeeToUpdate.setCountry(countryField.getText());
         emplyeeToUpdate.setEmployeeType(employeeTypeField.getText());
         emplyeeToUpdate.setFullName(nameField.getText());
+        emplyeeToUpdate.setTeamId(teamChoiceBox.getSelectionModel().getSelectedItem().getId());
+        System.out.println(emplyeeToUpdate.getTeamId());
 
         if (curentCurency == 0) {
             double annualSalary = Double.parseDouble(annualSalaryField.getText());

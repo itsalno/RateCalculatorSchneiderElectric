@@ -19,8 +19,8 @@ public class EmployeeDAO implements IEmployeeDAO {
     public void create(Employee employee) {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "INSERT INTO Employee (AnnualSalary, OverheadMultiplierPercentage, ConfigurableFixedAnnualAmount, " +
-                    "Country, Continent, Team, WorkingHours, UtilizationPercentage, EmployeeType, AnnualSalaryUSD, ConfigurableFixedAnnualAmountUSD,Name ) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
+                    "Country, Continent, Team, WorkingHours, UtilizationPercentage, EmployeeType, AnnualSalaryUSD, ConfigurableFixedAnnualAmountUSD,Name,TeamId ) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setDouble(1, employee.getAnnualSalary());
                 stmt.setInt(2, employee.getOverheadMultiPercent());
@@ -34,6 +34,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                 stmt.setDouble(10, employee.getAnnualSalaryUSD());
                 stmt.setDouble(11, employee.getConfFixedAnnualAmountUSD());
                 stmt.setString(12, employee.getFullName());
+                stmt.setInt(13, employee.getTeamId());
 
 
                 stmt.executeUpdate();
@@ -55,6 +56,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
                         int id = rs.getInt("id");
+                        int TeamId=rs.getInt("TeamId");
                         String fullname=rs.getString("Name");
                         int annualSalary = rs.getInt("AnnualSalary");
                         int overheadMultiPercent = rs.getInt("OverheadMultiplierPercentage");
@@ -66,7 +68,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                         int utilizationPercent = rs.getInt("UtilizationPercentage");
                         String employeeType = rs.getString("EmployeeType");
 
-                        Employee employee = new Employee(id,fullname, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+                        Employee employee = new Employee(id,TeamId,fullname, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
                                 country, continent, team, workingHours, utilizationPercent, employeeType);
                         employees.add(employee);
                     }
@@ -95,8 +97,8 @@ public class EmployeeDAO implements IEmployeeDAO {
 
     public void edit(Employee employee) {
         try (Connection conn = dbConnector.getConn()) {
-            String sql = "UPDATE Employee SET Name=?,AnnualSalary=?, OverheadMultiplierPercentage=?,  ConfigurableFixedAnnualAmount=?, Country=?," +
-                    "Continent=?, Team=?, WorkingHours=?, UtilizationPercentage=?, EmployeeType=?, AnnualSalaryUSD=?, ConfigurableFixedAnnualAmountUSD=? WHERE id=?";
+            String sql = "UPDATE Employee SET  Name=?,AnnualSalary=?, OverheadMultiplierPercentage=?,  ConfigurableFixedAnnualAmount=?, Country=?," +
+                    "Continent=?, Team=?, WorkingHours=?, UtilizationPercentage=?, EmployeeType=?, AnnualSalaryUSD=?, ConfigurableFixedAnnualAmountUSD=?,TeamId=? WHERE id=?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1,employee.getFullName());
                 pstmt.setDouble(2, employee.getAnnualSalary());
@@ -110,7 +112,9 @@ public class EmployeeDAO implements IEmployeeDAO {
                 pstmt.setString(10, employee.getEmployeeType());
                 pstmt.setDouble(11, employee.getAnnualSalaryUSD());
                 pstmt.setDouble(12, employee.getConfFixedAnnualAmountUSD());
-                pstmt.setInt(13, employee.getId());
+                pstmt.setInt(13,employee.getTeamId());
+                pstmt.setInt(14, employee.getId());
+
 
                 pstmt.executeUpdate();
 
@@ -192,7 +196,7 @@ public class EmployeeDAO implements IEmployeeDAO {
     @Override
     public void removeTeamFromEmployee(int id) {
         try (Connection conn = dbConnector.getConn()) {
-            String sql = "UPDATE Employee SET Team=? WHERE id=?";
+            String sql = "UPDATE Employee SET Team=?, TeamId=NULL WHERE id=?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, "None");
                 pstmt.setInt(2, id);
@@ -214,6 +218,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                     if (rs.next()) {
                         Employee employee = new Employee(
                                 rs.getInt("id"),
+                                rs.getInt("TeamId"),
                                 rs.getString("Name"),
                                 rs.getDouble("AnnualSalary"),
                                 rs.getInt("OverheadMultiplierPercentage"),
