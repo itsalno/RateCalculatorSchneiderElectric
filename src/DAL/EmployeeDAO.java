@@ -1,6 +1,7 @@
 package DAL;
 
 import BE.Employee;
+import BE.Group;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,40 +10,57 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class EmployeeDAO implements IEmployeeDAO {
-
 
     @Override
     public void create(Employee employee) {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "INSERT INTO Employee (AnnualSalary, OverheadMultiplierPercentage, ConfigurableFixedAnnualAmount, " +
-                    "Country, Continent, Team, WorkingHours, UtilizationPercentage, EmployeeType, AnnualSalaryUSD, " +
-                    "ConfigurableFixedAnnualAmountUSD,Name,TeamId, HourlyRate, DailyRate ) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?)";
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                    "Country, Continent, WorkingHours, UtilizationPercentage, EmployeeType, AnnualSalaryUSD, " +
+                    "ConfigurableFixedAnnualAmountUSD, Name, HourlyRate, DailyRate ) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
                 stmt.setDouble(1, employee.getAnnualSalary());
                 stmt.setInt(2, employee.getOverheadMultiPercent());
                 stmt.setDouble(3, employee.getConfFixedAnnualAmount());
                 stmt.setString(4, employee.getCountry());
                 stmt.setString(5, employee.getContinent());
-                stmt.setString(6, employee.getTeam());
-                stmt.setInt(7, employee.getWorkingHours());
-                stmt.setInt(8, employee.getUtilizationPercent());
-                stmt.setString(9, employee.getEmployeeType());
-                stmt.setDouble(10, employee.getAnnualSalaryUSD());
-                stmt.setDouble(11, employee.getConfFixedAnnualAmountUSD());
-                stmt.setString(12, employee.getFullName());
-                stmt.setInt(13, employee.getTeamId());
-                stmt.setFloat(14, employee.calculateHourlyRate());
-                stmt.setFloat(15, employee.calculateDailyRate(employee.getWorkingHours()));
+                stmt.setInt(6, employee.getWorkingHours());
+                stmt.setInt(7, employee.getUtilizationPercent());
+                stmt.setString(8, employee.getEmployeeType());
+                stmt.setDouble(9, employee.getAnnualSalaryUSD());
+                stmt.setDouble(10, employee.getConfFixedAnnualAmountUSD());
+                stmt.setString(11, employee.getFullName());
+                stmt.setFloat(12, employee.calculateHourlyRate());
+                stmt.setFloat(13, employee.calculateDailyRate(employee.getWorkingHours()));
 
                 stmt.executeUpdate();
+
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int employeeId = generatedKeys.getInt(1);
+                        insertEmployeeTeams(employeeId, employee.getTeams());
+                    }
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void insertEmployeeTeams(int employeeId, List<Group> teams) {
+        String sql = "INSERT INTO EmployeeTeams (employee_id, team_id) VALUES (?, ?)";
+        try (Connection conn = dbConnector.getConn(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            for (Group team : teams) {
+                stmt.setInt(1, employeeId);
+                stmt.setInt(2, team.getId());
+                stmt.addBatch();
+            }
+            stmt.executeBatch();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -58,27 +76,26 @@ public class EmployeeDAO implements IEmployeeDAO {
                 try (ResultSet rs = stmt.executeQuery()) {
                     while (rs.next()) {
                         int id = rs.getInt("id");
-                        int TeamId=rs.getInt("TeamId");
-                        String fullname=rs.getString("Name");
-                        int annualSalary = rs.getInt("AnnualSalary");
+                        String fullname = rs.getString("Name");
+                        double annualSalary = rs.getDouble("AnnualSalary");
                         int overheadMultiPercent = rs.getInt("OverheadMultiplierPercentage");
-                        int confFixedAnnualAmount = rs.getInt("ConfigurableFixedAnnualAmount");
+                        double confFixedAnnualAmount = rs.getDouble("ConfigurableFixedAnnualAmount");
                         String country = rs.getString("Country");
                         String continent = rs.getString("Continent");
-                        String team = rs.getString("Team");
                         int workingHours = rs.getInt("WorkingHours");
                         int utilizationPercent = rs.getInt("UtilizationPercentage");
                         String employeeType = rs.getString("EmployeeType");
                         float hourlyRate = rs.getFloat("HourlyRate");
                         float dailyRate = rs.getFloat("DailyRate");
 
-                        Employee employee = new Employee(id,TeamId,fullname, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
-                                country, continent, team, workingHours, utilizationPercent, employeeType, hourlyRate, dailyRate);
+                        List<Group> teams = getTeamsByEmployeeId(id);
+
+                        Employee employee = new Employee(id, 0, fullname, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+                                country, continent, teams, workingHours, utilizationPercent, employeeType, hourlyRate, dailyRate);
                         employees.add(employee);
                     }
                 }
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -86,10 +103,38 @@ public class EmployeeDAO implements IEmployeeDAO {
         return employees;
     }
 
+    private List<Group> getTeamsByEmployeeId(int employeeId) {
+        List<Group> teams = new ArrayList<>();
+        String sql = "SELECT t.id, t.name, t.multiplier FROM Teams t " +
+                "INNER JOIN EmployeeTeams et ON t.id = et.team_id " +
+                "WHERE et.employee_id = ?";
+        try (Connection conn = dbConnector.getConn(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, employeeId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    int multiplier = rs.getInt("multiplier");
+                    Group team = new Group(name, id, multiplier);
+                    teams.add(team);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return teams;
+    }
+
     @Override
     public void delete(Employee employee) {
         try (Connection conn = dbConnector.getConn()) {
-            String sql = "DELETE FROM Employee WHERE id = ?";
+            String sql = "DELETE FROM EmployeeTeams WHERE employee_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setInt(1, employee.getId());
+                stmt.executeUpdate();
+            }
+
+            sql = "DELETE FROM Employee WHERE id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, employee.getId());
                 stmt.executeUpdate();
@@ -99,34 +144,54 @@ public class EmployeeDAO implements IEmployeeDAO {
         }
     }
 
+    @Override
     public void edit(Employee employee) {
         try (Connection conn = dbConnector.getConn()) {
-            String sql = "UPDATE Employee SET  Name=?,AnnualSalary=?, OverheadMultiplierPercentage=?,  ConfigurableFixedAnnualAmount=?, Country=?," +
-                    "Continent=?, Team=?, WorkingHours=?, UtilizationPercentage=?, EmployeeType=?, AnnualSalaryUSD=?, ConfigurableFixedAnnualAmountUSD=?,TeamId=?, HourlyRate = ?, DailyRate = ? WHERE id=?";
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1,employee.getFullName());
-                pstmt.setDouble(2, employee.getAnnualSalary());
-                pstmt.setInt(3, employee.getOverheadMultiPercent());
-                pstmt.setDouble(4, employee.getConfFixedAnnualAmount());
-                pstmt.setString(5, employee.getCountry());
-                pstmt.setString(6, employee.getContinent());
-                pstmt.setString(7, employee.getTeam());
-                pstmt.setInt(8, employee.getWorkingHours());
-                pstmt.setInt(9, employee.getUtilizationPercent());
-                pstmt.setString(10, employee.getEmployeeType());
-                pstmt.setDouble(11, employee.getAnnualSalaryUSD());
-                pstmt.setDouble(12, employee.getConfFixedAnnualAmountUSD());
-                pstmt.setInt(13,employee.getTeamId());
-                pstmt.setFloat(14, employee.calculateHourlyRate());
-                pstmt.setFloat(15, employee.calculateDailyRate(employee.getWorkingHours()));
-                pstmt.setInt(16, employee.getId());
+            String sql = "UPDATE Employee SET Name=?, AnnualSalary=?, OverheadMultiplierPercentage=?, ConfigurableFixedAnnualAmount=?, Country=?, " +
+                    "Continent=?, WorkingHours=?, UtilizationPercentage=?, EmployeeType=?, AnnualSalaryUSD=?, ConfigurableFixedAnnualAmountUSD=?, HourlyRate = ?, DailyRate = ? WHERE id=?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, employee.getFullName());
+                stmt.setDouble(2, employee.getAnnualSalary());
+                stmt.setInt(3, employee.getOverheadMultiPercent());
+                stmt.setDouble(4, employee.getConfFixedAnnualAmount());
+                stmt.setString(5, employee.getCountry());
+                stmt.setString(6, employee.getContinent());
+                stmt.setInt(7, employee.getWorkingHours());
+                stmt.setInt(8, employee.getUtilizationPercent());
+                stmt.setString(9, employee.getEmployeeType());
+                stmt.setDouble(10, employee.getAnnualSalaryUSD());
+                stmt.setDouble(11, employee.getConfFixedAnnualAmountUSD());
+                stmt.setFloat(12, employee.calculateHourlyRate());
+                stmt.setFloat(13, employee.calculateDailyRate(employee.getWorkingHours()));
+                stmt.setInt(14, employee.getId());
 
+                stmt.executeUpdate();
 
-                pstmt.executeUpdate();
+                updateEmployeeTeams(employee);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    private void updateEmployeeTeams(Employee employee) {
+        String sqlDelete = "DELETE FROM EmployeeTeams WHERE employee_id = ?";
+        String sqlInsert = "INSERT INTO EmployeeTeams (employee_id, team_id) VALUES (?, ?)";
+        try (Connection conn = dbConnector.getConn(); PreparedStatement stmtDelete = conn.prepareStatement(sqlDelete); PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
+            conn.setAutoCommit(false);
+
+            stmtDelete.setInt(1, employee.getId());
+            stmtDelete.executeUpdate();
+
+            for (Group team : employee.getTeams()) {
+                stmtInsert.setInt(1, employee.getId());
+                stmtInsert.setInt(2, team.getId());
+                stmtInsert.addBatch();
             }
 
-
+            stmtInsert.executeBatch();
+            conn.commit();
+            conn.setAutoCommit(true);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -135,26 +200,31 @@ public class EmployeeDAO implements IEmployeeDAO {
     @Override
     public List<Employee> searchEmployees(String searchText) {
         List<Employee> matchingEmployees = new ArrayList<>();
-        try (Connection con = dbConnector.getConn()) {
-            String sql = "SELECT * FROM Employee WHERE Country LIKE ? OR Continent LIKE ? OR Team LIKE ? OR Name LIKE ?";
-            PreparedStatement pstmt = con.prepareStatement(sql);
+        try (Connection conn = dbConnector.getConn()) {
+            String sql = "SELECT * FROM Employee WHERE Country LIKE ? OR Continent LIKE ? OR Name LIKE ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, "%" + searchText + "%");
             pstmt.setString(2, "%" + searchText + "%");
             pstmt.setString(3, "%" + searchText + "%");
-            pstmt.setString(4, "%" + searchText + "%");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                Employee employee = new Employee();
-                employee.setCountry(rs.getString("Country"));
-                employee.setFullName(rs.getString("Name"));
-                employee.setConfFixedAnnualAmount(rs.getInt("ConfigurableFixedAnnualAmount"));
-                employee.setTeam(rs.getString("Team"));
-                employee.setWorkingHours(rs.getInt("WorkingHours"));
-                employee.setUtilizationPercent(rs.getInt("UtilizationPercentage"));
-                employee.setContinent(rs.getString("Continent"));
-                employee.setEmployeeType(rs.getString("EmployeeType"));
-                employee.setAnnualSalary(rs.getInt("AnnualSalary"));
-                employee.setOverheadMultiPercent(rs.getInt("OverheadMultiplierPercentage"));
+                int id = rs.getInt("id");
+                String fullname = rs.getString("Name");
+                double annualSalary = rs.getDouble("AnnualSalary");
+                int overheadMultiPercent = rs.getInt("OverheadMultiplierPercentage");
+                double confFixedAnnualAmount = rs.getDouble("ConfigurableFixedAnnualAmount");
+                String country = rs.getString("Country");
+                String continent = rs.getString("Continent");
+                int workingHours = rs.getInt("WorkingHours");
+                int utilizationPercent = rs.getInt("UtilizationPercentage");
+                String employeeType = rs.getString("EmployeeType");
+                float hourlyRate = rs.getFloat("HourlyRate");
+                float dailyRate = rs.getFloat("DailyRate");
+
+                List<Group> teams = getTeamsByEmployeeId(id);
+
+                Employee employee = new Employee(id, 0, fullname, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+                        country, continent, teams, workingHours, utilizationPercent, employeeType, hourlyRate, dailyRate);
                 matchingEmployees.add(employee);
             }
         } catch (SQLException e) {
@@ -165,32 +235,30 @@ public class EmployeeDAO implements IEmployeeDAO {
 
     @Override
     public int getAnuallSalaryUSD(Employee e) {
-        try (Connection con = dbConnector.getConn()) {
+        try (Connection conn = dbConnector.getConn()) {
             int AnnualSalaryUSD = 0;
             String sql = "SELECT AnnualSalaryUSD FROM Employee WHERE id=?";
-            PreparedStatement pstmt = con.prepareStatement(sql);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, e.getId());
             ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 AnnualSalaryUSD = rs.getInt("AnnualSalaryUSD");
             }
             return AnnualSalaryUSD;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-
     }
 
     @Override
     public int getConFixAmountUSD(Employee e) {
         int ConfigurableFixedAnnualAmountUSD = 0;
-
-        try (Connection con = dbConnector.getConn()) {
+        try (Connection conn = dbConnector.getConn()) {
             String sql = "SELECT ConfigurableFixedAnnualAmountUSD FROM Employee WHERE id=?";
-            PreparedStatement pstmt = con.prepareStatement(sql);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, e.getId());
             ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 ConfigurableFixedAnnualAmountUSD = rs.getInt("ConfigurableFixedAnnualAmountUSD");
             }
             return ConfigurableFixedAnnualAmountUSD;
@@ -202,7 +270,13 @@ public class EmployeeDAO implements IEmployeeDAO {
     @Override
     public void removeTeamFromEmployee(int id) {
         try (Connection conn = dbConnector.getConn()) {
-            String sql = "UPDATE Employee SET Team=?, TeamId=NULL WHERE id=?";
+            String sql = "DELETE FROM EmployeeTeams WHERE employee_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setInt(1, id);
+                pstmt.executeUpdate();
+            }
+
+            sql = "UPDATE Employee SET Team=?, TeamId=NULL WHERE id=?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, "None");
                 pstmt.setInt(2, id);
@@ -222,6 +296,8 @@ public class EmployeeDAO implements IEmployeeDAO {
                 stmt.setInt(1, id);
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
+                        List<Group> teams = getTeamsByEmployeeId(id);
+
                         Employee employee = new Employee(
                                 rs.getInt("id"),
                                 rs.getInt("TeamId"),
@@ -231,7 +307,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                                 rs.getDouble("ConfigurableFixedAnnualAmount"),
                                 rs.getString("Country"),
                                 rs.getString("Continent"),
-                                rs.getString("Team"),
+                                teams,
                                 rs.getInt("WorkingHours"),
                                 rs.getInt("UtilizationPercentage"),
                                 rs.getString("EmployeeType"),
