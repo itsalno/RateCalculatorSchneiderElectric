@@ -69,12 +69,13 @@ public class MSController implements Initializable {
         continentColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContinent()));
         teamColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeam()));
         dailyRateCollumn.setCellValueFactory(cellData -> {
-            String modifiedValueString = cellData.getValue().getCalculatedDailyRate(cellData.getValue().getWorkingHours()).replace(',', '.');
+            String modifiedValueString = String.valueOf(model.getInstance().calculateDailyMulti(cellData.getValue())).replace(',', '.');
             String modifiedValueAsString = Double.parseDouble(modifiedValueString) + "€";
             return new SimpleStringProperty(modifiedValueAsString);
         });
+
         hourlyRateCollumn.setCellValueFactory(cellData -> {
-            String modifiedValueString = cellData.getValue().getCalculatedHourlyRate().replace(',', '.');
+            String modifiedValueString = String.valueOf(model.getInstance().calculateHourlyMulti(cellData.getValue())).replace(",", ".");
             String modifiedValueAsString = Double.parseDouble(modifiedValueString) + "€";
             return new SimpleStringProperty(modifiedValueAsString);
         });
@@ -272,6 +273,7 @@ public class MSController implements Initializable {
     }
     public void updateGroupTable(Group group){
        model.getInstance().updateGroupTable(group, groupTable);
+       model.getInstance().populateEmpTable(profileTable);
     }
 
     public void addToTeam(ActionEvent actionEvent) {

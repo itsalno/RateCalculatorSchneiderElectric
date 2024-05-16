@@ -78,6 +78,7 @@ public class VMController implements Initializable {
         msController.updateGroupTable(allGroups);
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
+
     }
 
     public void setSelectedGroup(Group selectedGroup){

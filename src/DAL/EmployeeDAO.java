@@ -19,8 +19,9 @@ public class EmployeeDAO implements IEmployeeDAO {
     public void create(Employee employee) {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "INSERT INTO Employee (AnnualSalary, OverheadMultiplierPercentage, ConfigurableFixedAnnualAmount, " +
-                    "Country, Continent, Team, WorkingHours, UtilizationPercentage, EmployeeType, AnnualSalaryUSD, ConfigurableFixedAnnualAmountUSD,Name,TeamId ) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
+                    "Country, Continent, Team, WorkingHours, UtilizationPercentage, EmployeeType, AnnualSalaryUSD, " +
+                    "ConfigurableFixedAnnualAmountUSD,Name,TeamId, HourlyRate, DailyRate ) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?)";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setDouble(1, employee.getAnnualSalary());
                 stmt.setInt(2, employee.getOverheadMultiPercent());
@@ -35,7 +36,8 @@ public class EmployeeDAO implements IEmployeeDAO {
                 stmt.setDouble(11, employee.getConfFixedAnnualAmountUSD());
                 stmt.setString(12, employee.getFullName());
                 stmt.setInt(13, employee.getTeamId());
-
+                stmt.setFloat(14, employee.calculateHourlyRate());
+                stmt.setFloat(15, employee.calculateDailyRate(employee.getWorkingHours()));
 
                 stmt.executeUpdate();
             } catch (SQLException e) {
@@ -67,9 +69,11 @@ public class EmployeeDAO implements IEmployeeDAO {
                         int workingHours = rs.getInt("WorkingHours");
                         int utilizationPercent = rs.getInt("UtilizationPercentage");
                         String employeeType = rs.getString("EmployeeType");
+                        float hourlyRate = rs.getFloat("HourlyRate");
+                        float dailyRate = rs.getFloat("DailyRate");
 
                         Employee employee = new Employee(id,TeamId,fullname, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
-                                country, continent, team, workingHours, utilizationPercent, employeeType);
+                                country, continent, team, workingHours, utilizationPercent, employeeType, hourlyRate, dailyRate);
                         employees.add(employee);
                     }
                 }
@@ -98,7 +102,7 @@ public class EmployeeDAO implements IEmployeeDAO {
     public void edit(Employee employee) {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "UPDATE Employee SET  Name=?,AnnualSalary=?, OverheadMultiplierPercentage=?,  ConfigurableFixedAnnualAmount=?, Country=?," +
-                    "Continent=?, Team=?, WorkingHours=?, UtilizationPercentage=?, EmployeeType=?, AnnualSalaryUSD=?, ConfigurableFixedAnnualAmountUSD=?,TeamId=? WHERE id=?";
+                    "Continent=?, Team=?, WorkingHours=?, UtilizationPercentage=?, EmployeeType=?, AnnualSalaryUSD=?, ConfigurableFixedAnnualAmountUSD=?,TeamId=?, HourlyRate = ?, DailyRate = ? WHERE id=?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1,employee.getFullName());
                 pstmt.setDouble(2, employee.getAnnualSalary());
@@ -113,7 +117,9 @@ public class EmployeeDAO implements IEmployeeDAO {
                 pstmt.setDouble(11, employee.getAnnualSalaryUSD());
                 pstmt.setDouble(12, employee.getConfFixedAnnualAmountUSD());
                 pstmt.setInt(13,employee.getTeamId());
-                pstmt.setInt(14, employee.getId());
+                pstmt.setFloat(14, employee.calculateHourlyRate());
+                pstmt.setFloat(15, employee.calculateDailyRate(employee.getWorkingHours()));
+                pstmt.setInt(16, employee.getId());
 
 
                 pstmt.executeUpdate();
@@ -228,7 +234,9 @@ public class EmployeeDAO implements IEmployeeDAO {
                                 rs.getString("Team"),
                                 rs.getInt("WorkingHours"),
                                 rs.getInt("UtilizationPercentage"),
-                                rs.getString("EmployeeType")
+                                rs.getString("EmployeeType"),
+                                rs.getFloat("HourlyRate"),
+                                rs.getFloat("DailyRate")
                         );
                         return employee;
                     }

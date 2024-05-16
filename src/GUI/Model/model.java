@@ -81,7 +81,9 @@ public class model {
         eLogic.create(employee);
     }
     public ObservableList<Employee> getAllEmployees() {
-        return eLogic.getAllEmployees();
+        ObservableList<Employee> obsList = FXCollections.observableArrayList();
+        obsList.setAll(eLogic.getAllEmployees());
+        return obsList;
     }
 
     public void deleteEmployee(Employee employee) {
@@ -131,12 +133,45 @@ public class model {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
 
         List<Group> group = new LinkedList<Group>(getAllTeams());
+        group.addAll(groupLogic.getAllGroups());
 
         employees.addAll(getAllEmployees());
-        
-        //group.get(0).getId();
 
         profileTable.setItems(employees);
+    }
+
+    public float calculateHourlyMulti(Employee employee){
+        ObservableList<Employee> employees = FXCollections.observableArrayList();
+
+        List<Group> group = new LinkedList<Group>(getAllTeams());
+
+
+        float hourlyRate = employee.getHourlyRate();
+        for (Group group1:group) {
+            if(employee.getTeamId()==group1.getId()){
+                hourlyRate = (hourlyRate * ((float) group1.getMultiplier() / 100)) + hourlyRate;
+            }
+        }
+
+
+        return hourlyRate;
+    }
+
+    public float calculateDailyMulti(Employee employee){
+        ObservableList<Employee> employees = FXCollections.observableArrayList();
+
+        List<Group> group = new LinkedList<Group>(getAllTeams());
+
+
+        float dailyRate = employee.getDailyRate();
+        for (Group group1:group) {
+            if(employee.getTeamId()==group1.getId()){
+                dailyRate = (dailyRate * ((float) group1.getMultiplier() / 100)) + dailyRate;
+            }
+        }
+
+
+        return dailyRate;
     }
 
     public void populateGrpTable(TableView<Group> groupTable ) {
@@ -164,6 +199,8 @@ public class model {
 
         calculateExchange(curentCurency,hourlyRateCollumn, dailyRateCollumn);
 
+
+        populateEmpTable(profileTable);
         profileTable.refresh();
         this.curentCurency = curentCurency;
         return curentCurency;
@@ -273,8 +310,8 @@ public class model {
             ompLbl.setText(String.valueOf(selectedEmployee.getOverheadMultiPercent()));
             teamLbl.setText(selectedEmployee.getTeam());
 
-            String hourlyRate = String.format("%.2f", Double.parseDouble(selectedEmployee.getHourlyRate()));
-            String dailyRate = String.format("%.2f", Double.parseDouble(selectedEmployee.getDailyRate()));
+            String hourlyRate = String.format("%.2f", selectedEmployee.getHourlyRate());
+            String dailyRate = String.format("%.2f", selectedEmployee.getDailyRate());
             hourlyRateLbl.setText(hourlyRate);
             dailyRateLbl.setText(dailyRate);
             namaField.setText(selectedEmployee.getFullName());

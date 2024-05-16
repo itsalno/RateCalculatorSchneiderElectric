@@ -12,8 +12,10 @@ public class Employee {
     private int utilizationPercent;
     private String continent;
     private String employeeType;
-    private  String dailyRate;
-    private String hourlyRate;
+    private  float dailyRate;
+    //private String hourlyRate;
+
+    private float hourlyRate;
     private double annualSalaryUSD;
     private double confFixedAnnualAmountUSD;
     private int id;
@@ -23,11 +25,11 @@ public class Employee {
     public Employee() {
     }
 
-    public String getDailyRate() {
+    public float getDailyRate() {
         return dailyRate;
     }
 
-    public String getHourlyRate() {
+    public float getHourlyRate() {
         return hourlyRate;
     }
 
@@ -75,6 +77,23 @@ public class Employee {
         this.fullName=fullName;
         this.TeamId=TeamId;
 
+    }
+
+    public Employee(int id,int TeamId,String fullName,double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country,String continent, String team, int workingHours, int utilizationPercent,String employeeType, float hourlyRate, float dailyRate) {
+        this.annualSalary = annualSalary;
+        this.overheadMultiPercent = overheadMultiPercent;
+        this.confFixedAnnualAmount = confFixedAnnualAmount;
+        this.country = country;
+        this.team = team;
+        this.workingHours = workingHours;
+        this.utilizationPercent = utilizationPercent;
+        this.continent=continent;
+        this.employeeType=employeeType;
+        this.id=id;
+        this.fullName=fullName;
+        this.TeamId=TeamId;
+        this.hourlyRate = hourlyRate;
+        this.dailyRate = dailyRate;
     }
 
     public double getAnnualSalary() {
@@ -161,13 +180,14 @@ public class Employee {
         this.employeeType = employeeType;
     }
 
-    public void setDailyRate(String dailyRate) {
+    public void setDailyRate(float dailyRate) {
         this.dailyRate = dailyRate;
     }
 
-    public void setHourlyRate(String hourlyRate) {
+    public void setHourlyRate(float hourlyRate) {
         this.hourlyRate = hourlyRate;
     }
+
 
     public void setAnnualSalaryUSD(double annualSalaryUSD) {
         this.annualSalaryUSD = annualSalaryUSD;
@@ -183,19 +203,19 @@ public class Employee {
         this.TeamId = TeamId;
     }
 
-    public double calculateHourlyRate() {
+    public float calculateHourlyRate() {
 
-        double hourlyRate = (double) (annualSalary) / (((workingHours * 52 * 5) * (utilizationPercent / 100.0)) * (overheadMultiPercent / 100.0));
-        setHourlyRate(String.valueOf(hourlyRate));
+        float hourlyRate = (float) ( (annualSalary) / (((workingHours * 52 * 5) * (utilizationPercent / 100.0)) * (overheadMultiPercent / 100.0)));
+        setHourlyRate(hourlyRate);
         return hourlyRate;
     }
 
     // Calculating day rate based on the hourly rate and the number of working hours per day.
     // You'll need to decide how you want to pass the number of working hours in a day.
     // Here it's assumed to be a constant value, typical values are 7-9 hours depending on the country's full-time work policy.
-    public double calculateDailyRate(int hoursInWorkDay) {
-        double dailyRate = calculateHourlyRate() * ((double) hoursInWorkDay);
-        setDailyRate(String.valueOf(dailyRate));
+    public float calculateDailyRate(int hoursInWorkDay) {
+        float dailyRate = calculateHourlyRate() * (hoursInWorkDay);
+        setDailyRate(dailyRate);
         return dailyRate;
     }
     public String getCalculatedHourlyRate() {

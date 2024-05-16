@@ -14,7 +14,7 @@ public class EmployeeLogic {
         eDAO.create(employee);
     }
 
-    public ObservableList<Employee> getAllEmployees() {
+    public List<Employee> getAllEmployees() {
         return eDAO.getAllEmployees();
     }
 
