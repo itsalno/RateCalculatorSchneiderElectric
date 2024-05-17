@@ -15,8 +15,10 @@ import javafx.stage.Stage;
 import javafx.beans.property.SimpleIntegerProperty;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class MSController implements Initializable {
 
@@ -67,7 +69,13 @@ public class MSController implements Initializable {
         fullNameCollumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFullName()));
         countryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountry()));
         continentColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContinent()));
-        teamColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeam()));
+        teamColumn.setCellValueFactory(cellData -> {
+            List<Group> teams = cellData.getValue().getTeams();
+            String teamNames = teams != null ? teams.stream()
+                    .map(Group::getName)
+                    .collect(Collectors.joining(", ")) : "";
+            return new SimpleStringProperty(teamNames);
+        });
         dailyRateCollumn.setCellValueFactory(cellData -> {
             String modifiedValueString = String.valueOf(model.getInstance().calculateDailyMulti(cellData.getValue())).replace(',', '.');
             String modifiedValueAsString = Double.parseDouble(modifiedValueString) + "€";
@@ -92,9 +100,6 @@ public class MSController implements Initializable {
         //remember
         model.getInstance().populateEmpTable(profileTable);
         model.getInstance().populateGrpTable(groupTable);
-
-
-
 
         profileTable.setRowFactory(tv -> {
             TableRow<Employee> row = new TableRow<>();
@@ -178,7 +183,6 @@ public class MSController implements Initializable {
 
     }
 
-
     public void editProfile (ActionEvent actionEvent) throws IOException {
         Employee selectedEmployee = (Employee) profileTable.getSelectionModel().getSelectedItem();
             if (selectedEmployee != null) {
@@ -233,8 +237,8 @@ public class MSController implements Initializable {
     //Starts here
 
     //fix so its private
-    public int curentCurency = 0;
-    public double EURtoUSDRate = 1.0775286;
+    private int curentCurency = 0;
+    private double EURtoUSDRate = 1.0775286;
 
     public void swichCurency (ActionEvent actionEvent){
 
@@ -277,12 +281,11 @@ public class MSController implements Initializable {
     }
 
     public void addToTeam(ActionEvent actionEvent) {
-        Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
-        Employee selectedEmployee=profileTable.getSelectionModel().getSelectedItem();
+        Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
+        Employee selectedEmployee = profileTable.getSelectionModel().getSelectedItem();
 
-        if (selectedGroup!=null&& selectedEmployee!=null&& Objects.equals(selectedEmployee.getTeam(), "None")){
-            selectedEmployee.setTeam(selectedGroup.getName());
-            selectedEmployee.setTeamId(selectedGroup.getId());
+        if (selectedGroup != null && selectedEmployee != null && !selectedEmployee.getTeams().contains(selectedGroup)) {
+            selectedEmployee.getTeams().add(selectedGroup);
             model.getInstance().editEmployee(selectedEmployee);
             model.getInstance().populateEmpTable(profileTable);
             groupTable.getSelectionModel().clearSelection();
