@@ -206,4 +206,16 @@ public class Employee {
     public String getCalculatedDailyRate(int hoursInWorkDay) {
         return String.format("%.2f", calculateDailyRate(hoursInWorkDay));
     }
+
+    public boolean canAddMoreTeams() {
+        return this.teams.size() < 2;
+    }
+
+    public void addTeam(Group team) {
+        if (canAddMoreTeams()) {
+            this.teams.add(team);
+        } else {
+            throw new IllegalStateException("An employee cannot be part of more than two teams.");
+        }
+    }
 }

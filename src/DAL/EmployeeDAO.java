@@ -16,6 +16,10 @@ public class EmployeeDAO implements IEmployeeDAO {
 
     @Override
     public void create(Employee employee) {
+        if (employee.getTeams().size() > 2) {
+            throw new IllegalArgumentException("An employee cannot be part of more than two teams.");
+        }
+
         try (Connection conn = dbConnector.getConn()) {
             String sql = "INSERT INTO Employee (AnnualSalary, OverheadMultiplierPercentage, ConfigurableFixedAnnualAmount, " +
                     "Country, Continent, WorkingHours, UtilizationPercentage, EmployeeType, AnnualSalaryUSD, " +
@@ -146,6 +150,10 @@ public class EmployeeDAO implements IEmployeeDAO {
 
     @Override
     public void edit(Employee employee) {
+        if (employee.getTeams().size() > 2) {
+            throw new IllegalArgumentException("An employee cannot be part of more than two teams.");
+        }
+
         try (Connection conn = dbConnector.getConn()) {
             String sql = "UPDATE Employee SET Name=?, AnnualSalary=?, OverheadMultiplierPercentage=?, ConfigurableFixedAnnualAmount=?, Country=?, " +
                     "Continent=?, WorkingHours=?, UtilizationPercentage=?, EmployeeType=?, AnnualSalaryUSD=?, ConfigurableFixedAnnualAmountUSD=?, HourlyRate = ?, DailyRate = ? WHERE id=?";

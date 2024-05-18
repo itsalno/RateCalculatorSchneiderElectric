@@ -69,6 +69,9 @@ public class model {
     // EMPLOYEE OPERATIONS
 
     public void createEmployee(Employee employee) {
+        if (employee.getTeams().size() > 2) {
+            throw new IllegalArgumentException("An employee cannot be part of more than two teams.");
+        }
         eLogic.create(employee);
     }
 
@@ -299,8 +302,13 @@ public class model {
 
     public void updateP(Employee employeeToUpdate, TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
                         ChoiceBox<Group> teamChoiceBox, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
+        List<Group> selectedTeams = new ArrayList<>((Collection) teamChoiceBox.getSelectionModel().getSelectedItem());
+        if (selectedTeams.size() > 2) {
+            throw new IllegalArgumentException("An employee cannot be part of more than two teams.");
+        }
+
         employeeToUpdate.setUtilizationPercent(Integer.parseInt(utilPercentField.getText()));
-        employeeToUpdate.setTeams(new ArrayList<>((Collection) teamChoiceBox.getSelectionModel().getSelectedItem()));
+        employeeToUpdate.setTeams(selectedTeams);
         employeeToUpdate.setWorkingHours(Integer.parseInt(workingHoursField.getText()));
         employeeToUpdate.setOverheadMultiPercent(Integer.parseInt(overheadMultiField.getText()));
         employeeToUpdate.setContinent(continentField.getText());
