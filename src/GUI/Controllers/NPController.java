@@ -59,31 +59,28 @@ public class NPController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         model.getInstance().setImage(newProfileImage);
-        teamChoiceBox.getItems().addAll((model.getInstance().getAllTeams()));
-        ListViewEx.getItems().addAll(model.getInstance().getAllTeams());
+        ObservableList<Group> allTeams = model.getInstance().getAllTeams();
+        teamChoiceBox.setItems(allTeams);
+        ListViewEx.setItems(allTeams);
         ListViewEx.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-
-
     public void create(ActionEvent actionEvent) {
-        if(emplyeeToUpdate!=null){
-            model.getInstance().updateP(emplyeeToUpdate,annualSalaryField, overheadMultiField, configFixAnnAmountField,
-                    countryField, continentField, teamChoiceBox, workingHoursField, utilPercentField, employeeTypeField,nameField);
-        }else {
+        if (emplyeeToUpdate != null) {
+            model.getInstance().updateP(emplyeeToUpdate, annualSalaryField, overheadMultiField, configFixAnnAmountField,
+                    countryField, continentField, teamChoiceBox, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
+        } else {
             model.getInstance().createP(annualSalaryField, overheadMultiField, configFixAnnAmountField,
-                    countryField, continentField, teamChoiceBox, workingHoursField, utilPercentField, employeeTypeField,nameField);
+                    countryField, continentField, teamChoiceBox, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
         }
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
-
     }
 
-    //idk
     public void setEmployeeToUpdate(Employee employee) {
         this.emplyeeToUpdate = employee;
-        model.getInstance().setEmployeeToUpdateM(emplyeeToUpdate,annualSalaryField, overheadMultiField,configFixAnnAmountField,
-                countryField, continentField, teamChoiceBox, workingHoursField, utilPercentField, employeeTypeField,nameField);
+        model.getInstance().setEmployeeToUpdateM(emplyeeToUpdate, annualSalaryField, overheadMultiField, configFixAnnAmountField,
+                countryField, continentField, teamChoiceBox, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
     }
 
     public void cancel(ActionEvent actionEvent) {
@@ -92,7 +89,7 @@ public class NPController implements Initializable {
     }
 
     public void setMSController(MSController msController) {
-        this.msc=msController;
+        this.msc = msController;
     }
 
 }

@@ -267,25 +267,35 @@ public class model {
     // NewProfileController
 
     public void createP(TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
-                        ChoiceBox<Group> teamChoiceBox, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
+                        ChoiceBox<Group> teamChoiceBox, ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
+        List<Group> selectedTeams = new ArrayList<>();
+        if (teamChoiceBox.getValue() != null) {
+            selectedTeams.add(teamChoiceBox.getValue());
+        }
+        selectedTeams.addAll(listViewEx.getSelectionModel().getSelectedItems());
+
+        // Validate that no more than 2 teams are selected
+        if (selectedTeams.size() > 2) {
+            throw new IllegalArgumentException("An employee cannot be part of more than two teams.");
+        }
+
         setUSDtoEURRate(EURtoUSDRate);
         int annualSalary = Integer.parseInt(annualSalaryField.getText());
         int overheadMultiPercent = Integer.parseInt(overheadMultiField.getText());
         int confFixedAnnualAmount = Integer.parseInt(configFixAnnAmountField.getText());
         String country = countryField.getText();
         String continent = continentField.getText();
-        List<Group> teams = new ArrayList<>((Collection) teamChoiceBox.getSelectionModel().getSelectedItem());
         int workingHours = Integer.parseInt(workingHoursField.getText());
         int utilizationPercent = Integer.parseInt(utilPercentField.getText());
         String employeeType = employeeTypeField.getText();
         String fullName = nameField.getText();
 
-        double annualSalaryUSD;
-        double confFixedAnnualAmountUSD;
+        float annualSalaryUSD;
+        float confFixedAnnualAmountUSD;
 
         if (curentCurency == 0) {
-            annualSalaryUSD = annualSalary * EURtoUSDRate;
-            confFixedAnnualAmountUSD = confFixedAnnualAmount * EURtoUSDRate;
+            annualSalaryUSD = (float) (annualSalary * EURtoUSDRate);
+            confFixedAnnualAmountUSD = (float) (confFixedAnnualAmount * EURtoUSDRate);
         } else {
             annualSalaryUSD = annualSalary;
             confFixedAnnualAmountUSD = confFixedAnnualAmount;
@@ -293,20 +303,29 @@ public class model {
             confFixedAnnualAmount = (int) (confFixedAnnualAmount * USDtoEURRate);
         }
 
-        Employee newEmployee = new Employee(0, fullName, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
-                country, continent, teams, workingHours, utilizationPercent, employeeType,
+        Employee newEmployee = new Employee(0,0, fullName, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+                country, continent, selectedTeams, workingHours, utilizationPercent, employeeType,
                 annualSalaryUSD, confFixedAnnualAmountUSD);
 
         createEmployee(newEmployee);
     }
 
     public void updateP(Employee employeeToUpdate, TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
-                        ChoiceBox<Group> teamChoiceBox, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
-        List<Group> selectedTeams = new ArrayList<>((Collection) teamChoiceBox.getSelectionModel().getSelectedItem());
+                        ChoiceBox<Group> teamChoiceBox, ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
+
+        // Collect selected teams from both ChoiceBox and ListView
+        List<Group> selectedTeams = new ArrayList<>();
+        if (teamChoiceBox.getValue() != null) {
+            selectedTeams.add(teamChoiceBox.getValue());
+        }
+        selectedTeams.addAll(listViewEx.getSelectionModel().getSelectedItems());
+
+        // Validate that no more than 2 teams are selected
         if (selectedTeams.size() > 2) {
             throw new IllegalArgumentException("An employee cannot be part of more than two teams.");
         }
 
+        // Update employee with new values
         employeeToUpdate.setUtilizationPercent(Integer.parseInt(utilPercentField.getText()));
         employeeToUpdate.setTeams(selectedTeams);
         employeeToUpdate.setWorkingHours(Integer.parseInt(workingHoursField.getText()));
@@ -340,7 +359,7 @@ public class model {
     }
 
     public void setEmployeeToUpdateM(Employee employee, TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
-                                     ChoiceBox<Group> teamChoiceBox, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
+                                     ChoiceBox<Group> teamChoiceBox, ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
         overheadMultiField.setText(String.valueOf(employee.getOverheadMultiPercent()));
         countryField.setText(employee.getCountry());
         continentField.setText(employee.getContinent());
