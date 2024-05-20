@@ -93,8 +93,8 @@ public class model {
         return eLogic.searchEmployees(searchText);
     }
 
-    public void removeTeamFromEmployee(int id) {
-        eLogic.removeTeamFromEmployee(id);
+    public void removeTeamFromEmployee(int id, int tId) {
+        eLogic.removeTeamFromEmployee(id, tId);
     }
 
     public Employee getEmployeeById(int id) {

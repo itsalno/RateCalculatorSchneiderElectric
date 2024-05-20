@@ -16,7 +16,7 @@ public interface IEmployeeDAO {
 
     int getAnuallSalaryUSD(Employee e);
     int getConFixAmountUSD(Employee e);
-    void removeTeamFromEmployee(int id);
+    void removeTeamFromEmployee(int id, int tId);
     Employee getEmployeeById(int id);
 
 }

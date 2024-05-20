@@ -276,11 +276,12 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
-    public void removeTeamFromEmployee(int id) {
+    public void removeTeamFromEmployee(int id, int tId) {
         try (Connection conn = dbConnector.getConn()) {
-            String sql = "DELETE FROM EmployeeTeams WHERE employee_id = ?";
+            String sql = "DELETE FROM EmployeeTeams WHERE employee_id = ? AND team_id = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, id);
+                pstmt.setInt(2, tId);
                 pstmt.executeUpdate();
             }
 
