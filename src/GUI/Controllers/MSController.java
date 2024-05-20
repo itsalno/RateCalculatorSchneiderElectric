@@ -129,7 +129,7 @@ public class MSController implements Initializable {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     Group selectedGroup = row.getItem();
                     try {
-                        model.getInstance().searchInfo(searchBar, profileTable, selectedGroup.getName());
+                        model.getInstance().filterEmployeesByTeam( profileTable, selectedGroup.getName());
                     } catch (RateCalcException e) {
                         Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
                         e.printStackTrace();
