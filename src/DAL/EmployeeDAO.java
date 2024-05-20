@@ -209,11 +209,12 @@ public class EmployeeDAO implements IEmployeeDAO {
     public List<Employee> searchEmployees(String searchText) {
         List<Employee> matchingEmployees = new ArrayList<>();
         try (Connection conn = dbConnector.getConn()) {
-            String sql = "SELECT * FROM Employee WHERE Country LIKE ? OR Continent LIKE ? OR Name LIKE ?";
+            String sql = "SELECT * FROM Employee WHERE Country LIKE ? OR Continent LIKE ? OR Name LIKE ? OR Team LIKE ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, "%" + searchText + "%");
             pstmt.setString(2, "%" + searchText + "%");
             pstmt.setString(3, "%" + searchText + "%");
+            pstmt.setString(4, "%" + searchText + "%");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
