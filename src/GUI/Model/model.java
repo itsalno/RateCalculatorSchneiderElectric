@@ -120,6 +120,7 @@ public class model {
     }
 
     public void updateTable(TableView<Multiplier> multiTable) {
+
         ObservableList<Multiplier> multis = FXCollections.observableArrayList();
         multis.setAll(getAllMultis());
         multiTable.setItems(multis);
@@ -128,12 +129,14 @@ public class model {
     // Main controller
 
     public void populateEmpTable(TableView<Employee> profileTable) {
+
         ObservableList<Employee> employees = FXCollections.observableArrayList();
         employees.addAll(getAllEmployees());
         profileTable.setItems(employees);
     }
 
     public float calculateHourlyMulti(Employee employee) {
+
         float hourlyRate = employee.getHourlyRate();
         for (Group group : employee.getTeams()) {
             hourlyRate = (hourlyRate * ((float) group.getMultiplier() / 100)) + hourlyRate;
@@ -142,6 +145,7 @@ public class model {
     }
 
     public float calculateDailyMulti(Employee employee) {
+
         float dailyRate = employee.getDailyRate();
         for (Group group : employee.getTeams()) {
             dailyRate = (dailyRate * ((float) group.getMultiplier() / 100)) + dailyRate;
@@ -150,12 +154,14 @@ public class model {
     }
 
     public void populateGrpTable(TableView<Group> groupTable) {
+
         ObservableList<Group> teams = FXCollections.observableArrayList();
         teams.addAll(getAllTeams());
         groupTable.setItems(teams);
     }
 
     public void searchInfo(TextField searchBar, TableView<Employee> profileTable, String searchText) {
+
         if (searchText == null || searchText.isEmpty()) {
             searchText = searchBar.getText().trim().toLowerCase();
         } else {
@@ -165,7 +171,24 @@ public class model {
         profileTable.setItems(FXCollections.observableArrayList(matchingEmployees));
     }
 
+    public void filterEmployeesByTeam(TableView<Employee> profileTable,String searchText) {
+
+        if (searchText == null || searchText.isEmpty()) {
+            profileTable.setItems(model.getInstance().getAllEmployees());
+        } else {
+            ObservableList<Employee> filteredList = FXCollections.observableArrayList(
+                    model.getInstance().getAllEmployees().stream()
+                            .filter(employee -> employee.getTeams().stream()
+                                            .map(Group::getName)
+                                            .anyMatch(name -> name.contains(searchText)))
+                            .collect(Collectors.toList())
+            );
+            profileTable.setItems(filteredList);
+        }
+    }
+
     public int swichCurency(int curentCurency, TableView<Employee> profileTable, ToggleButton curencyBTN, TableColumn<Employee, String> hourlyRateCollumn, TableColumn<Employee, String> dailyRateCollumn) {
+
         curentCurency = (curentCurency + 1) % 2;
         setCurencyLabel(curentCurency, curencyBTN);
         calculateExchange(curentCurency, hourlyRateCollumn, dailyRateCollumn);
@@ -176,6 +199,7 @@ public class model {
     }
 
     private void setCurencyLabel(int curentCurency, ToggleButton curencyBTN) {
+
         if (curentCurency == 0) {
             curencyBTN.setText("EUR");
         }
@@ -185,8 +209,11 @@ public class model {
     }
 
     private void calculateExchange(int curentCurency, TableColumn<Employee, String> hourlyRateCollumn, TableColumn<Employee, String> dailyRateCollumn) {
+
         DecimalFormat df = new DecimalFormat("#.##");
+
         if (curentCurency == 0) {
+
             hourlyRateCollumn.setCellValueFactory(cellData -> {
                 String modifiedValueString = String.valueOf(model.getInstance().calculateHourlyMulti(cellData.getValue())).replace(",", ".");
                 //String originalValueString = cellData.getValue().getCalculatedHourlyRate();
@@ -207,6 +234,7 @@ public class model {
             });
         }
         if (curentCurency == 1) {
+
             hourlyRateCollumn.setCellValueFactory(cellData -> {
                 String modifiedValueString = String.valueOf(model.getInstance().calculateHourlyMulti(cellData.getValue())).replace(",", ".");
                 //String originalValueString = cellData.getValue().getCalculatedHourlyRate();
@@ -231,6 +259,7 @@ public class model {
     }
 
     public void setUSDtoEURRate(double EURtoUSDRate) {
+
         double USDtoEURRate1 = (1 - EURtoUSDRate) + 1;
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
         DecimalFormat df = new DecimalFormat("#.##", symbols);
@@ -242,7 +271,9 @@ public class model {
 
     public void updateUIInfo(Employee selectedEmployee, Label workingHoursLbl, Label countryLbl, Label continentLbl, Label annualSalaryLbl, Label empTypeLbl,
                              Label utilPercentLbl, Label ompLbl, Label cfaaLbl, Label hourlyRateLbl, Label dailyRateLbl, Label teamLbl, Label namaField) {
+
         if (selectedEmployee != null) {
+
             workingHoursLbl.setText(String.valueOf(selectedEmployee.getWorkingHours()));
             countryLbl.setText(selectedEmployee.getCountry());
             continentLbl.setText(selectedEmployee.getContinent());
@@ -272,7 +303,9 @@ public class model {
 
     public void createP(TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
                         ChoiceBox<Group> teamChoiceBox, ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
+
         List<Group> selectedTeams = new ArrayList<>();
+
         if (teamChoiceBox.getValue() != null) {
             selectedTeams.add(teamChoiceBox.getValue());
         }
@@ -364,12 +397,14 @@ public class model {
 
     public void setEmployeeToUpdateM(Employee employee, TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
                                      ChoiceBox<Group> teamChoiceBox, ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
+
         overheadMultiField.setText(String.valueOf(employee.getOverheadMultiPercent()));
         countryField.setText(employee.getCountry());
         continentField.setText(employee.getContinent());
         workingHoursField.setText(String.valueOf(employee.getWorkingHours()));
         utilPercentField.setText(String.valueOf(employee.getUtilizationPercent()));
         employeeTypeField.setText(employee.getEmployeeType());
+
         nameField.setText(employee.getFullName());
         if (curentCurency == 0) {
             annualSalaryField.setText(String.valueOf(employee.getAnnualSalary()));
@@ -382,6 +417,7 @@ public class model {
     }
 
     public void updateGroupTable(Group group, TableView<Group> groupTable) {
+
         Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
         if (selectedGroup != null) {
             int selectedIndex = groupTable.getSelectionModel().getSelectedIndex();
@@ -391,6 +427,7 @@ public class model {
     }
 
     public void setImage(ImageView imageview) {
+
         Image img = new Image("file:src/SchneiderLogo.png");
         imageview.setImage(img);
     }

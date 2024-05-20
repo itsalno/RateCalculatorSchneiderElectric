@@ -3,6 +3,8 @@ import BE.Employee;
 import GUI.Model.model;
 import javafx.beans.property.SimpleStringProperty;
 import BE.Group;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -121,7 +123,7 @@ public class MSController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     Group selectedGroup = row.getItem();
-                    model.getInstance().searchInfo(searchBar,profileTable,selectedGroup.getName());
+                    model.getInstance().filterEmployeesByTeam(profileTable,selectedGroup.getName());
                 }
             });
             return row;
@@ -141,6 +143,8 @@ public class MSController implements Initializable {
             groupTable.getItems().remove(selectedGroup);
         }
     }
+
+
 
     public void createProfile (ActionEvent actionEvent) throws IOException {
 

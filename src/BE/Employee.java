@@ -20,10 +20,10 @@ public class Employee {
     private double confFixedAnnualAmountUSD;
     private int id;
     private int teamId;
-    private List<Group> teams; // New field to store multiple teams
+    private List<Group> teams;
 
     public Employee() {
-        this.teams = new ArrayList<>(); // Initialize teams
+        this.teams = new ArrayList<>();
     }
 
     public Employee(int id, int teamId, String fullName, double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country, String continent, List<Group> teams, int workingHours, int utilizationPercent, String employeeType, float hourlyRate, float dailyRate) {
@@ -56,7 +56,7 @@ public class Employee {
         this.confFixedAnnualAmountUSD = confFixedAnnualAmountUSD;
         this.fullName = fullName;
         this.teamId = teamId;
-        this.teams = new ArrayList<>(); // Initialize teams
+        this.teams = new ArrayList<>();
     }
 
     public double getAnnualSalary() {
@@ -184,7 +184,7 @@ public class Employee {
     }
 
     public void setTeams(List<Group> teams) {
-        this.teams = teams != null ? teams : new ArrayList<>(); // Initialize teams
+        this.teams = teams != null ? teams : new ArrayList<>();
     }
 
     public float calculateHourlyRate() {
