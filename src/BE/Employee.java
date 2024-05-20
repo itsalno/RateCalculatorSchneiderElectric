@@ -192,7 +192,7 @@ public class Employee {
         setHourlyRate(hourlyRate);
         return hourlyRate;
     }
-
+    //xomment
     public float calculateDailyRate(int hoursInWorkDay) {
         float dailyRate = calculateHourlyRate() * hoursInWorkDay;
         setDailyRate(dailyRate);
