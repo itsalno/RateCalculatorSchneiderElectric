@@ -188,16 +188,18 @@ public class model {
         DecimalFormat df = new DecimalFormat("#.##");
         if (curentCurency == 0) {
             hourlyRateCollumn.setCellValueFactory(cellData -> {
-                String originalValueString = cellData.getValue().getCalculatedHourlyRate();
-                String modifiedValueString = originalValueString.replace(',', '.');
+                String modifiedValueString = String.valueOf(model.getInstance().calculateHourlyMulti(cellData.getValue())).replace(",", ".");
+                //String originalValueString = cellData.getValue().getCalculatedHourlyRate();
+                //String modifiedValueString = originalValueString.replace(',', '.');
                 Double originalValue = Double.valueOf(modifiedValueString);
                 df.setRoundingMode(RoundingMode.HALF_UP);
                 String modifiedValueAsString = df.format(originalValue);
                 return new SimpleStringProperty(modifiedValueAsString + "€");
             });
             dailyRateCollumn.setCellValueFactory(cellData -> {
-                String originalValueString = cellData.getValue().getCalculatedDailyRate(8);
-                String modifiedValueString = originalValueString.replace(',', '.');
+                String modifiedValueString = String.valueOf(model.getInstance().calculateDailyMulti(cellData.getValue())).replace(',', '.');
+                //String originalValueString = cellData.getValue().getCalculatedDailyRate(8);
+                //String modifiedValueString = originalValueString.replace(',', '.');
                 Double originalValue = Double.valueOf(modifiedValueString);
                 df.setRoundingMode(RoundingMode.HALF_UP);
                 String modifiedValueAsString = df.format(originalValue);
@@ -206,8 +208,9 @@ public class model {
         }
         if (curentCurency == 1) {
             hourlyRateCollumn.setCellValueFactory(cellData -> {
-                String originalValueString = cellData.getValue().getCalculatedHourlyRate();
-                String modifiedValueString = originalValueString.replace(',', '.');
+                String modifiedValueString = String.valueOf(model.getInstance().calculateHourlyMulti(cellData.getValue())).replace(",", ".");
+                //String originalValueString = cellData.getValue().getCalculatedHourlyRate();
+                //String modifiedValueString = originalValueString.replace(',', '.');
                 Double originalValue = Double.valueOf(modifiedValueString);
                 Double modifiedValue = originalValue * EURtoUSDRate;
                 df.setRoundingMode(RoundingMode.HALF_UP);
@@ -215,8 +218,9 @@ public class model {
                 return new SimpleStringProperty(modifiedValueAsString + "$");
             });
             dailyRateCollumn.setCellValueFactory(cellData -> {
-                String originalValueString = cellData.getValue().getCalculatedDailyRate(8);
-                String modifiedValueString = originalValueString.replace(',', '.');
+                String modifiedValueString = String.valueOf(model.getInstance().calculateDailyMulti(cellData.getValue())).replace(',', '.');
+                //String originalValueString = cellData.getValue().getCalculatedDailyRate(8);
+                //String modifiedValueString = originalValueString.replace(',', '.');
                 Double originalValue = Double.valueOf(modifiedValueString);
                 Double modifiedValue = originalValue * EURtoUSDRate;
                 df.setRoundingMode(RoundingMode.HALF_UP);
