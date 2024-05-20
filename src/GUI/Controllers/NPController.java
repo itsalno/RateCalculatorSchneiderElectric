@@ -2,6 +2,7 @@ package GUI.Controllers;
 
 import BE.Employee;
 import BE.Group;
+import Exceptions.RateCalcException;
 import GUI.Model.model;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,25 +60,38 @@ public class NPController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         model.getInstance().setImage(newProfileImage);
-        ObservableList<Group> allTeams = model.getInstance().getAllTeams();
+        ObservableList<Group> allTeams = null;
+        try {
+            allTeams = model.getInstance().getAllTeams();
+        } catch (RateCalcException e) {
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            e.printStackTrace();
+            a.show();
+        }
         teamChoiceBox.setItems(allTeams);
         ListViewEx.setItems(allTeams);
         ListViewEx.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     public void create(ActionEvent actionEvent) {
-        if (emplyeeToUpdate != null) {
-            model.getInstance().updateP(emplyeeToUpdate, annualSalaryField, overheadMultiField, configFixAnnAmountField,
-                    countryField, continentField, teamChoiceBox, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
-        } else {
-            model.getInstance().createP(annualSalaryField, overheadMultiField, configFixAnnAmountField,
-                    countryField, continentField, teamChoiceBox, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
-        }
+       try {
+           if (emplyeeToUpdate != null) {
+               model.getInstance().updateP(emplyeeToUpdate, annualSalaryField, overheadMultiField, configFixAnnAmountField,
+                       countryField, continentField, teamChoiceBox, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
+           } else {
+               model.getInstance().createP(annualSalaryField, overheadMultiField, configFixAnnAmountField,
+                       countryField, continentField, teamChoiceBox, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
+           }
+       }catch (RateCalcException e){
+           Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+           e.printStackTrace();
+           a.show();
+       }
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
     }
 
-    public void setEmployeeToUpdate(Employee employee) {
+    public void setEmployeeToUpdate(Employee employee) throws RateCalcException {
         this.emplyeeToUpdate = employee;
         model.getInstance().setEmployeeToUpdateM(emplyeeToUpdate, annualSalaryField, overheadMultiField, configFixAnnAmountField,
                 countryField, continentField, teamChoiceBox, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);

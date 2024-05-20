@@ -1,10 +1,12 @@
 package GUI.Controllers;
 
 import BE.Group;
+import Exceptions.RateCalcException;
 import GUI.Model.model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -48,30 +50,37 @@ public class NewTeamController implements Initializable {
 
 
 
-    public void CreateTeam(ActionEvent actionEvent) {
-        System.out.println(groupToEdit);
-
-        if (groupToEdit!=null){
-            edit();
-        }else {
-            create();
+    public void CreateTeam(ActionEvent actionEvent)  {
+        try {
+            if (groupToEdit != null) {
+                edit();
+            } else {
+                create();
+            }
+        }catch (RateCalcException e){
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            e.printStackTrace();
+            a.show();
         }
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
     }
 
 
-    public void edit(){
+    public void edit() throws RateCalcException {
         //model
         groupToEdit.setName(fieldName.getText());
-        model.getInstance().updateTeam(groupToEdit);
-    }
+            model.getInstance().updateTeam(groupToEdit);
+        }
+
+
+
 
     //idk
-    public void create(){
+    public void create() throws RateCalcException {
         String name=fieldName.getText();
         Group group=new Group(name);
-        model.getInstance().createTeam(group);
+            model.getInstance().createTeam(group);
     }
 
 

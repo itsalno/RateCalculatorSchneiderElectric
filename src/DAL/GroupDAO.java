@@ -1,6 +1,7 @@
 package DAL;
 
 import BE.Group;
+import Exceptions.RateCalcException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -12,7 +13,7 @@ public class GroupDAO implements IGroupDAO {
 
 
     @Override
-    public void createGroup(Group group) {
+    public void createGroup(Group group) throws RateCalcException {
         try (Connection con = dbConnector.getConn()) {
             String sql = "INSERT INTO Teams(name) VALUES (?)";
             try (PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -21,12 +22,12 @@ public class GroupDAO implements IGroupDAO {
 
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
     }
 
     @Override
-    public ObservableList<Group> getAllGroups() {
+    public ObservableList<Group> getAllGroups() throws RateCalcException {
         ObservableList<Group> groups = FXCollections.observableArrayList();
         try (Connection con = dbConnector.getConn()) {
             String sql = "SELECT * FROM Teams";
@@ -41,12 +42,12 @@ public class GroupDAO implements IGroupDAO {
                 return groups;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
     }
 
     @Override
-    public void deleteGroup(Group group) {
+    public void deleteGroup(Group group) throws RateCalcException {
         try (Connection con = dbConnector.getConn()) {
             String sql = "DELETE FROM Teams WHERE id=?";
             PreparedStatement pstmt = con.prepareStatement(sql);
@@ -54,12 +55,12 @@ public class GroupDAO implements IGroupDAO {
             pstmt.execute();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
     }
 
     @Override
-    public void editGroup(Group group) {
+    public void editGroup(Group group) throws RateCalcException {
         try (Connection con = dbConnector.getConn()) {
             String sql = "UPDATE Teams SET name = ? WHERE id=?";
             try (PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -68,12 +69,12 @@ public class GroupDAO implements IGroupDAO {
                 pstmt.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
     }
 
     @Override
-    public void applyMultiplierToGroup(int multiplier, int id) {
+    public void applyMultiplierToGroup(int multiplier, int id) throws RateCalcException {
         try (Connection con = dbConnector.getConn()) {
             String sql = "UPDATE Teams SET multiplier = ? WHERE id = ?";
             try (PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -82,11 +83,11 @@ public class GroupDAO implements IGroupDAO {
                 pstmt.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
     }
 
-    public Group updateGroupTable(int id) {
+    public Group updateGroupTable(int id) throws RateCalcException {
         try (Connection con = dbConnector.getConn()) {
             String sql = "SELECT * FROM Teams WHERE id = ?";
             try (PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -103,7 +104,7 @@ public class GroupDAO implements IGroupDAO {
                 return group;
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
 
     }

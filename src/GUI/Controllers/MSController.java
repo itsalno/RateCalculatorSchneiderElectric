@@ -1,10 +1,9 @@
 package GUI.Controllers;
 import BE.Employee;
+import Exceptions.RateCalcException;
 import GUI.Model.model;
 import javafx.beans.property.SimpleStringProperty;
 import BE.Group;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +28,7 @@ public class MSController implements Initializable {
     @FXML
     private TableColumn<Group, Integer> groupMulti;
     @FXML
-    private TableColumn<Employee,String> fullNameCollumn;
+    private TableColumn<Employee, String> fullNameCollumn;
     @FXML
     private TableView<Group> groupTable;
     @FXML
@@ -62,7 +61,6 @@ public class MSController implements Initializable {
     private TableColumn<Employee, String> dailyRateCollumn;
     @FXML
     private TableColumn<Employee, String> hourlyRateCollumn;
-
 
 
     //don't know which
@@ -100,8 +98,15 @@ public class MSController implements Initializable {
 
 
         //remember
-        model.getInstance().populateEmpTable(profileTable);
-        model.getInstance().populateGrpTable(groupTable);
+
+        try {
+            model.getInstance().populateEmpTable(profileTable);
+            model.getInstance().populateGrpTable(groupTable);
+        } catch (RateCalcException e) {
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            e.printStackTrace();
+            a.show();
+        }
 
         profileTable.setRowFactory(tv -> {
             TableRow<Employee> row = new TableRow<>();
@@ -123,30 +128,46 @@ public class MSController implements Initializable {
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     Group selectedGroup = row.getItem();
-                    model.getInstance().filterEmployeesByTeam(profileTable,selectedGroup.getName());
+                    try {
+                        model.getInstance().searchInfo(searchBar, profileTable, selectedGroup.getName());
+                    } catch (RateCalcException e) {
+                        Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                        e.printStackTrace();
+                        a.show();
+                    }
                 }
             });
             return row;
         });
 
         searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
-            model.getInstance().searchInfo(searchBar, profileTable,null);
+            try {
+                model.getInstance().searchInfo(searchBar, profileTable, null);
+            } catch (RateCalcException e) {
+                Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                e.printStackTrace();
+                a.show();
+            }
         });
         curencyBTN.setText("EUR");
         model.getInstance().setUSDtoEURRate(EURtoUSDRate);
     }
 
-    public void DeleteTeams(ActionEvent actionEvent){
+    public void DeleteTeams(ActionEvent actionEvent)  {
         Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
         if (selectedGroup != null) {
-            model.getInstance().deleteTeam(selectedGroup);
+            try {
+                model.getInstance().deleteTeam(selectedGroup);
+            } catch (RateCalcException e) {
+                Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                e.printStackTrace();
+                a.show();
+            }
             groupTable.getItems().remove(selectedGroup);
         }
     }
 
-
-
-    public void createProfile (ActionEvent actionEvent) throws IOException {
+    public void createProfile(ActionEvent actionEvent) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewProfile.fxml"));
         Parent root = loader.load();
@@ -157,13 +178,19 @@ public class MSController implements Initializable {
         Stage primaryStage = new Stage();
         primaryStage.setScene(new Scene(root));
         primaryStage.setOnHidden(event -> {
-            model.getInstance().populateEmpTable(profileTable);
+            try {
+                model.getInstance().populateEmpTable(profileTable);
+            } catch (RateCalcException e) {
+                Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                e.printStackTrace();
+                a.show();
+            }
         });
         primaryStage.show();
     }
 
 
-    public void deleteProfile (ActionEvent actionEvent){
+    public void deleteProfile(ActionEvent actionEvent) {
         Employee selectedEmployee = profileTable.getSelectionModel().getSelectedItem();
 
         if (selectedEmployee != null) {
@@ -172,14 +199,20 @@ public class MSController implements Initializable {
         }
     }
 
-    public void viewProfile (Employee employee) throws IOException {
+    public void viewProfile(Employee employee) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/ViewProfile.fxml"));
         Parent root = loader.load();
 
         ViewProfController controller = loader.getController();
         controller.setMsController(this);
-        controller.setEmployee(employee);
+        try {
+            controller.setEmployee(employee);
+        } catch (RateCalcException e) {
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            e.printStackTrace();
+            a.show();
+        }
 
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
@@ -187,26 +220,38 @@ public class MSController implements Initializable {
 
     }
 
-    public void editProfile (ActionEvent actionEvent) throws IOException {
+    public void editProfile(ActionEvent actionEvent) throws IOException {
         Employee selectedEmployee = (Employee) profileTable.getSelectionModel().getSelectedItem();
-            if (selectedEmployee != null) {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewProfile.fxml"));
-                    Parent root = loader.load();
+        if (selectedEmployee != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewProfile.fxml"));
+            Parent root = loader.load();
 
-                    NPController newProfileController = loader.getController();
-                    newProfileController.setMSController(this);
-                    newProfileController.setEmployeeToUpdate(selectedEmployee);
-
-                    Stage primaryStage = new Stage();
-                    primaryStage.setScene(new Scene(root));
-                    primaryStage.setOnHidden(event -> {
-                        model.getInstance().populateEmpTable(profileTable);
-                    });
-                    primaryStage.show();
+            NPController newProfileController = loader.getController();
+            newProfileController.setMSController(this);
+            try {
+                newProfileController.setEmployeeToUpdate(selectedEmployee);
+            } catch (RateCalcException e) {
+                Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                e.printStackTrace();
+                a.show();
             }
+
+            Stage primaryStage = new Stage();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setOnHidden(event -> {
+                try {
+                    model.getInstance().populateEmpTable(profileTable);
+                } catch (RateCalcException e) {
+                    Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                    e.printStackTrace();
+                    a.show();
+                }
+            });
+            primaryStage.show();
+        }
     }
 
-    public void CreateTeam (ActionEvent actionEvent) throws IOException {
+    public void CreateTeam(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewTeam.fxml"));
         Parent root = loader.load();
         NewTeamController newTeamController = loader.getController();
@@ -214,12 +259,18 @@ public class MSController implements Initializable {
         Stage primaryStage = new Stage();
         primaryStage.setScene(new Scene(root));
         primaryStage.setOnHidden(event -> {
-            model.getInstance().populateGrpTable(groupTable);
+            try {
+                model.getInstance().populateGrpTable(groupTable);
+            } catch (RateCalcException e) {
+                Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                e.printStackTrace();
+                a.show();
+            }
         });
         primaryStage.show();
     }
 
-    public void editTeam (ActionEvent actionEvent) throws IOException {
+    public void editTeam(ActionEvent actionEvent) throws IOException {
         Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
         if (selectedGroup != null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/NewTeam.fxml"));
@@ -232,7 +283,13 @@ public class MSController implements Initializable {
             Stage primaryStage = new Stage();
             primaryStage.setScene(new Scene(root));
             primaryStage.setOnHidden(event -> {
-                model.getInstance().populateGrpTable(groupTable);
+                try {
+                    model.getInstance().populateGrpTable(groupTable);
+                } catch (RateCalcException e) {
+                    Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                    e.printStackTrace();
+                    a.show();
+                }
             });
             primaryStage.show();
 
@@ -244,16 +301,21 @@ public class MSController implements Initializable {
     private int curentCurency = 0;
     private double EURtoUSDRate = 1.0775286;
 
-    public void swichCurency (ActionEvent actionEvent){
-
-        curentCurency = model.getInstance().swichCurency(curentCurency, profileTable, curencyBTN, hourlyRateCollumn, dailyRateCollumn);
+    public void swichCurency(ActionEvent actionEvent) {
+        try {
+            curentCurency = model.getInstance().swichCurency(curentCurency, profileTable, curencyBTN, hourlyRateCollumn, dailyRateCollumn );
+        } catch (RateCalcException e) {
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            e.printStackTrace();
+            a.show();
+        }
     }
 
     public void openMultipliers(ActionEvent actionEvent) throws IOException {
         Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/ViewMulti.fxml"));
         Parent root = loader.load();
-        VMController vmController= loader.getController();
+        VMController vmController = loader.getController();
         vmController.setMsController(this);
         vmController.setSelectedGroup(selectedGroup);
         Stage primaryStage = new Stage();
@@ -265,37 +327,59 @@ public class MSController implements Initializable {
     public void resetTable(MouseEvent actionEvent) {
         groupTable.getSelectionModel().clearSelection();
         profileTable.getSelectionModel().clearSelection();
-        model.getInstance().populateEmpTable(profileTable);
+        try {
+            model.getInstance().populateEmpTable(profileTable);
+        } catch (RateCalcException e) {
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            e.printStackTrace();
+            a.show();
+        }
     }
 
 
     public void removeFromTeam(ActionEvent actionEvent) {
-      Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
+        Group selectedGroup=groupTable.getSelectionModel().getSelectedItem();
         Employee selectedEmployee=profileTable.getSelectionModel().getSelectedItem();
+        try {
 
-        if (selectedGroup!=null && selectedEmployee!=null){
-                model.getInstance().removeTeamFromEmployee(selectedEmployee.getId(), selectedGroup.getId());
-                model.getInstance().populateEmpTable(profileTable);
-                groupTable.getSelectionModel().clearSelection();
+
+    if (selectedGroup != null && selectedEmployee != null) {
+        model.getInstance().removeTeamFromEmployee(selectedEmployee.getId(), selectedGroup.getId());
+        model.getInstance().populateEmpTable(profileTable);
+        groupTable.getSelectionModel().clearSelection();
+    }
+            }catch (RateCalcException e){
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            e.printStackTrace();
+            a.show();
         }
     }
-    public void updateGroupTable(Group group){
-       model.getInstance().updateGroupTable(group, groupTable);
-       model.getInstance().populateEmpTable(profileTable);
+
+    public void updateGroupTable(Group group) throws RateCalcException {
+
+            model.getInstance().updateGroupTable(group, groupTable);
+            model.getInstance().populateEmpTable(profileTable);
+
     }
 
     public void addToTeam(ActionEvent actionEvent) {
         Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
         Employee selectedEmployee = profileTable.getSelectionModel().getSelectedItem();
-
-        if (selectedGroup != null && selectedEmployee != null && !selectedEmployee.getTeams().contains(selectedGroup)) {
-            selectedEmployee.getTeams().add(selectedGroup);
-            model.getInstance().editEmployee(selectedEmployee);
-            model.getInstance().populateEmpTable(profileTable);
-            groupTable.getSelectionModel().clearSelection();
-            profileTable.getSelectionModel().clearSelection();
+        try {
+            if (selectedGroup != null && selectedEmployee != null && !selectedEmployee.getTeams().contains(selectedGroup)) {
+                selectedEmployee.getTeams().add(selectedGroup);
+                model.getInstance().editEmployee(selectedEmployee);
+                model.getInstance().populateEmpTable(profileTable);
+                groupTable.getSelectionModel().clearSelection();
+                profileTable.getSelectionModel().clearSelection();
+            }
+        }catch (RateCalcException e){
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            e.printStackTrace();
+            a.show();
         }
     }
+
 }
 
 

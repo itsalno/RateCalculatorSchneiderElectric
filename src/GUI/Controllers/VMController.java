@@ -1,6 +1,7 @@
 package GUI.Controllers;
 import BE.Group;
 import BE.Multiplier;
+import Exceptions.RateCalcException;
 import GUI.Model.model;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -47,7 +49,13 @@ public class VMController implements Initializable {
         multiType.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));
         multiPerc.setCellValueFactory(cellData ->new SimpleIntegerProperty(cellData.getValue().getPerc()).asObject());
         multiID.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
-        model.getInstance().updateTable(multiTable);
+        try {
+            model.getInstance().updateTable(multiTable);
+        } catch (RateCalcException e) {
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            e.printStackTrace();
+            a.show();
+        }
 
     }
 
@@ -59,7 +67,13 @@ public class VMController implements Initializable {
         Stage primaryStage = new Stage();
         primaryStage.setScene(new Scene(root));
         primaryStage.setOnHidden(event ->{
-            model.getInstance().updateTable(multiTable);
+            try {
+                model.getInstance().updateTable(multiTable);
+            } catch (RateCalcException e) {
+                Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                e.printStackTrace();
+                a.show();
+            }
         });
         primaryStage.show();
     }
@@ -67,15 +81,27 @@ public class VMController implements Initializable {
     public void deleteMulti(ActionEvent actionEvent) {
         Multiplier multiplier = multiTable.getSelectionModel().getSelectedItem();
         if(multiplier != null){
-            model.getInstance().deleteMulti(multiplier.getId());
-            model.getInstance().updateTable(multiTable);
+            try {
+                model.getInstance().deleteMulti(multiplier.getId());
+                model.getInstance().updateTable(multiTable);
+            } catch (RateCalcException e) {
+                Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                e.printStackTrace();
+                a.show();
+            }
         }
     }
 
     public void ApplyMutiplier(ActionEvent actionEvent) {
-        model.getInstance().applyMultiplierToGroup(multiTable.getSelectionModel().getSelectedItem().getPerc(), selectedGroup.getId());
-        Group allGroups= model.getInstance().updateGroupTable(selectedGroup.getId());
-        msController.updateGroupTable(allGroups);
+        try {
+            model.getInstance().applyMultiplierToGroup(multiTable.getSelectionModel().getSelectedItem().getPerc(), selectedGroup.getId());
+            Group allGroups= model.getInstance().updateGroupTable(selectedGroup.getId());
+            msController.updateGroupTable(allGroups);
+        } catch (RateCalcException e) {
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            e.printStackTrace();
+            a.show();
+        }
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
 

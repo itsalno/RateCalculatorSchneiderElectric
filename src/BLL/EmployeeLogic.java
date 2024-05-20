@@ -2,7 +2,8 @@ package BLL;
 
 import BE.Employee;
 import DAL.EmployeeDAO;
-import javafx.collections.ObservableList;
+import Exceptions.RateCalcException;
+
 
 import java.util.List;
 
@@ -10,11 +11,11 @@ public class EmployeeLogic {
 
     EmployeeDAO eDAO=new EmployeeDAO();
 
-    public void create(Employee employee){
+    public void create(Employee employee) throws RateCalcException {
         eDAO.create(employee);
     }
 
-    public List<Employee> getAllEmployees() {
+    public List<Employee> getAllEmployees() throws RateCalcException {
         return eDAO.getAllEmployees();
     }
 
@@ -25,20 +26,20 @@ public class EmployeeLogic {
         eDAO.edit(employee);
     }
 
-    public List<Employee> searchEmployees(String searchText){
+    public List<Employee> searchEmployees(String searchText) throws RateCalcException {
         return eDAO.searchEmployees(searchText);
     }
 
-    public int getAnnualSllaryUSD(Employee employee){
+    public int getAnnualSllaryUSD(Employee employee) throws RateCalcException {
        return eDAO.getAnuallSalaryUSD(employee);
     }
-    public int getConFixAnnAmount(Employee employee){
+    public int getConFixAnnAmount(Employee employee) throws RateCalcException {
         return eDAO.getConFixAmountUSD(employee);
     }
-    public void removeTeamFromEmployee(int id, int tId){
+    public void removeTeamFromEmployee(int id, int tId) throws RateCalcException {
         eDAO.removeTeamFromEmployee(id, tId);
     }
-    public Employee getEmployeeById(int id){
+    public Employee getEmployeeById(int id) throws RateCalcException {
         return eDAO.getEmployeeById(id);
     }
 

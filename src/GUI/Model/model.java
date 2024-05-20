@@ -6,6 +6,7 @@ import BE.Multiplier;
 import BLL.EmployeeLogic;
 import BLL.GroupLogic;
 import BLL.MultiplierLogic;
+import Exceptions.RateCalcException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,27 +40,27 @@ public class model {
 
     // TEAM OPERATIONS
 
-    public void createTeam(Group group) {
+    public void createTeam(Group group) throws RateCalcException {
         groupLogic.createGroup(group);
     }
 
-    public ObservableList<Group> getAllTeams() {
+    public ObservableList<Group> getAllTeams() throws RateCalcException {
         return groupLogic.getAllGroups();
     }
 
-    public Group updateGroupTable(int id) {
+    public Group updateGroupTable(int id) throws RateCalcException {
         return groupLogic.updateGroupTable(id);
     }
 
-    public void deleteTeam(Group group) {
+    public void deleteTeam(Group group) throws RateCalcException {
         groupLogic.deleteGroup(group);
     }
 
-    public void updateTeam(Group group) {
+    public void updateTeam(Group group) throws RateCalcException {
         groupLogic.editGroup(group);
     }
 
-    public void applyMultiplierToGroup(int multiplier, int id) {
+    public void applyMultiplierToGroup(int multiplier, int id) throws RateCalcException {
         groupLogic.applyMultiplierToGroup(multiplier, id);
     }
 
@@ -68,14 +69,14 @@ public class model {
 
     // EMPLOYEE OPERATIONS
 
-    public void createEmployee(Employee employee) {
+    public void createEmployee(Employee employee) throws RateCalcException {
         if (employee.getTeams().size() > 2) {
             throw new IllegalArgumentException("An employee cannot be part of more than two teams.");
         }
         eLogic.create(employee);
     }
 
-    public ObservableList<Employee> getAllEmployees() {
+    public ObservableList<Employee> getAllEmployees() throws RateCalcException {
         ObservableList<Employee> obsList = FXCollections.observableArrayList();
         obsList.setAll(eLogic.getAllEmployees());
         return obsList;
@@ -89,37 +90,37 @@ public class model {
         eLogic.edit(employee);
     }
 
-    public List<Employee> searchEmployees(String searchText) {
+    public List<Employee> searchEmployees(String searchText) throws RateCalcException {
         return eLogic.searchEmployees(searchText);
     }
 
-    public void removeTeamFromEmployee(int id, int tId) {
+    public void removeTeamFromEmployee(int id, int tId) throws RateCalcException {
         eLogic.removeTeamFromEmployee(id, tId);
     }
 
-    public Employee getEmployeeById(int id) {
+    public Employee getEmployeeById(int id) throws RateCalcException {
         return eLogic.getEmployeeById(id);
     }
 
     // MULTIPLIER OPERATIONS
 
-    public void createMulti(Multiplier multiplier) {
+    public void createMulti(Multiplier multiplier) throws RateCalcException {
         multiplierLogic.createMulti(multiplier);
     }
 
-    public ArrayList<Multiplier> getAllMultis() {
+    public ArrayList<Multiplier> getAllMultis() throws RateCalcException {
         return multiplierLogic.getAllMultis();
     }
 
-    public void deleteMulti(int id) {
+    public void deleteMulti(int id) throws RateCalcException {
         multiplierLogic.deleteMulti(id);
     }
 
-    public void editMulti(Multiplier multiplier) {
+    public void editMulti(Multiplier multiplier) throws RateCalcException {
         multiplierLogic.editMultiplier(multiplier);
     }
 
-    public void updateTable(TableView<Multiplier> multiTable) {
+    public void updateTable(TableView<Multiplier> multiTable) throws RateCalcException {
 
         ObservableList<Multiplier> multis = FXCollections.observableArrayList();
         multis.setAll(getAllMultis());
@@ -128,7 +129,7 @@ public class model {
 
     // Main controller
 
-    public void populateEmpTable(TableView<Employee> profileTable) {
+    public void populateEmpTable(TableView<Employee> profileTable) throws RateCalcException {
 
         ObservableList<Employee> employees = FXCollections.observableArrayList();
         employees.addAll(getAllEmployees());
@@ -153,14 +154,14 @@ public class model {
         return dailyRate;
     }
 
-    public void populateGrpTable(TableView<Group> groupTable) {
+    public void populateGrpTable(TableView<Group> groupTable) throws RateCalcException {
 
         ObservableList<Group> teams = FXCollections.observableArrayList();
         teams.addAll(getAllTeams());
         groupTable.setItems(teams);
     }
 
-    public void searchInfo(TextField searchBar, TableView<Employee> profileTable, String searchText) {
+    public void searchInfo(TextField searchBar, TableView<Employee> profileTable, String searchText) throws RateCalcException {
 
         if (searchText == null || searchText.isEmpty()) {
             searchText = searchBar.getText().trim().toLowerCase();
@@ -171,7 +172,7 @@ public class model {
         profileTable.setItems(FXCollections.observableArrayList(matchingEmployees));
     }
 
-    public void filterEmployeesByTeam(TableView<Employee> profileTable,String searchText) {
+    public void filterEmployeesByTeam(TableView<Employee> profileTable,String searchText) throws RateCalcException {
 
         if (searchText == null || searchText.isEmpty()) {
             profileTable.setItems(model.getInstance().getAllEmployees());
@@ -187,7 +188,7 @@ public class model {
         }
     }
 
-    public int swichCurency(int curentCurency, TableView<Employee> profileTable, ToggleButton curencyBTN, TableColumn<Employee, String> hourlyRateCollumn, TableColumn<Employee, String> dailyRateCollumn) {
+    public int swichCurency(int curentCurency, TableView<Employee> profileTable, ToggleButton curencyBTN, TableColumn<Employee, String> hourlyRateCollumn, TableColumn<Employee, String> dailyRateCollumn) throws RateCalcException {
 
         curentCurency = (curentCurency + 1) % 2;
         setCurencyLabel(curentCurency, curencyBTN);
@@ -270,7 +271,7 @@ public class model {
     // ViewProfController
 
     public void updateUIInfo(Employee selectedEmployee, Label workingHoursLbl, Label countryLbl, Label continentLbl, Label annualSalaryLbl, Label empTypeLbl,
-                             Label utilPercentLbl, Label ompLbl, Label cfaaLbl, Label hourlyRateLbl, Label dailyRateLbl, Label teamLbl, Label namaField) {
+                             Label utilPercentLbl, Label ompLbl, Label cfaaLbl, Label hourlyRateLbl, Label dailyRateLbl, Label teamLbl, Label namaField) throws RateCalcException {
 
         if (selectedEmployee != null) {
 
@@ -288,21 +289,21 @@ public class model {
             dailyRateLbl.setText(dailyRate);
             namaField.setText(selectedEmployee.getFullName());
 
-            if (curentCurency == 0) {
-                annualSalaryLbl.setText(String.valueOf(selectedEmployee.getAnnualSalary()));
-                cfaaLbl.setText(String.valueOf(selectedEmployee.getConfFixedAnnualAmount()));
-            } else {
-                utilPercentLbl.setText(String.valueOf(selectedEmployee.getUtilizationPercent()));
-                cfaaLbl.setText(String.valueOf(eLogic.getConFixAnnAmount(selectedEmployee)));
-                annualSalaryLbl.setText(String.valueOf(eLogic.getAnnualSllaryUSD(selectedEmployee)));
-            }
+                if (curentCurency == 0) {
+                    annualSalaryLbl.setText(String.valueOf(selectedEmployee.getAnnualSalary()));
+                    cfaaLbl.setText(String.valueOf(selectedEmployee.getConfFixedAnnualAmount()));
+                } else {
+                    utilPercentLbl.setText(String.valueOf(selectedEmployee.getUtilizationPercent()));
+                    cfaaLbl.setText(String.valueOf(eLogic.getConFixAnnAmount(selectedEmployee)));
+                    annualSalaryLbl.setText(String.valueOf(eLogic.getAnnualSllaryUSD(selectedEmployee)));
+                }
         }
     }
 
     // NewProfileController
 
     public void createP(TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
-                        ChoiceBox<Group> teamChoiceBox, ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
+                        ChoiceBox<Group> teamChoiceBox, ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) throws RateCalcException {
 
         List<Group> selectedTeams = new ArrayList<>();
 
@@ -396,7 +397,7 @@ public class model {
     }
 
     public void setEmployeeToUpdateM(Employee employee, TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
-                                     ChoiceBox<Group> teamChoiceBox, ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
+                                     ChoiceBox<Group> teamChoiceBox, ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) throws RateCalcException {
 
         overheadMultiField.setText(String.valueOf(employee.getOverheadMultiPercent()));
         countryField.setText(employee.getCountry());

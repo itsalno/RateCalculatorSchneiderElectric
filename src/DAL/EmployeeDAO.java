@@ -2,6 +2,7 @@ package DAL;
 
 import BE.Employee;
 import BE.Group;
+import Exceptions.RateCalcException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,11 +16,10 @@ import java.util.List;
 public class EmployeeDAO implements IEmployeeDAO {
 
     @Override
-    public void create(Employee employee) {
+    public void create(Employee employee) throws RateCalcException {
         if (employee.getTeams().size() > 2) {
             throw new IllegalArgumentException("An employee cannot be part of more than two teams.");
         }
-
         try (Connection conn = dbConnector.getConn()) {
             String sql = "INSERT INTO Employee (AnnualSalary, OverheadMultiplierPercentage, ConfigurableFixedAnnualAmount, " +
                     "Country, Continent, WorkingHours, UtilizationPercentage, EmployeeType, AnnualSalaryUSD, " +
@@ -52,11 +52,11 @@ public class EmployeeDAO implements IEmployeeDAO {
                 throw new RuntimeException(e);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
     }
 
-    private void insertEmployeeTeams(int employeeId, List<Group> teams) {
+    private void insertEmployeeTeams(int employeeId, List<Group> teams) throws RateCalcException {
         String sql = "INSERT INTO EmployeeTeams (employee_id, team_id) VALUES (?, ?)";
         try (Connection conn = dbConnector.getConn(); PreparedStatement stmt = conn.prepareStatement(sql)) {
             for (Group team : teams) {
@@ -66,12 +66,12 @@ public class EmployeeDAO implements IEmployeeDAO {
             }
             stmt.executeBatch();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
     }
 
     @Override
-    public ObservableList<Employee> getAllEmployees() {
+    public ObservableList<Employee> getAllEmployees() throws RateCalcException {
         ObservableList<Employee> employees = FXCollections.observableArrayList();
 
         try (Connection conn = dbConnector.getConn()) {
@@ -101,13 +101,13 @@ public class EmployeeDAO implements IEmployeeDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
 
         return employees;
     }
 
-    private List<Group> getTeamsByEmployeeId(int employeeId) {
+    private List<Group> getTeamsByEmployeeId(int employeeId) throws RateCalcException {
         List<Group> teams = new ArrayList<>();
         String sql = "SELECT t.id, t.name, t.multiplier FROM Teams t " +
                 "INNER JOIN EmployeeTeams et ON t.id = et.team_id " +
@@ -124,7 +124,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
         return teams;
     }
@@ -206,7 +206,7 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
-    public List<Employee> searchEmployees(String searchText) {
+    public List<Employee> searchEmployees(String searchText) throws RateCalcException {
         List<Employee> matchingEmployees = new ArrayList<>();
         try (Connection conn = dbConnector.getConn()) {
             String sql = "SELECT * FROM Employee WHERE Country LIKE ? OR Continent LIKE ? OR Name LIKE ? OR Team LIKE ?";
@@ -237,13 +237,13 @@ public class EmployeeDAO implements IEmployeeDAO {
                 matchingEmployees.add(employee);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
         return matchingEmployees;
     }
 
     @Override
-    public int getAnuallSalaryUSD(Employee e) {
+    public int getAnuallSalaryUSD(Employee e) throws RateCalcException {
         try (Connection conn = dbConnector.getConn()) {
             int AnnualSalaryUSD = 0;
             String sql = "SELECT AnnualSalaryUSD FROM Employee WHERE id=?";
@@ -255,12 +255,12 @@ public class EmployeeDAO implements IEmployeeDAO {
             }
             return AnnualSalaryUSD;
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            throw new RateCalcException("Problems with the database or database connection",ex);
         }
     }
 
     @Override
-    public int getConFixAmountUSD(Employee e) {
+    public int getConFixAmountUSD(Employee e) throws RateCalcException {
         int ConfigurableFixedAnnualAmountUSD = 0;
         try (Connection conn = dbConnector.getConn()) {
             String sql = "SELECT ConfigurableFixedAnnualAmountUSD FROM Employee WHERE id=?";
@@ -272,12 +272,12 @@ public class EmployeeDAO implements IEmployeeDAO {
             }
             return ConfigurableFixedAnnualAmountUSD;
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            throw new RateCalcException("Problems with the database or database connection",ex);
         }
     }
 
     @Override
-    public void removeTeamFromEmployee(int id, int tId) {
+    public void removeTeamFromEmployee(int id, int tId) throws RateCalcException {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "DELETE FROM EmployeeTeams WHERE employee_id = ? AND team_id = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -294,12 +294,12 @@ public class EmployeeDAO implements IEmployeeDAO {
                 conn.commit();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
     }
 
     @Override
-    public Employee getEmployeeById(int id) {
+    public Employee getEmployeeById(int id) throws RateCalcException {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "SELECT * FROM Employee WHERE id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -329,7 +329,7 @@ public class EmployeeDAO implements IEmployeeDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
         return null;
     }
