@@ -353,9 +353,9 @@ public class model {
 
         // Collect selected teams from both ChoiceBox and ListView
         List<Group> selectedTeams = new ArrayList<>();
-        if (teamChoiceBox.getValue() != null) {
+        /*if (teamChoiceBox.getValue() != null) {
             selectedTeams.add(teamChoiceBox.getValue());
-        }
+        }*/
         selectedTeams.addAll(listViewEx.getSelectionModel().getSelectedItems());
 
         // Validate that no more than 2 teams are selected

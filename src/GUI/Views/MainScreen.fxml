@@ -23,15 +23,15 @@
       <Button layoutX="427.0" layoutY="27.0" mnemonicParsing="false" onAction="#createProfile" stylesheets="@../../StyleClass.css" text="Create profile" />
       <Button layoutX="546.0" layoutY="27.0" mnemonicParsing="false" onAction="#openMultipliers" prefHeight="26.0" prefWidth="118.0" stylesheets="@../../StyleClass.css" text="View multipliers" />
       <Button layoutX="307.0" layoutY="27.0" mnemonicParsing="false" onAction="#CreateTeam" stylesheets="@../../StyleClass.css" text="Create teams" />
-      <TableView fx:id="profileTable" layoutX="21.0" layoutY="151.0" prefHeight="402.0" prefWidth="705.0" style="-fx-border-width: 2;" stylesheets="@../../StyleClass.css">
+      <TableView fx:id="profileTable" layoutX="21.0" layoutY="151.0" prefHeight="402.0" prefWidth="718.0" style="-fx-border-width: 2;" stylesheets="@../../StyleClass.css">
         <columns>
             <TableColumn fx:id="fullNameCollumn" minWidth="0.0" prefWidth="163.0" text="Full Name" />
           <TableColumn fx:id="countryColumn" prefWidth="94.0" text="Country" />
           <TableColumn fx:id="continentColumn" prefWidth="92.0" text="Continent" />
             <TableColumn fx:id="teamColumn" prefWidth="93.0" text="Team" />
             <TableColumn fx:id="workingHoursColumn" prefWidth="67.0" text="Hours" />
-            <TableColumn fx:id="hourlyRateCollumn" minWidth="2.4000244140625" prefWidth="79.0" text="Hourly rate" />
-            <TableColumn fx:id="dailyRateCollumn" minWidth="0.0" prefWidth="108.79995727539062" text="Day rate" />
+            <TableColumn fx:id="hourlyRateCollumn" minWidth="2.4000244140625" prefWidth="81.59991455078125" text="Hourly rate" />
+            <TableColumn fx:id="dailyRateCollumn" minWidth="0.0" prefWidth="106.40008544921875" text="Day rate" />
             <TableColumn fx:id="OMP" minWidth="0.0" prefWidth="0.0" text="OMP" visible="false" />
             <TableColumn fx:id="CFAA" prefWidth="71.99996948242188" text="CFAA" visible="false" />
             <TableColumn fx:id="annualSalaryColumn" prefWidth="71.99996948242188" text="AnnualSalary" visible="false" />
@@ -40,12 +40,12 @@
             <TableColumn fx:id="employeeId" prefWidth="71.99996948242188" text="ID" visible="false" />
         </columns>
       </TableView>
-      <Button layoutX="882.0" layoutY="568.0" mnemonicParsing="false" onAction="#DeleteTeams" prefHeight="34.0" prefWidth="102.0" stylesheets="@../../StyleClass.css" text="Delete team" />
+      <Button layoutX="937.0" layoutY="567.0" mnemonicParsing="false" onAction="#DeleteTeams" prefHeight="34.0" prefWidth="102.0" stylesheets="@../../StyleClass.css" text="Delete team" />
       <TextField fx:id="searchBar" layoutX="79.0" layoutY="111.0" prefHeight="0.0" prefWidth="154.0" style="-fx-border-color: white; -fx-font-size: 11;" styleClass="text-field" stylesheets="@../../StyleClass.css">
          <font>
             <Font size="18.0" />
          </font></TextField>
-      <Button layoutX="771.0" layoutY="568.0" mnemonicParsing="false" onAction="#editTeam" prefHeight="34.0" prefWidth="102.0" stylesheets="@../../StyleClass.css" text="Edit Team" />
+      <Button layoutX="826.0" layoutY="567.0" mnemonicParsing="false" onAction="#editTeam" prefHeight="34.0" prefWidth="102.0" stylesheets="@../../StyleClass.css" text="Edit Team" />
       <TableView fx:id="groupTable" layoutX="826.0" layoutY="151.0" prefHeight="402.0" prefWidth="214.0" stylesheets="@../../StyleClass.css">
         <columns>
           <TableColumn fx:id="teamNameColumn" prefWidth="120.79986572265625" text="Team name" />
@@ -53,11 +53,11 @@
         </columns>
       </TableView>
 
-      <ToggleButton fx:id="curencyBTN" layoutX="921.0" layoutY="25.0" mnemonicParsing="false" onAction="#swichCurency" prefHeight="34.0" prefWidth="62.0" stylesheets="@../../StyleClass.css">
+      <ToggleButton fx:id="curencyBTN" layoutX="977.0" layoutY="25.0" mnemonicParsing="false" onAction="#swichCurency" prefHeight="34.0" prefWidth="62.0" stylesheets="@../../StyleClass.css">
          <font>
             <Font size="10.0" />
          </font></ToggleButton>
-      <Label layoutX="846.0" layoutY="33.0" text="Currency:" textFill="WHITE">
+      <Label layoutX="906.0" layoutY="33.0" text="Currency:" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
@@ -67,7 +67,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="749.0" layoutY="394.0" mnemonicParsing="false" onAction="#addToTeam" prefHeight="34.0" prefWidth="45.0" stylesheets="@../../StyleClass.css" text="+" />
-      <Button layoutX="749.0" layoutY="242.0" mnemonicParsing="false" onAction="#removeFromTeam" prefHeight="34.0" prefWidth="45.0" stylesheets="@../../StyleClass.css" text="-" />
+      <Button layoutX="760.0" layoutY="394.0" mnemonicParsing="false" onAction="#addToTeam" prefHeight="34.0" prefWidth="45.0" stylesheets="@../../StyleClass.css" text="+" />
+      <Button layoutX="760.0" layoutY="240.0" mnemonicParsing="false" onAction="#removeFromTeam" prefHeight="34.0" prefWidth="45.0" stylesheets="@../../StyleClass.css" text="-" />
    </children>
 </AnchorPane>

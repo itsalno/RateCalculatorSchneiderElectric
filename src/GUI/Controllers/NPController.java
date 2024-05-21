@@ -68,7 +68,7 @@ public class NPController implements Initializable {
             e.printStackTrace();
             a.show();
         }
-        teamChoiceBox.setItems(allTeams);
+        //teamChoiceBox.setItems(allTeams);
         ListViewEx.setItems(allTeams);
         ListViewEx.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
