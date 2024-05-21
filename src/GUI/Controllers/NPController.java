@@ -77,10 +77,10 @@ public class NPController implements Initializable {
        try {
            if (emplyeeToUpdate != null) {
                model.getInstance().updateP(emplyeeToUpdate, annualSalaryField, overheadMultiField, configFixAnnAmountField,
-                       countryField, continentField, teamChoiceBox, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
+                       countryField, continentField, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
            } else {
                model.getInstance().createP(annualSalaryField, overheadMultiField, configFixAnnAmountField,
-                       countryField, continentField, teamChoiceBox, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
+                       countryField, continentField, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
            }
        }catch (RateCalcException e){
            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());

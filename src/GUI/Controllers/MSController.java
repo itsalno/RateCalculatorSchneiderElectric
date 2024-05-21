@@ -156,14 +156,18 @@ public class MSController implements Initializable {
     public void DeleteTeams(ActionEvent actionEvent)  {
         Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
         if (selectedGroup != null) {
+
             try {
                 model.getInstance().deleteTeam(selectedGroup);
+                profileTable.getSelectionModel().clearSelection();
+                model.getInstance().populateEmpTable(profileTable);
             } catch (RateCalcException e) {
                 Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
                 e.printStackTrace();
                 a.show();
             }
             groupTable.getItems().remove(selectedGroup);
+
         }
     }
 
@@ -284,7 +288,9 @@ public class MSController implements Initializable {
             primaryStage.setScene(new Scene(root));
             primaryStage.setOnHidden(event -> {
                 try {
+                    profileTable.getSelectionModel().clearSelection();
                     model.getInstance().populateGrpTable(groupTable);
+                    model.getInstance().populateEmpTable(profileTable);
                 } catch (RateCalcException e) {
                     Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
                     e.printStackTrace();

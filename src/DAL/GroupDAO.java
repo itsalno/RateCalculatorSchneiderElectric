@@ -49,10 +49,17 @@ public class GroupDAO implements IGroupDAO {
     @Override
     public void deleteGroup(Group group) throws RateCalcException {
         try (Connection con = dbConnector.getConn()) {
+            String sql1 = "DELETE FROM EmployeeTeams Where team_id=?";
+            PreparedStatement pstmt1 = con.prepareStatement(sql1);
+            pstmt1.setInt(1, group.getId());
+            pstmt1.execute();
+
             String sql = "DELETE FROM Teams WHERE id=?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, group.getId());
             pstmt.execute();
+
+
 
         } catch (SQLException e) {
             throw new RateCalcException("Problems with the database or database connection",e);

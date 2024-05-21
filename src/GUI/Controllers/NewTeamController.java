@@ -71,6 +71,7 @@ public class NewTeamController implements Initializable {
         //model
         groupToEdit.setName(fieldName.getText());
             model.getInstance().updateTeam(groupToEdit);
+
         }
 
 

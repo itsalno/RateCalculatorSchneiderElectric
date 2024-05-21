@@ -303,13 +303,10 @@ public class model {
     // NewProfileController
 
     public void createP(TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
-                        ChoiceBox<Group> teamChoiceBox, ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) throws RateCalcException {
+                         ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) throws RateCalcException {
 
         List<Group> selectedTeams = new ArrayList<>();
 
-        if (teamChoiceBox.getValue() != null) {
-            selectedTeams.add(teamChoiceBox.getValue());
-        }
         selectedTeams.addAll(listViewEx.getSelectionModel().getSelectedItems());
 
         // Validate that no more than 2 teams are selected
@@ -349,13 +346,11 @@ public class model {
     }
 
     public void updateP(Employee employeeToUpdate, TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
-                        ChoiceBox<Group> teamChoiceBox, ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
+                        ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
 
         // Collect selected teams from both ChoiceBox and ListView
         List<Group> selectedTeams = new ArrayList<>();
-        /*if (teamChoiceBox.getValue() != null) {
-            selectedTeams.add(teamChoiceBox.getValue());
-        }*/
+
         selectedTeams.addAll(listViewEx.getSelectionModel().getSelectedItems());
 
         // Validate that no more than 2 teams are selected
