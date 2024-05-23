@@ -130,7 +130,7 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
-    public void delete(Employee employee) {
+    public void delete(Employee employee) throws RateCalcException {
         try (Connection conn = dbConnector.getConn()) {
             String sql = "DELETE FROM EmployeeTeams WHERE employee_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -144,12 +144,12 @@ public class EmployeeDAO implements IEmployeeDAO {
                 stmt.executeUpdate();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
     }
 
     @Override
-    public void edit(Employee employee) {
+    public void edit(Employee employee) throws RateCalcException {
         if (employee.getTeams().size() > 2) {
             throw new IllegalArgumentException("An employee cannot be part of more than two teams.");
         }
@@ -178,11 +178,11 @@ public class EmployeeDAO implements IEmployeeDAO {
                 updateEmployeeTeams(employee);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
     }
 
-    private void updateEmployeeTeams(Employee employee) {
+    private void updateEmployeeTeams(Employee employee) throws RateCalcException {
         String sqlDelete = "DELETE FROM EmployeeTeams WHERE employee_id = ?";
         String sqlInsert = "INSERT INTO EmployeeTeams (employee_id, team_id) VALUES (?, ?)";
         try (Connection conn = dbConnector.getConn(); PreparedStatement stmtDelete = conn.prepareStatement(sqlDelete); PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
@@ -201,7 +201,7 @@ public class EmployeeDAO implements IEmployeeDAO {
             conn.commit();
             conn.setAutoCommit(true);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RateCalcException("Problems with the database or database connection",e);
         }
     }
 

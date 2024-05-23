@@ -82,11 +82,11 @@ public class model {
         return obsList;
     }
 
-    public void deleteEmployee(Employee employee) {
+    public void deleteEmployee(Employee employee) throws RateCalcException {
         eLogic.delete(employee);
     }
 
-    public void editEmployee(Employee employee) {
+    public void editEmployee(Employee employee) throws RateCalcException {
         eLogic.edit(employee);
     }
 
@@ -346,7 +346,7 @@ public class model {
     }
 
     public void updateP(Employee employeeToUpdate, TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
-                        ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) {
+                        ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) throws RateCalcException {
 
         // Collect selected teams from both ChoiceBox and ListView
         List<Group> selectedTeams = new ArrayList<>();

@@ -198,7 +198,13 @@ public class MSController implements Initializable {
         Employee selectedEmployee = profileTable.getSelectionModel().getSelectedItem();
 
         if (selectedEmployee != null) {
-            model.getInstance().deleteEmployee(selectedEmployee);
+            try {
+                model.getInstance().deleteEmployee(selectedEmployee);
+            } catch (RateCalcException e) {
+                Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                e.printStackTrace();
+                a.show();
+            }
             profileTable.getItems().remove(selectedEmployee);
         }
     }

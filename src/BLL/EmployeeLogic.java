@@ -19,10 +19,10 @@ public class EmployeeLogic {
         return eDAO.getAllEmployees();
     }
 
-    public void delete(Employee employee) {
+    public void delete(Employee employee) throws RateCalcException {
         eDAO.delete(employee);
     }
-    public void edit(Employee employee){
+    public void edit(Employee employee) throws RateCalcException {
         eDAO.edit(employee);
     }
 
