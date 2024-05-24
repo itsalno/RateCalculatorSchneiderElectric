@@ -1,7 +1,7 @@
-/*
 package BE.Tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import BE.Employee;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,44 +13,48 @@ public class EmployeeTest {
 
     @BeforeEach
     public void setUp() {
-        double annualSalary = 50000.00; // Using double for more precise calculations
+        double annualSalary = 50000.00;
         int overheadMultiPercent = 10;
         double confFixedAnnualAmount = 5000.00;
-        double annualSalaryUSD = 52000.00; // Assuming conversion to USD for international employees
+        double annualSalaryUSD = 52000.00;
         double confFixedAnnualAmountUSD = 5200.00;
         String country = "USA";
         String continent = "North America";
         String team = "Development";
-        int workingHours = 2080; // 40 hours/week * 52 weeks
-        int utilizationPercent = 100; // Fully utilized
+        int workingHours = 2080;
+        int utilizationPercent = 100;
         String employeeType = "Full-time";
-        String fullname="Martins Lavely";
-        int teamId=1;
+        String fullName = "Martins Lavely";
+        int teamId = 1;
 
-        employee = new Employee(teamId,fullname,
-                annualSalary, overheadMultiPercent, confFixedAnnualAmount, country, continent, team,
+        employee = new Employee(teamId, fullName,
+                annualSalary, overheadMultiPercent, confFixedAnnualAmount, country, continent, null,
                 workingHours, utilizationPercent, employeeType, annualSalaryUSD, confFixedAnnualAmountUSD
         );
     }
 
     @Test
     public void testCalculateHourlyRate() {
-        // Updated expected value based on correct calculations
-        double expectedHourlyRate = 2.64423;  // Rounded to 5 decimal places for matching precision in assertion
+        double expectedHourlyRate = 24.04; // Correct expected value rounded to 2 decimal places
         double actualHourlyRate = employee.calculateHourlyRate();
         assertEquals(expectedHourlyRate, actualHourlyRate, 0.01, "Hourly rate should be correctly calculated.");
     }
 
     @Test
     public void testCalculateDailyRate() {
-        // Assuming 8 working hours per day
         int hoursInWorkDay = 8;
-        // Calculate the expected daily rate based on the corrected hourly rate calculation
-        double expectedHourlyRate = 2.64423;  // Corrected and moved inside this test method
-        double expectedDailyRate = expectedHourlyRate * hoursInWorkDay;  // This should be 2.64423 * 8
+        double expectedHourlyRate = 24.04;
+        double expectedDailyRate = 192.32;  // Expected daily rate rounded to 2 decimal places
 
         double actualDailyRate = employee.calculateDailyRate(hoursInWorkDay);
         assertEquals(expectedDailyRate, actualDailyRate, 0.01, "Daily rate should be correctly calculated.");
     }
+
+    @Test
+    public void testEmployeeAttributesGreaterThanZero() {
+        assertTrue(employee.getAnnualSalary() > 0, "Annual salary should be greater than 0.");
+        assertTrue(employee.getOverheadMultiPercent() > 0, "Overhead multiplier percent should be greater than 0.");
+        assertTrue(employee.getWorkingHours() > 0, "Working hours should be greater than 0.");
+        assertTrue(employee.getUtilizationPercent() > 0, "Utilization percent should be greater than 0.");
+    }
 }
-*/

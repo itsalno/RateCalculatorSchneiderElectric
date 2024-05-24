@@ -2,6 +2,8 @@ package BE;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Employee {
 
@@ -188,15 +190,23 @@ public class Employee {
     }
 
     public float calculateHourlyRate() {
-        float hourlyRate = (float) (annualSalary / (((workingHours * 52 * 5) * (utilizationPercent / 100.0)) * (overheadMultiPercent / 100.0)));
+        float hourlyRate = (float) (annualSalary / (workingHours * (utilizationPercent / 100.0)));
+        hourlyRate = roundToTwoDecimalPlaces(hourlyRate);
         setHourlyRate(hourlyRate);
         return hourlyRate;
     }
-    //xomment
+
     public float calculateDailyRate(int hoursInWorkDay) {
         float dailyRate = calculateHourlyRate() * hoursInWorkDay;
+        dailyRate = roundToTwoDecimalPlaces(dailyRate);
         setDailyRate(dailyRate);
         return dailyRate;
+    }
+
+    private float roundToTwoDecimalPlaces(float value) {
+        BigDecimal bd = new BigDecimal(Float.toString(value));
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.floatValue();
     }
 
     public String getCalculatedHourlyRate() {
