@@ -1,6 +1,5 @@
 package BE;
 
-import java.util.List;
 
 public class Group {
     private String name;

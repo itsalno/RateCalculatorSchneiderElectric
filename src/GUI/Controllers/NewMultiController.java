@@ -55,7 +55,7 @@ public class NewMultiController implements Initializable {
 
     }
 
-    public boolean fieldCheck() {
+    private boolean fieldCheck() {
         if (textPerc.getText().isEmpty()||choiceType.getItems().isEmpty()) {
             return false;
         }

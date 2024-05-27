@@ -10,7 +10,7 @@ public interface IGroupDAO {
 
      void createGroup(Group group) throws RateCalcException;
 
-     ObservableList<Group> getAllGroups() throws RateCalcException;
+     List<Group> getAllGroups() throws RateCalcException;
 
      void deleteGroup(Group group) throws RateCalcException;
 

@@ -23,8 +23,7 @@ public class NPController implements Initializable {
     private TextField nameField;
     @FXML
     private ListView<Group> ListViewEx;
-    @FXML
-    private ChoiceBox<Group> teamChoiceBox;
+
     @FXML
     private ImageView newProfileImage;
     @FXML
@@ -67,7 +66,7 @@ public class NPController implements Initializable {
             e.printStackTrace();
             a.show();
         }
-        //teamChoiceBox.setItems(allTeams);
+
         ListViewEx.setItems(allTeams);
         ListViewEx.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
@@ -100,7 +99,7 @@ public class NPController implements Initializable {
     public void setEmployeeToUpdate(Employee employee) throws RateCalcException {
         this.emplyeeToUpdate = employee;
         model.getInstance().setEmployeeToUpdateM(emplyeeToUpdate, annualSalaryField, overheadMultiField, configFixAnnAmountField,
-                countryField, continentField, teamChoiceBox, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
+                countryField, continentField, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
     }
 
     public void cancel(ActionEvent actionEvent) {
@@ -112,7 +111,7 @@ public class NPController implements Initializable {
         this.msc = msController;
     }
 
-    public boolean fieldCheck() {
+    private boolean fieldCheck() {
         if (annualSalaryField.getText().isEmpty() ||
                 overheadMultiField.getText().isEmpty() ||
                 configFixAnnAmountField.getText().isEmpty() ||

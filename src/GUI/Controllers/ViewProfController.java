@@ -9,7 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -37,7 +36,7 @@ public class ViewProfController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         model.getInstance().setImage(profileInfoImage);
-        //fix hourly rate and daily rate
+
         try {
             model.getInstance().updateUIInfo(selectedEmployee, workingHoursLbl, countryLbl, continentLbl, annualSalaryLbl, empTypeLbl, utilPercentLbl, ompLbl, cfaaLbl, hourlyRateLbl, dailyRateLbl, teamLbl,nameField);
         } catch (RateCalcException e) {

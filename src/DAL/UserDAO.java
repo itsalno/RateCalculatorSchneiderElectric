@@ -1,6 +1,6 @@
 package DAL;
 
-import BE.Group;
+
 import BE.User;
 import Exceptions.RateCalcException;
 

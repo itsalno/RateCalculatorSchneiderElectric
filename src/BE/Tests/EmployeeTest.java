@@ -4,12 +4,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import BE.Employee;
+import BLL.EmployeeLogic;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class EmployeeTest {
 
     private Employee employee;
+
+    private EmployeeLogic eLogic = new EmployeeLogic();
 
     @BeforeEach
     public void setUp() {
@@ -25,9 +28,9 @@ public class EmployeeTest {
         int utilizationPercent = 100;
         String employeeType = "Full-time";
         String fullName = "Martins Lavely";
-        int teamId = 1;
 
-        employee = new Employee(teamId, fullName,
+
+        employee = new Employee(fullName,
                 annualSalary, overheadMultiPercent, confFixedAnnualAmount, country, continent, null,
                 workingHours, utilizationPercent, employeeType, annualSalaryUSD, confFixedAnnualAmountUSD
         );
@@ -36,7 +39,7 @@ public class EmployeeTest {
     @Test
     public void testCalculateHourlyRate() {
         double expectedHourlyRate = 24.04; // Correct expected value rounded to 2 decimal places
-        double actualHourlyRate = employee.calculateHourlyRate();
+        double actualHourlyRate = eLogic.calculateHourlyRate(employee.getAnnualSalary(), employee.getWorkingHours(), employee.getUtilizationPercent(), employee);
         assertEquals(expectedHourlyRate, actualHourlyRate, 0.01, "Hourly rate should be correctly calculated.");
     }
 
@@ -46,7 +49,7 @@ public class EmployeeTest {
         double expectedHourlyRate = 24.04;
         double expectedDailyRate = 192.32;  // Expected daily rate rounded to 2 decimal places
 
-        double actualDailyRate = employee.calculateDailyRate(hoursInWorkDay);
+        double actualDailyRate = eLogic.calculateDailyRate(hoursInWorkDay, employee);
         assertEquals(expectedDailyRate, actualDailyRate, 0.01, "Daily rate should be correctly calculated.");
     }
 

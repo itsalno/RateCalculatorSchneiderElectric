@@ -3,7 +3,6 @@ package GUI.Model;
 import BE.Employee;
 import BE.Group;
 import BE.Multiplier;
-import BE.User;
 import BLL.EmployeeLogic;
 import BLL.GroupLogic;
 import BLL.MultiplierLogic;
@@ -28,19 +27,19 @@ public class model {
     private double USDtoEURRate = 0;
     private int curentCurency;
     private final static model instance = new model();
-    private GroupLogic groupLogic;
+    private GroupLogic groupLogic = new GroupLogic();
     private MultiplierLogic multiplierLogic = new MultiplierLogic();
     private EmployeeLogic eLogic = new EmployeeLogic();
 
     private UserLogic userLogic = new UserLogic();
 
-    public model() {
-        this.groupLogic = new GroupLogic();
-    }
+    private model(){}
 
     public static model getInstance() {
         return instance;
     }
+
+
 
     // TEAM OPERATIONS
 
@@ -49,7 +48,9 @@ public class model {
     }
 
     public ObservableList<Group> getAllTeams() throws RateCalcException {
-        return groupLogic.getAllGroups();
+        ObservableList<Group> groups = FXCollections.observableArrayList();
+        groups.setAll(groupLogic.getAllGroups());
+        return groups;
     }
 
     public Group updateGroupTable(int id) throws RateCalcException {
@@ -68,19 +69,16 @@ public class model {
         groupLogic.applyMultiplierToGroup(multiplier, id);
     }
 
-    public void updateTeamTable(TableView<Group> groupTable) {
-    }
-
     // EMPLOYEE OPERATIONS
 
-    public void createEmployee(Employee employee) throws RateCalcException {
+    private void createEmployee(Employee employee) throws RateCalcException {
         if (employee.getTeams().size() > 2) {
             throw new IllegalArgumentException("An employee cannot be part of more than two teams.");
         }
         eLogic.create(employee);
     }
 
-    public ObservableList<Employee> getAllEmployees() throws RateCalcException {
+    private ObservableList<Employee> getAllEmployees() throws RateCalcException {
         ObservableList<Employee> obsList = FXCollections.observableArrayList();
         obsList.setAll(eLogic.getAllEmployees());
         return obsList;
@@ -102,9 +100,6 @@ public class model {
         eLogic.removeTeamFromEmployee(id, tId);
     }
 
-    public Employee getEmployeeById(int id) throws RateCalcException {
-        return eLogic.getEmployeeById(id);
-    }
 
     // MULTIPLIER OPERATIONS
 
@@ -120,10 +115,6 @@ public class model {
         multiplierLogic.deleteMulti(id);
     }
 
-    public void editMulti(Multiplier multiplier) throws RateCalcException {
-        multiplierLogic.editMultiplier(multiplier);
-    }
-
     public void updateTable(TableView<Multiplier> multiTable) throws RateCalcException {
 
         ObservableList<Multiplier> multis = FXCollections.observableArrayList();
@@ -133,6 +124,7 @@ public class model {
 
     // Main controller
 
+
     public void populateEmpTable(TableView<Employee> profileTable) throws RateCalcException {
 
         ObservableList<Employee> employees = FXCollections.observableArrayList();
@@ -141,21 +133,11 @@ public class model {
     }
 
     public float calculateHourlyMulti(Employee employee) {
-
-        float hourlyRate = employee.getHourlyRate();
-        for (Group group : employee.getTeams()) {
-            hourlyRate = (hourlyRate * ((float) group.getMultiplier() / 100)) + hourlyRate;
-        }
-        return hourlyRate;
+        return eLogic.calculateHourlyMulti(employee);
     }
 
     public float calculateDailyMulti(Employee employee) {
-
-        float dailyRate = employee.getDailyRate();
-        for (Group group : employee.getTeams()) {
-            dailyRate = (dailyRate * ((float) group.getMultiplier() / 100)) + dailyRate;
-        }
-        return dailyRate;
+        return eLogic.calculateDailyMulti(employee);
     }
 
     public void populateGrpTable(TableView<Group> groupTable) throws RateCalcException {
@@ -221,8 +203,7 @@ public class model {
 
             hourlyRateCollumn.setCellValueFactory(cellData -> {
                 String modifiedValueString = String.valueOf(model.getInstance().calculateHourlyMulti(cellData.getValue())).replace(",", ".");
-                //String originalValueString = cellData.getValue().getCalculatedHourlyRate();
-                //String modifiedValueString = originalValueString.replace(',', '.');
+
                 Double originalValue = Double.valueOf(modifiedValueString);
                 df.setRoundingMode(RoundingMode.HALF_UP);
                 String modifiedValueAsString = df.format(originalValue);
@@ -230,8 +211,7 @@ public class model {
             });
             dailyRateCollumn.setCellValueFactory(cellData -> {
                 String modifiedValueString = String.valueOf(model.getInstance().calculateDailyMulti(cellData.getValue())).replace(',', '.');
-                //String originalValueString = cellData.getValue().getCalculatedDailyRate(8);
-                //String modifiedValueString = originalValueString.replace(',', '.');
+
                 Double originalValue = Double.valueOf(modifiedValueString);
                 df.setRoundingMode(RoundingMode.HALF_UP);
                 String modifiedValueAsString = df.format(originalValue);
@@ -242,8 +222,7 @@ public class model {
 
             hourlyRateCollumn.setCellValueFactory(cellData -> {
                 String modifiedValueString = String.valueOf(model.getInstance().calculateHourlyMulti(cellData.getValue())).replace(",", ".");
-                //String originalValueString = cellData.getValue().getCalculatedHourlyRate();
-                //String modifiedValueString = originalValueString.replace(',', '.');
+
                 Double originalValue = Double.valueOf(modifiedValueString);
                 Double modifiedValue = originalValue * EURtoUSDRate;
                 df.setRoundingMode(RoundingMode.HALF_UP);
@@ -252,8 +231,7 @@ public class model {
             });
             dailyRateCollumn.setCellValueFactory(cellData -> {
                 String modifiedValueString = String.valueOf(model.getInstance().calculateDailyMulti(cellData.getValue())).replace(',', '.');
-                //String originalValueString = cellData.getValue().getCalculatedDailyRate(8);
-                //String modifiedValueString = originalValueString.replace(',', '.');
+
                 Double originalValue = Double.valueOf(modifiedValueString);
                 Double modifiedValue = originalValue * EURtoUSDRate;
                 df.setRoundingMode(RoundingMode.HALF_UP);
@@ -342,7 +320,7 @@ public class model {
             confFixedAnnualAmount = (int) (confFixedAnnualAmount * USDtoEURRate);
         }
 
-        Employee newEmployee = new Employee(0,0, fullName, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+        Employee newEmployee = new Employee(0, fullName, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
                 country, continent, selectedTeams, workingHours, utilizationPercent, employeeType,
                 annualSalaryUSD, confFixedAnnualAmountUSD);
 
@@ -352,7 +330,7 @@ public class model {
     public void updateP(Employee employeeToUpdate, TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
                         ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) throws RateCalcException {
 
-        // Collect selected teams from both ChoiceBox and ListView
+        // Collect selected teams from ListView
         List<Group> selectedTeams = new ArrayList<>();
 
         selectedTeams.addAll(listViewEx.getSelectionModel().getSelectedItems());
@@ -396,7 +374,7 @@ public class model {
     }
 
     public void setEmployeeToUpdateM(Employee employee, TextField annualSalaryField, TextField overheadMultiField, TextField configFixAnnAmountField, TextField countryField, TextField continentField,
-                                     ChoiceBox<Group> teamChoiceBox, ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) throws RateCalcException {
+                                     ListView<Group> listViewEx, TextField workingHoursField, TextField utilPercentField, TextField employeeTypeField, TextField nameField) throws RateCalcException {
 
         overheadMultiField.setText(String.valueOf(employee.getOverheadMultiPercent()));
         countryField.setText(employee.getCountry());

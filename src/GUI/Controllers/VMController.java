@@ -35,10 +35,10 @@ public class VMController implements Initializable {
     @FXML
     private TableColumn<Multiplier, Integer> multiID;
 
-   private MSController msController;
+    private MSController msController;
 
-   private Group selectedGroup;
-   private Notifications nt=new Notifications();
+    private Group selectedGroup;
+    private Notifications nt=new Notifications();
 
    public void setMsController(MSController msController){
        this.msController=msController;

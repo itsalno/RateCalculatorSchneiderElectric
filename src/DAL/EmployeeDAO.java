@@ -3,14 +3,15 @@ package DAL;
 import BE.Employee;
 import BE.Group;
 import Exceptions.RateCalcException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class EmployeeDAO implements IEmployeeDAO {
@@ -37,8 +38,8 @@ public class EmployeeDAO implements IEmployeeDAO {
                 stmt.setDouble(9, employee.getAnnualSalaryUSD());
                 stmt.setDouble(10, employee.getConfFixedAnnualAmountUSD());
                 stmt.setString(11, employee.getFullName());
-                stmt.setFloat(12, employee.calculateHourlyRate());
-                stmt.setFloat(13, employee.calculateDailyRate(employee.getWorkingHours()));
+                stmt.setFloat(12, employee.getHourlyRate());
+                stmt.setFloat(13, employee.getDailyRate());
 
                 stmt.executeUpdate();
 
@@ -71,8 +72,8 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
-    public ObservableList<Employee> getAllEmployees() throws RateCalcException {
-        ObservableList<Employee> employees = FXCollections.observableArrayList();
+    public List<Employee> getAllEmployees() throws RateCalcException {
+        List<Employee> employees = new LinkedList<>();
 
         try (Connection conn = dbConnector.getConn()) {
             String sql = "SELECT * FROM Employee";
@@ -94,7 +95,7 @@ public class EmployeeDAO implements IEmployeeDAO {
 
                         List<Group> teams = getTeamsByEmployeeId(id);
 
-                        Employee employee = new Employee(id, 0, fullname, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+                        Employee employee = new Employee(id, fullname, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
                                 country, continent, teams, workingHours, utilizationPercent, employeeType, hourlyRate, dailyRate);
                         employees.add(employee);
                     }
@@ -180,8 +181,8 @@ public class EmployeeDAO implements IEmployeeDAO {
                 stmt.setString(9, employee.getEmployeeType());
                 stmt.setDouble(10, employee.getAnnualSalaryUSD());
                 stmt.setDouble(11, employee.getConfFixedAnnualAmountUSD());
-                stmt.setFloat(12, employee.calculateHourlyRate());
-                stmt.setFloat(13, employee.calculateDailyRate(employee.getWorkingHours()));
+                stmt.setFloat(12, employee.getHourlyRate());
+                stmt.setFloat(13, employee.getDailyRate());
                 stmt.setInt(14, employee.getId());
 
                 stmt.executeUpdate();
@@ -223,12 +224,11 @@ public class EmployeeDAO implements IEmployeeDAO {
     public List<Employee> searchEmployees(String searchText) throws RateCalcException {
         List<Employee> matchingEmployees = new ArrayList<>();
         try (Connection conn = dbConnector.getConn()) {
-            String sql = "SELECT * FROM Employee WHERE Country LIKE ? OR Continent LIKE ? OR Name LIKE ? OR Team LIKE ?";
+            String sql = "SELECT * FROM Employee WHERE Country LIKE ? OR Continent LIKE ? OR Name LIKE ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, "%" + searchText + "%");
             pstmt.setString(2, "%" + searchText + "%");
             pstmt.setString(3, "%" + searchText + "%");
-            pstmt.setString(4, "%" + searchText + "%");
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
@@ -246,7 +246,7 @@ public class EmployeeDAO implements IEmployeeDAO {
 
                 List<Group> teams = getTeamsByEmployeeId(id);
 
-                Employee employee = new Employee(id, 0, fullname, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+                Employee employee = new Employee(id, fullname, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
                         country, continent, teams, workingHours, utilizationPercent, employeeType, hourlyRate, dailyRate);
                 matchingEmployees.add(employee);
             }
@@ -303,13 +303,6 @@ public class EmployeeDAO implements IEmployeeDAO {
                 pstmt.executeUpdate();
             }
 
-            sql = "UPDATE Employee SET Team=?, TeamId=NULL WHERE id=?";
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, "None");
-                pstmt.setInt(2, id);
-                pstmt.executeUpdate();
-                conn.commit();
-            }
             conn.setAutoCommit(true);
             conn.setTransactionIsolation(Connection.TRANSACTION_NONE);
         } catch (SQLException e) {
@@ -329,7 +322,6 @@ public class EmployeeDAO implements IEmployeeDAO {
 
                         Employee employee = new Employee(
                                 rs.getInt("id"),
-                                rs.getInt("TeamId"),
                                 rs.getString("Name"),
                                 rs.getDouble("AnnualSalary"),
                                 rs.getInt("OverheadMultiplierPercentage"),

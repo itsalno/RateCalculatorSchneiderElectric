@@ -2,11 +2,9 @@ package DAL;
 
 import BE.Group;
 import Exceptions.RateCalcException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class GroupDAO implements IGroupDAO {
@@ -27,8 +25,8 @@ public class GroupDAO implements IGroupDAO {
     }
 
     @Override
-    public ObservableList<Group> getAllGroups() throws RateCalcException {
-        ObservableList<Group> groups = FXCollections.observableArrayList();
+    public List<Group> getAllGroups() throws RateCalcException {
+        List<Group> groups = new LinkedList<>();
         try (Connection con = dbConnector.getConn()) {
             String sql = "SELECT * FROM Teams";
             try (PreparedStatement pstmt = con.prepareStatement(sql);

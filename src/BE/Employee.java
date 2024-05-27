@@ -2,8 +2,6 @@ package BE;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class Employee {
 
@@ -21,14 +19,13 @@ public class Employee {
     private double annualSalaryUSD;
     private double confFixedAnnualAmountUSD;
     private int id;
-    private int teamId;
     private List<Group> teams;
 
     public Employee() {
         this.teams = new ArrayList<>();
     }
 
-    public Employee(int id, int teamId, String fullName, double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country, String continent, List<Group> teams, int workingHours, int utilizationPercent, String employeeType, float hourlyRate, float dailyRate) {
+    public Employee(int id, String fullName, double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country, String continent, List<Group> teams, int workingHours, int utilizationPercent, String employeeType, float hourlyRate, float dailyRate) {
         this.annualSalary = annualSalary;
         this.overheadMultiPercent = overheadMultiPercent;
         this.confFixedAnnualAmount = confFixedAnnualAmount;
@@ -39,13 +36,12 @@ public class Employee {
         this.employeeType = employeeType;
         this.id = id;
         this.fullName = fullName;
-        this.teamId = teamId;
         this.hourlyRate = hourlyRate;
         this.dailyRate = dailyRate;
-        this.teams = teams != null ? teams : new ArrayList<>(); // Initialize teams
+        this.teams = teams; // Initialize teams
     }
 
-    public Employee(int teamId, String fullName, double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country, String continent, List<Group> teams, int workingHours, int utilizationPercent, String employeeType, double annualSalaryUSD, double confFixedAnnualAmountUSD) {
+    public Employee(String fullName, double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country, String continent, List<Group> teams, int workingHours, int utilizationPercent, String employeeType, double annualSalaryUSD, double confFixedAnnualAmountUSD) {
         this.annualSalary = annualSalary;
         this.overheadMultiPercent = overheadMultiPercent;
         this.confFixedAnnualAmount = confFixedAnnualAmount;
@@ -57,7 +53,6 @@ public class Employee {
         this.annualSalaryUSD = annualSalaryUSD;
         this.confFixedAnnualAmountUSD = confFixedAnnualAmountUSD;
         this.fullName = fullName;
-        this.teamId = teamId;
         this.teams = new ArrayList<>();
     }
 
@@ -173,59 +168,13 @@ public class Employee {
         this.id = id;
     }
 
-    public int getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(int teamId) {
-        this.teamId = teamId;
-    }
-
     public List<Group> getTeams() {
-        return teams != null ? teams : new ArrayList<>(); // Return empty list if teams is null
+        return teams; // Return empty list if teams is null
     }
 
     public void setTeams(List<Group> teams) {
-        this.teams = teams != null ? teams : new ArrayList<>();
+        this.teams = teams;
     }
 
-    public float calculateHourlyRate() {
-        float hourlyRate = (float) (annualSalary / (workingHours * (utilizationPercent / 100.0)));
-        hourlyRate = roundToTwoDecimalPlaces(hourlyRate);
-        setHourlyRate(hourlyRate);
-        return hourlyRate;
-    }
 
-    public float calculateDailyRate(int hoursInWorkDay) {
-        float dailyRate = calculateHourlyRate() * hoursInWorkDay;
-        dailyRate = roundToTwoDecimalPlaces(dailyRate);
-        setDailyRate(dailyRate);
-        return dailyRate;
-    }
-
-    private float roundToTwoDecimalPlaces(float value) {
-        BigDecimal bd = new BigDecimal(Float.toString(value));
-        bd = bd.setScale(2, RoundingMode.HALF_UP);
-        return bd.floatValue();
-    }
-
-    public String getCalculatedHourlyRate() {
-        return String.format("%.2f", calculateHourlyRate());
-    }
-
-    public String getCalculatedDailyRate(int hoursInWorkDay) {
-        return String.format("%.2f", calculateDailyRate(hoursInWorkDay));
-    }
-
-    public boolean canAddMoreTeams() {
-        return this.teams.size() < 2;
-    }
-
-    public void addTeam(Group team) {
-        if (canAddMoreTeams()) {
-            this.teams.add(team);
-        } else {
-            throw new IllegalStateException("An employee cannot be part of more than two teams.");
-        }
-    }
 }

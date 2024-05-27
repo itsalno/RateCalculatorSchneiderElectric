@@ -5,7 +5,7 @@ import DAL.MultiplierDAO;
 import Exceptions.RateCalcException;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class MultiplierLogic {
     MultiplierDAO multiplierDAO = new MultiplierDAO();

@@ -45,7 +45,6 @@ public class LogInController implements Initializable {
         password = passwordField.getText();
         try {
             if (model.getInstance().checkUser(username, password)) {
-                System.out.println(username + " " + password);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/MainScreen.fxml"));
                 Parent root = loader.load();
                 Stage primaryStage = new Stage();

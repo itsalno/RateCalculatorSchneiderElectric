@@ -62,10 +62,12 @@ public class MSController implements Initializable {
     private TableColumn<Employee, String> dailyRateCollumn;
     @FXML
     private TableColumn<Employee, String> hourlyRateCollumn;
+
+    private int curentCurency = 0;
+    private double EURtoUSDRate = 1.0775286;
     private Notifications nt=new Notifications();
 
 
-    //don't know which
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         fullNameCollumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFullName()));
@@ -79,12 +81,12 @@ public class MSController implements Initializable {
             return new SimpleStringProperty(teamNames);
         });
         dailyRateCollumn.setCellValueFactory(cellData -> {
-            String modifiedValueAsString = cellData.getValue().getCalculatedDailyRate(8) + "€";
+            String modifiedValueAsString = model.getInstance().calculateDailyMulti(cellData.getValue()) + "€";
             return new SimpleStringProperty(modifiedValueAsString);
         });
 
         hourlyRateCollumn.setCellValueFactory(cellData -> {
-            String modifiedValueAsString = cellData.getValue().getCalculatedHourlyRate() + "€";
+            String modifiedValueAsString = model.getInstance().calculateHourlyMulti(cellData.getValue()) + "€";
             return new SimpleStringProperty(modifiedValueAsString);
         });
 
@@ -98,7 +100,6 @@ public class MSController implements Initializable {
         groupMulti.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getMultiplier()).asObject());
 
 
-        //remember
 
         try {
             model.getInstance().populateEmpTable(profileTable);
@@ -226,7 +227,7 @@ public class MSController implements Initializable {
         }
     }
 
-    public void viewProfile(Employee employee) throws IOException {
+    private void viewProfile(Employee employee) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/ViewProfile.fxml"));
         Parent root = loader.load();
@@ -324,16 +325,10 @@ public class MSController implements Initializable {
 
         }
     }
-    //Starts here
-
-    //fix so its private
-    private int curentCurency = 0;
-    private double EURtoUSDRate = 1.0775286;
 
     public void swichCurency(ActionEvent actionEvent) {
         try {
             curentCurency = model.getInstance().swichCurency(curentCurency, profileTable, curencyBTN, hourlyRateCollumn, dailyRateCollumn );
-            nt.showSuccess("Currency changed!");
         } catch (RateCalcException e) {
             Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
             e.printStackTrace();
@@ -373,12 +368,13 @@ public class MSController implements Initializable {
         try {
 
 
-    if (selectedGroup != null && selectedEmployee != null) {
-        model.getInstance().removeTeamFromEmployee(selectedEmployee.getId(), selectedGroup.getId());
-        model.getInstance().populateEmpTable(profileTable);
-        groupTable.getSelectionModel().clearSelection();
-    }
-            }catch (RateCalcException e){
+        if (selectedGroup != null && selectedEmployee != null) {
+            model.getInstance().removeTeamFromEmployee(selectedEmployee.getId(), selectedGroup.getId());
+            model.getInstance().populateEmpTable(profileTable);
+            groupTable.getSelectionModel().clearSelection();
+        }
+            }
+        catch (RateCalcException e){
             Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
             e.printStackTrace();
             a.show();
@@ -389,7 +385,6 @@ public class MSController implements Initializable {
 
             model.getInstance().updateGroupTable(group, groupTable);
             model.getInstance().populateEmpTable(profileTable);
-
     }
 
     public void addToTeam(ActionEvent actionEvent) {

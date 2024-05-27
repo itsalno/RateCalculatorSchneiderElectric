@@ -3,7 +3,7 @@ package BLL;
 import BE.Group;
 import DAL.GroupDAO;
 import Exceptions.RateCalcException;
-import javafx.collections.ObservableList;
+
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public class GroupLogic {
         groupDAO.createGroup(group);
     }
 
-    public ObservableList<Group> getAllGroups() throws RateCalcException {
+    public List<Group> getAllGroups() throws RateCalcException {
        return groupDAO.getAllGroups();
     }
     public Group updateGroupTable(int id) throws RateCalcException {

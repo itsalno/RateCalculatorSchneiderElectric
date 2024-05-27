@@ -10,7 +10,7 @@ public interface IEmployeeDAO {
 
     void create(Employee employee)throws RateCalcException;
 
-    ObservableList<Employee> getAllEmployees()throws RateCalcException;
+    List<Employee> getAllEmployees()throws RateCalcException;
     void delete(Employee employee)throws RateCalcException;
     void edit(Employee employee)throws RateCalcException ;
     List<Employee> searchEmployees(String searchText)throws RateCalcException;

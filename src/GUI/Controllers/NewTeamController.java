@@ -76,8 +76,8 @@ public class NewTeamController implements Initializable {
 
 
 
-    public void edit() throws RateCalcException {
-        //model
+    private void edit() throws RateCalcException {
+
         groupToEdit.setName(fieldName.getText());
             model.getInstance().updateTeam(groupToEdit);
 
@@ -86,8 +86,8 @@ public class NewTeamController implements Initializable {
 
 
 
-    //idk
-    public void create() throws RateCalcException {
+
+    private void create() throws RateCalcException {
         String name=fieldName.getText();
         Group group=new Group(name);
             model.getInstance().createTeam(group);
@@ -99,7 +99,7 @@ public class NewTeamController implements Initializable {
         fieldName.setText(groupToEdit.getName());
 
     }
-    public boolean fieldCheck() {
+    private boolean fieldCheck() {
         if (fieldName.getText().isEmpty()){
             return false;
         }
