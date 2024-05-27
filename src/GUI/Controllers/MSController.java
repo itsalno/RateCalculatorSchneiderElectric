@@ -79,16 +79,15 @@ public class MSController implements Initializable {
             return new SimpleStringProperty(teamNames);
         });
         dailyRateCollumn.setCellValueFactory(cellData -> {
-            String modifiedValueString = String.valueOf(model.getInstance().calculateDailyMulti(cellData.getValue())).replace(',', '.');
-            String modifiedValueAsString = Double.parseDouble(modifiedValueString) + "€";
+            String modifiedValueAsString = cellData.getValue().getCalculatedDailyRate(8) + "€";
             return new SimpleStringProperty(modifiedValueAsString);
         });
 
         hourlyRateCollumn.setCellValueFactory(cellData -> {
-            String modifiedValueString = String.valueOf(model.getInstance().calculateHourlyMulti(cellData.getValue())).replace(",", ".");
-            String modifiedValueAsString = Double.parseDouble(modifiedValueString) + "€";
+            String modifiedValueAsString = cellData.getValue().getCalculatedHourlyRate() + "€";
             return new SimpleStringProperty(modifiedValueAsString);
         });
+
         workingHoursColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getWorkingHours()).asObject());
         annualSalaryColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty((int) cellData.getValue().getAnnualSalary()).asObject());
         OMP.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getOverheadMultiPercent()).asObject());
