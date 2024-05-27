@@ -1,6 +1,7 @@
 package GUI.Controllers;
 import BE.Group;
 import BE.Multiplier;
+import GUI.Notifications;
 import Exceptions.RateCalcException;
 import GUI.Model.model;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -11,13 +12,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class VMController implements Initializable {
@@ -39,6 +38,7 @@ public class VMController implements Initializable {
    private MSController msController;
 
    private Group selectedGroup;
+   private Notifications nt=new Notifications();
 
    public void setMsController(MSController msController){
        this.msController=msController;
@@ -81,13 +81,22 @@ public class VMController implements Initializable {
     public void deleteMulti(ActionEvent actionEvent) {
         Multiplier multiplier = multiTable.getSelectionModel().getSelectedItem();
         if(multiplier != null){
-            try {
-                model.getInstance().deleteMulti(multiplier.getId());
-                model.getInstance().updateTable(multiTable);
-            } catch (RateCalcException e) {
-                Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
-                e.printStackTrace();
-                a.show();
+            Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationDialog.setTitle("Confirmation");
+            confirmationDialog.setHeaderText("Are you sure you want to delete this employee?");
+            confirmationDialog.setContentText("Any unsaved changes will be lost.");
+            Optional<ButtonType> result = confirmationDialog.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                try {
+                    model.getInstance().deleteMulti(multiplier.getId());
+                    model.getInstance().updateTable(multiTable);
+                    nt.showSuccess("Successfully deleted multiplier");
+                } catch (RateCalcException e) {
+                    Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                    e.printStackTrace();
+                    a.show();
+                }
             }
         }
     }
@@ -97,6 +106,7 @@ public class VMController implements Initializable {
             model.getInstance().applyMultiplierToGroup(multiTable.getSelectionModel().getSelectedItem().getPerc(), selectedGroup.getId());
             Group allGroups= model.getInstance().updateGroupTable(selectedGroup.getId());
             msController.updateGroupTable(allGroups);
+            nt.showSuccess("Successfully applied multiplier");
         } catch (RateCalcException e) {
             Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
             e.printStackTrace();

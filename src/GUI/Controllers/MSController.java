@@ -1,5 +1,6 @@
 package GUI.Controllers;
 import BE.Employee;
+import GUI.Notifications;
 import Exceptions.RateCalcException;
 import GUI.Model.model;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,7 +18,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -61,6 +62,7 @@ public class MSController implements Initializable {
     private TableColumn<Employee, String> dailyRateCollumn;
     @FXML
     private TableColumn<Employee, String> hourlyRateCollumn;
+    private Notifications nt=new Notifications();
 
 
     //don't know which
@@ -156,17 +158,24 @@ public class MSController implements Initializable {
     public void DeleteTeams(ActionEvent actionEvent)  {
         Group selectedGroup = groupTable.getSelectionModel().getSelectedItem();
         if (selectedGroup != null) {
-
-            try {
-                model.getInstance().deleteTeam(selectedGroup);
-                profileTable.getSelectionModel().clearSelection();
-                model.getInstance().populateEmpTable(profileTable);
-            } catch (RateCalcException e) {
-                Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
-                e.printStackTrace();
-                a.show();
+            Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationDialog.setTitle("Confirmation");
+            confirmationDialog.setHeaderText("Are you sure you want to delete this team?");
+            confirmationDialog.setContentText("Any unsaved changes will be lost.");
+            Optional<ButtonType> result = confirmationDialog.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                try {
+                    model.getInstance().deleteTeam(selectedGroup);
+                    profileTable.getSelectionModel().clearSelection();
+                    model.getInstance().populateEmpTable(profileTable);
+                } catch (RateCalcException e) {
+                    Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                    e.printStackTrace();
+                    a.show();
+                }
+                groupTable.getItems().remove(selectedGroup);
+                nt.showSuccess("Successfully deleted selected team");
             }
-            groupTable.getItems().remove(selectedGroup);
 
         }
     }
@@ -198,14 +207,23 @@ public class MSController implements Initializable {
         Employee selectedEmployee = profileTable.getSelectionModel().getSelectedItem();
 
         if (selectedEmployee != null) {
-            try {
-                model.getInstance().deleteEmployee(selectedEmployee);
-            } catch (RateCalcException e) {
-                Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
-                e.printStackTrace();
-                a.show();
+            Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationDialog.setTitle("Confirmation");
+            confirmationDialog.setHeaderText("Are you sure you want to delete this employee?");
+            confirmationDialog.setContentText("Any unsaved changes will be lost.");
+            Optional<ButtonType> result = confirmationDialog.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                try {
+                    model.getInstance().deleteEmployee(selectedEmployee);
+                } catch (RateCalcException e) {
+                    Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+                    e.printStackTrace();
+                    a.show();
+                }
+                profileTable.getItems().remove(selectedEmployee);
+                nt.showSuccess("Successfully deleted selected employee!");
             }
-            profileTable.getItems().remove(selectedEmployee);
         }
     }
 
@@ -316,6 +334,7 @@ public class MSController implements Initializable {
     public void swichCurency(ActionEvent actionEvent) {
         try {
             curentCurency = model.getInstance().swichCurency(curentCurency, profileTable, curencyBTN, hourlyRateCollumn, dailyRateCollumn );
+            nt.showSuccess("Currency changed!");
         } catch (RateCalcException e) {
             Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
             e.printStackTrace();

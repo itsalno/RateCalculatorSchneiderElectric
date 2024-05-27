@@ -1,6 +1,7 @@
 package GUI.Controllers;
 
 import BE.Multiplier;
+import GUI.Notifications;
 import Exceptions.RateCalcException;
 import GUI.Model.model;
 import javafx.collections.FXCollections;
@@ -23,6 +24,7 @@ public class NewMultiController implements Initializable {
 
     @FXML
     private ChoiceBox<String> choiceType;
+    private Notifications nt=new Notifications();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -32,9 +34,15 @@ public class NewMultiController implements Initializable {
     }
 
     public void createMulti(ActionEvent actionEvent) {
-        //Needs alert pls
+
         try {
-            model.getInstance().createMulti(new Multiplier(choiceType.getSelectionModel().getSelectedItem(),Integer.parseInt(textPerc.getText())));
+            if (!fieldCheck()) {
+                nt.showError("You have left an empty field!");
+                return;
+            }
+
+            model.getInstance().createMulti(new Multiplier(choiceType.getSelectionModel().getSelectedItem(), Integer.parseInt(textPerc.getText())));
+
         } catch (RateCalcException e) {
             Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
             e.printStackTrace();
@@ -43,6 +51,16 @@ public class NewMultiController implements Initializable {
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
 
+        nt.showSuccess("Successfully created the multiplier");
+
+    }
+
+    public boolean fieldCheck() {
+        if (textPerc.getText().isEmpty()||choiceType.getItems().isEmpty()) {
+            return false;
+        }
+
+        return true;
     }
 
 

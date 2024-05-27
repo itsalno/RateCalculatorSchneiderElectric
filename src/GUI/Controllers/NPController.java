@@ -2,6 +2,7 @@ package GUI.Controllers;
 
 import BE.Employee;
 import BE.Group;
+import GUI.Notifications;
 import Exceptions.RateCalcException;
 import GUI.Model.model;
 import javafx.collections.ObservableList;
@@ -9,13 +10,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class NPController implements Initializable {
@@ -48,6 +46,7 @@ public class NPController implements Initializable {
     private MSController msc;
     private Employee emplyeeToUpdate;
     private MSController msController;
+    private Notifications nt=new Notifications();
 
 
 
@@ -75,13 +74,18 @@ public class NPController implements Initializable {
 
     public void create(ActionEvent actionEvent) {
        try {
+           if (!fieldCheck()) {
+               nt.showError("You have left an empty field!");
+               return;
+           }
+
            if (emplyeeToUpdate != null) {
                model.getInstance().updateP(emplyeeToUpdate, annualSalaryField, overheadMultiField, configFixAnnAmountField,
                        countryField, continentField, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
-           } else {
-               model.getInstance().createP(annualSalaryField, overheadMultiField, configFixAnnAmountField,
-                       countryField, continentField, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
-           }
+
+           } else model.getInstance().createP(annualSalaryField, overheadMultiField, configFixAnnAmountField,
+                   countryField, continentField, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
+
        }catch (RateCalcException e){
            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
            e.printStackTrace();
@@ -89,6 +93,8 @@ public class NPController implements Initializable {
        }
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
+
+        nt.showSuccess("Successfully created/updated an employee");
     }
 
     public void setEmployeeToUpdate(Employee employee) throws RateCalcException {
@@ -104,6 +110,23 @@ public class NPController implements Initializable {
 
     public void setMSController(MSController msController) {
         this.msc = msController;
+    }
+
+    public boolean fieldCheck() {
+        if (annualSalaryField.getText().isEmpty() ||
+                overheadMultiField.getText().isEmpty() ||
+                configFixAnnAmountField.getText().isEmpty() ||
+                countryField.getText().isEmpty() ||
+                continentField.getText().isEmpty() ||
+                ListViewEx.getItems().isEmpty() ||
+                workingHoursField.getText().isEmpty() ||
+                utilPercentField.getText().isEmpty() ||
+                employeeTypeField.getText().isEmpty() ||
+                nameField.getText().isEmpty()) {
+            return false;
+        }
+
+        return true;
     }
 
 }

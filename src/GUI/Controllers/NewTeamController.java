@@ -1,6 +1,7 @@
 package GUI.Controllers;
 
 import BE.Group;
+import GUI.Notifications;
 import Exceptions.RateCalcException;
 import GUI.Model.model;
 import javafx.event.ActionEvent;
@@ -8,9 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -27,6 +26,7 @@ public class NewTeamController implements Initializable {
 
     private MSController msController;
     private Group groupToEdit;
+    private Notifications nt=new Notifications();
 
 
 
@@ -52,19 +52,28 @@ public class NewTeamController implements Initializable {
 
     public void CreateTeam(ActionEvent actionEvent)  {
         try {
+            if (!fieldCheck()) {
+                nt.showError("You have left an empty field!");
+                return;
+            }
             if (groupToEdit != null) {
                 edit();
             } else {
                 create();
             }
-        }catch (RateCalcException e){
+
+        } catch (RateCalcException e) {
             Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
             e.printStackTrace();
             a.show();
         }
+
         Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
+
+        nt.showSuccess("Successfully created/updated the team");
     }
+
 
 
     public void edit() throws RateCalcException {
@@ -89,5 +98,12 @@ public class NewTeamController implements Initializable {
         this.groupToEdit=selectedGroup;
         fieldName.setText(groupToEdit.getName());
 
+    }
+    public boolean fieldCheck() {
+        if (fieldName.getText().isEmpty()){
+            return false;
+        }
+
+        return true;
     }
 }
