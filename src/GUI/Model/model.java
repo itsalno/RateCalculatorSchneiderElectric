@@ -3,9 +3,11 @@ package GUI.Model;
 import BE.Employee;
 import BE.Group;
 import BE.Multiplier;
+import BE.User;
 import BLL.EmployeeLogic;
 import BLL.GroupLogic;
 import BLL.MultiplierLogic;
+import BLL.UserLogic;
 import Exceptions.RateCalcException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -29,6 +31,8 @@ public class model {
     private GroupLogic groupLogic;
     private MultiplierLogic multiplierLogic = new MultiplierLogic();
     private EmployeeLogic eLogic = new EmployeeLogic();
+
+    private UserLogic userLogic = new UserLogic();
 
     public model() {
         this.groupLogic = new GroupLogic();
@@ -427,4 +431,11 @@ public class model {
         Image img = new Image("file:src/SchneiderLogo.png");
         imageview.setImage(img);
     }
+
+    //Log in operation
+
+    public boolean checkUser(String username, String password) throws RateCalcException {
+        return userLogic.checkUser(username, password);
+    }
+
 }

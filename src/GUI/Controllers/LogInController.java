@@ -1,11 +1,14 @@
 package GUI.Controllers;
 
+import Exceptions.RateCalcException;
+import GUI.Model.model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -24,6 +27,10 @@ public class LogInController implements Initializable {
     private TextField usernameField;
     @FXML
     private ImageView logInImage;
+    @FXML
+    private String username;
+    @FXML
+    private String password;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -33,14 +40,25 @@ public class LogInController implements Initializable {
         passwordField.setPromptText("Enter password");
     }
 
-    public void logIn(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/MainScreen.fxml"));
-        Parent root = loader.load();
-        Stage primaryStage = new Stage();
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
+    public void logIn(ActionEvent actionEvent) throws IOException, RateCalcException {
+        username = usernameField.getText();
+        password = passwordField.getText();
 
-        Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-        currentStage.close();
+        if(model.getInstance().checkUser(username, password)){
+            System.out.println(username + " " + password);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/MainScreen.fxml"));
+            Parent root = loader.load();
+            Stage primaryStage = new Stage();
+            primaryStage.setScene(new Scene(root));
+            primaryStage.show();
+
+            Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+            currentStage.close();
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.ERROR,"You have inputted the wrong username or password, please check and try again");
+            alert.show();
+        }
+
     }
 }
