@@ -40,24 +40,28 @@ public class LogInController implements Initializable {
         passwordField.setPromptText("Enter password");
     }
 
-    public void logIn(ActionEvent actionEvent) throws IOException, RateCalcException {
+    public void logIn(ActionEvent actionEvent) throws IOException {
         username = usernameField.getText();
         password = passwordField.getText();
+        try {
+            if (model.getInstance().checkUser(username, password)) {
+                System.out.println(username + " " + password);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/MainScreen.fxml"));
+                Parent root = loader.load();
+                Stage primaryStage = new Stage();
+                primaryStage.setScene(new Scene(root));
+                primaryStage.show();
 
-        if(model.getInstance().checkUser(username, password)){
-            System.out.println(username + " " + password);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../Views/MainScreen.fxml"));
-            Parent root = loader.load();
-            Stage primaryStage = new Stage();
-            primaryStage.setScene(new Scene(root));
-            primaryStage.show();
-
-            Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
-            currentStage.close();
-        }
-        else{
-            Alert alert = new Alert(Alert.AlertType.ERROR,"You have inputted the wrong username or password, please check and try again");
-            alert.show();
+                Stage currentStage = (Stage) ((Button) actionEvent.getSource()).getScene().getWindow();
+                currentStage.close();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You have inputted the wrong username or password, please check and try again");
+                alert.show();
+            }
+        }catch (RateCalcException e){
+            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            e.printStackTrace();
+            a.show();
         }
 
     }
