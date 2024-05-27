@@ -112,7 +112,11 @@ public class EmployeeDAO implements IEmployeeDAO {
         String sql = "SELECT t.id, t.name, t.multiplier FROM Teams t " +
                 "INNER JOIN EmployeeTeams et ON t.id = et.team_id " +
                 "WHERE et.employee_id = ?";
-        try (Connection conn = dbConnector.getConn(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = dbConnector.getConn();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+
             stmt.setInt(1, employeeId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -123,6 +127,8 @@ public class EmployeeDAO implements IEmployeeDAO {
                     teams.add(team);
                 }
             }
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_NONE);
         } catch (SQLException e) {
             throw new RateCalcException("Problems with the database or database connection",e);
         }
@@ -132,6 +138,8 @@ public class EmployeeDAO implements IEmployeeDAO {
     @Override
     public void delete(Employee employee) throws RateCalcException {
         try (Connection conn = dbConnector.getConn()) {
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             String sql = "DELETE FROM EmployeeTeams WHERE employee_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, employee.getId());
@@ -142,7 +150,10 @@ public class EmployeeDAO implements IEmployeeDAO {
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, employee.getId());
                 stmt.executeUpdate();
+                conn.commit();
             }
+            conn.setAutoCommit(true);
+            conn.setTransactionIsolation(Connection.TRANSACTION_NONE);
         } catch (SQLException e) {
             throw new RateCalcException("Problems with the database or database connection",e);
         }
@@ -185,8 +196,10 @@ public class EmployeeDAO implements IEmployeeDAO {
     private void updateEmployeeTeams(Employee employee) throws RateCalcException {
         String sqlDelete = "DELETE FROM EmployeeTeams WHERE employee_id = ?";
         String sqlInsert = "INSERT INTO EmployeeTeams (employee_id, team_id) VALUES (?, ?)";
-        try (Connection conn = dbConnector.getConn(); PreparedStatement stmtDelete = conn.prepareStatement(sqlDelete); PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
+        try (Connection conn = dbConnector.getConn();
+             PreparedStatement stmtDelete = conn.prepareStatement(sqlDelete); PreparedStatement stmtInsert = conn.prepareStatement(sqlInsert)) {
             conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
             stmtDelete.setInt(1, employee.getId());
             stmtDelete.executeUpdate();
@@ -200,6 +213,7 @@ public class EmployeeDAO implements IEmployeeDAO {
             stmtInsert.executeBatch();
             conn.commit();
             conn.setAutoCommit(true);
+            conn.setTransactionIsolation(Connection.TRANSACTION_NONE);
         } catch (SQLException e) {
             throw new RateCalcException("Problems with the database or database connection",e);
         }
@@ -278,7 +292,10 @@ public class EmployeeDAO implements IEmployeeDAO {
 
     @Override
     public void removeTeamFromEmployee(int id, int tId) throws RateCalcException {
+
         try (Connection conn = dbConnector.getConn()) {
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             String sql = "DELETE FROM EmployeeTeams WHERE employee_id = ? AND team_id = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setInt(1, id);
@@ -293,6 +310,8 @@ public class EmployeeDAO implements IEmployeeDAO {
                 pstmt.executeUpdate();
                 conn.commit();
             }
+            conn.setAutoCommit(true);
+            conn.setTransactionIsolation(Connection.TRANSACTION_NONE);
         } catch (SQLException e) {
             throw new RateCalcException("Problems with the database or database connection",e);
         }

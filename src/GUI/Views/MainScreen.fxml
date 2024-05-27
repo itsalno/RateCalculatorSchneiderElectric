@@ -67,7 +67,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="760.0" layoutY="394.0" mnemonicParsing="false" onAction="#addToTeam" prefHeight="34.0" prefWidth="45.0" stylesheets="@../../StyleClass.css" text="+" />
-      <Button layoutX="760.0" layoutY="240.0" mnemonicParsing="false" onAction="#removeFromTeam" prefHeight="34.0" prefWidth="45.0" stylesheets="@../../StyleClass.css" text="-" />
+      <Button layoutX="760.0" layoutY="394.0" mnemonicParsing="false" onAction="#addToTeam" prefHeight="34.0" prefWidth="45.0" stylesheets="@../../StyleClass.css" text="-&gt;" />
+      <Button layoutX="760.0" layoutY="240.0" mnemonicParsing="false" onAction="#removeFromTeam" prefHeight="34.0" prefWidth="45.0" stylesheets="@../../StyleClass.css" text="&lt;-" />
    </children>
 </AnchorPane>

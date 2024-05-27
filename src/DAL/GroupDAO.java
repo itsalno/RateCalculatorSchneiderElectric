@@ -49,6 +49,8 @@ public class GroupDAO implements IGroupDAO {
     @Override
     public void deleteGroup(Group group) throws RateCalcException {
         try (Connection con = dbConnector.getConn()) {
+            con.setAutoCommit(false);
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             String sql1 = "DELETE FROM EmployeeTeams Where team_id=?";
             PreparedStatement pstmt1 = con.prepareStatement(sql1);
             pstmt1.setInt(1, group.getId());
@@ -58,10 +60,12 @@ public class GroupDAO implements IGroupDAO {
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setInt(1, group.getId());
             pstmt.execute();
+            con.commit();
 
-
-
-        } catch (SQLException e) {
+            con.setAutoCommit(true);
+            con.setTransactionIsolation(Connection.TRANSACTION_NONE);
+        }
+        catch (SQLException e) {
             throw new RateCalcException("Problems with the database or database connection",e);
         }
     }
