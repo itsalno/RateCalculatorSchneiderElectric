@@ -46,22 +46,24 @@ public class EmployeeLogic {
         return eDAO.getEmployeeById(id);
     }
 
-    public float calculateHourlyRate(double annualSalary, int workingHours, int utilizationPercent, Employee employee) {
-        float hourlyRate = (float) (annualSalary / (workingHours * (utilizationPercent / 100.0)));
+    public float calculateHourlyRate(double annualSalary, double annualSalaryUSD,int workingHours, int utilizationPercent, Employee employee) {
+
+        float hourlyRate = (float) (annualSalary / ((workingHours * 240) * (utilizationPercent / 100.0)));
+
         hourlyRate = roundToTwoDecimalPlaces(hourlyRate);
         employee.setHourlyRate(hourlyRate);
         return hourlyRate;
     }
 
     public float calculateDailyRate(int hoursInWorkDay, Employee employee) {
-        float dailyRate = calculateHourlyRate(employee.getAnnualSalary(), employee.getWorkingHours(), employee.getUtilizationPercent(), employee) * hoursInWorkDay;
-
+        float dailyRate = calculateHourlyRate(employee.getAnnualSalary(),employee.getAnnualSalaryUSD(), employee.getWorkingHours(), employee.getUtilizationPercent(), employee) * hoursInWorkDay;
+        System.out.println(dailyRate + "first");
         dailyRate = roundToTwoDecimalPlaces(dailyRate);
         System.out.println(dailyRate + "Second");
         employee.setDailyRate(dailyRate);
         return dailyRate;
     }
-
+/*
     public String getCalculatedHourlyRate(Employee employee) {
         return String.format("%.2f", calculateHourlyRate(employee.getAnnualSalary(), employee.getWorkingHours(), employee.getUtilizationPercent(), employee));
     }
@@ -69,7 +71,7 @@ public class EmployeeLogic {
     public String getCalculatedDailyRate(int hoursInWorkDay, Employee employee) {
         return String.format("%.2f", calculateDailyRate(hoursInWorkDay, employee));
     }
-
+*/
     private float roundToTwoDecimalPlaces(float value) {
         BigDecimal bd = new BigDecimal(Float.toString(value));
         bd = bd.setScale(2, RoundingMode.HALF_UP);
@@ -79,22 +81,22 @@ public class EmployeeLogic {
     public float calculateDailyMulti(Employee employee) {
 
         float dailyRate = employee.getDailyRate();
-        System.out.println(dailyRate + "first");
+
         for (Group group : employee.getTeams()) {
             dailyRate = (dailyRate * ((float) group.getMultiplier() / 100)) + dailyRate;
         }
-        System.out.println(dailyRate + "second");
+
         return dailyRate;
     }
 
     public float calculateHourlyMulti(Employee employee) {
 
         float hourlyRate = employee.getHourlyRate();
-        System.out.println(hourlyRate + "first");
+
         for (Group group : employee.getTeams()) {
             hourlyRate = (hourlyRate * ((float) group.getMultiplier() / 100)) + hourlyRate;
         }
-        System.out.println(hourlyRate + "Second");
+
         return hourlyRate;
     }
 

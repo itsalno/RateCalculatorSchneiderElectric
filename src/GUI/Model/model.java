@@ -141,7 +141,7 @@ public class model {
     }
 
     public float calculateHourlyRate(Employee e){
-        return eLogic.calculateHourlyRate(e.getAnnualSalary(), e.getWorkingHours(), e.getUtilizationPercent(), e);
+        return eLogic.calculateHourlyRate(e.getAnnualSalary(), e.getAnnualSalaryUSD(), e.getWorkingHours(), e.getUtilizationPercent(), e);
     }
 
     public float calculateDailyRate(Employee e){
@@ -384,6 +384,11 @@ public class model {
             employeeToUpdate.setAnnualSalaryUSD(Double.parseDouble(annualSalaryField.getText()));
             employeeToUpdate.setConfFixedAnnualAmountUSD(Double.parseDouble(configFixAnnAmountField.getText()));
         }
+
+        float hourlyRate = calculateHourlyRate(employeeToUpdate);
+        float dailyRate = calculateDailyRate(employeeToUpdate);
+        employeeToUpdate.setHourlyRate(hourlyRate);
+        employeeToUpdate.setDailyRate(dailyRate);
 
         editEmployee(employeeToUpdate);
     }
