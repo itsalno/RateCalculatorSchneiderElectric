@@ -140,6 +140,14 @@ public class model {
         return eLogic.calculateDailyMulti(employee);
     }
 
+    public float calculateHourlyRate(Employee e){
+        return eLogic.calculateHourlyRate(e.getAnnualSalary(), e.getWorkingHours(), e.getUtilizationPercent(), e);
+    }
+
+    public float calculateDailyRate(Employee e){
+        return eLogic.calculateDailyRate(e.getWorkingHours(), e);
+    }
+
     public void populateGrpTable(TableView<Group> groupTable) throws RateCalcException {
 
         ObservableList<Group> teams = FXCollections.observableArrayList();
@@ -320,9 +328,16 @@ public class model {
             confFixedAnnualAmount = (int) (confFixedAnnualAmount * USDtoEURRate);
         }
 
-        Employee newEmployee = new Employee(0, fullName, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+        Employee tempEmployee = new Employee(0, fullName, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
                 country, continent, selectedTeams, workingHours, utilizationPercent, employeeType,
                 annualSalaryUSD, confFixedAnnualAmountUSD);
+
+        float hourlyRate = calculateHourlyRate(tempEmployee);
+        float dailyRate = calculateDailyRate(tempEmployee);
+
+        Employee newEmployee = new Employee(fullName, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+                country, continent, selectedTeams, workingHours, utilizationPercent, employeeType,
+                annualSalaryUSD, confFixedAnnualAmountUSD, hourlyRate, dailyRate);
 
         createEmployee(newEmployee);
     }

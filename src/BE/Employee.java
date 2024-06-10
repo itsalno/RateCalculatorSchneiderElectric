@@ -56,6 +56,23 @@ public class Employee {
         this.teams = new ArrayList<>();
     }
 
+    public Employee(String fullName, double annualSalary, int overheadMultiPercent, double confFixedAnnualAmount, String country, String continent, List<Group> teams, int workingHours, int utilizationPercent, String employeeType, double annualSalaryUSD, double confFixedAnnualAmountUSD, float hourlyRate, float dailyRate) {
+        this.annualSalary = annualSalary;
+        this.overheadMultiPercent = overheadMultiPercent;
+        this.confFixedAnnualAmount = confFixedAnnualAmount;
+        this.country = country;
+        this.continent = continent;
+        this.workingHours = workingHours;
+        this.utilizationPercent = utilizationPercent;
+        this.employeeType = employeeType;
+        this.annualSalaryUSD = annualSalaryUSD;
+        this.confFixedAnnualAmountUSD = confFixedAnnualAmountUSD;
+        this.fullName = fullName;
+        this.hourlyRate = hourlyRate;
+        this.dailyRate = dailyRate;
+        this.teams = new ArrayList<>();
+    }
+
     public double getAnnualSalary() {
         return annualSalary;
     }

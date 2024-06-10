@@ -55,7 +55,9 @@ public class EmployeeLogic {
 
     public float calculateDailyRate(int hoursInWorkDay, Employee employee) {
         float dailyRate = calculateHourlyRate(employee.getAnnualSalary(), employee.getWorkingHours(), employee.getUtilizationPercent(), employee) * hoursInWorkDay;
+
         dailyRate = roundToTwoDecimalPlaces(dailyRate);
+        System.out.println(dailyRate + "Second");
         employee.setDailyRate(dailyRate);
         return dailyRate;
     }
@@ -77,18 +79,22 @@ public class EmployeeLogic {
     public float calculateDailyMulti(Employee employee) {
 
         float dailyRate = employee.getDailyRate();
+        System.out.println(dailyRate + "first");
         for (Group group : employee.getTeams()) {
             dailyRate = (dailyRate * ((float) group.getMultiplier() / 100)) + dailyRate;
         }
+        System.out.println(dailyRate + "second");
         return dailyRate;
     }
 
     public float calculateHourlyMulti(Employee employee) {
 
         float hourlyRate = employee.getHourlyRate();
+        System.out.println(hourlyRate + "first");
         for (Group group : employee.getTeams()) {
             hourlyRate = (hourlyRate * ((float) group.getMultiplier() / 100)) + hourlyRate;
         }
+        System.out.println(hourlyRate + "Second");
         return hourlyRate;
     }
 

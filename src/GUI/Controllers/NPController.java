@@ -82,8 +82,10 @@ public class NPController implements Initializable {
                model.getInstance().updateP(emplyeeToUpdate, annualSalaryField, overheadMultiField, configFixAnnAmountField,
                        countryField, continentField, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
 
-           } else model.getInstance().createP(annualSalaryField, overheadMultiField, configFixAnnAmountField,
-                   countryField, continentField, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
+           } else {
+               model.getInstance().createP(annualSalaryField, overheadMultiField, configFixAnnAmountField,
+                       countryField, continentField, ListViewEx, workingHoursField, utilPercentField, employeeTypeField, nameField);
+           }
 
        }catch (RateCalcException e){
            Alert a = new Alert(Alert.AlertType.ERROR, e.getMessage());
