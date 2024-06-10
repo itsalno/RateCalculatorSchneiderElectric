@@ -328,7 +328,7 @@ public class model {
             confFixedAnnualAmount = (int) (confFixedAnnualAmount * USDtoEURRate);
         }
 
-        Employee tempEmployee = new Employee(0, fullName, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
+        Employee tempEmployee = new Employee(fullName, annualSalary, overheadMultiPercent, confFixedAnnualAmount,
                 country, continent, selectedTeams, workingHours, utilizationPercent, employeeType,
                 annualSalaryUSD, confFixedAnnualAmountUSD);
 
