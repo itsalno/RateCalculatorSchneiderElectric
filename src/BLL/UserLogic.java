@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class UserLogic {
-    UserDAO userDAO = new UserDAO();
+    private UserDAO userDAO = new UserDAO();
 
     public boolean checkUser(String username, String password) throws RateCalcException {
         List<User> users = new LinkedList<>(userDAO.getAllUsers());

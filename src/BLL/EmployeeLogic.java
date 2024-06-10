@@ -12,7 +12,7 @@ import java.util.List;
 
 public class EmployeeLogic {
 
-    EmployeeDAO eDAO=new EmployeeDAO();
+    private EmployeeDAO eDAO=new EmployeeDAO();
 
     public void create(Employee employee) throws RateCalcException {
         eDAO.create(employee);

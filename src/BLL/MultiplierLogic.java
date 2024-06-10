@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 
 public class MultiplierLogic {
-    MultiplierDAO multiplierDAO = new MultiplierDAO();
+    private MultiplierDAO multiplierDAO = new MultiplierDAO();
 
     public void createMulti(Multiplier multiplier) throws RateCalcException {
         multiplierDAO.createMulti(multiplier);

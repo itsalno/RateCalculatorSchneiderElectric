@@ -38,9 +38,9 @@ public class EmployeeTest {
 
     @Test
     public void testCalculateHourlyRate() {
-        int curentCurency = 0;
+
         double expectedHourlyRate = 24.04; // Correct expected value rounded to 2 decimal places
-        double actualHourlyRate = eLogic.calculateHourlyRate(employee.getAnnualSalary(),employee.getAnnualSalaryUSD(), employee.getWorkingHours(), employee.getUtilizationPercent(), employee, curentCurency);
+        double actualHourlyRate = eLogic.calculateHourlyRate(employee.getAnnualSalary(),employee.getAnnualSalaryUSD(), employee.getWorkingHours(), employee.getUtilizationPercent(), employee);
         assertEquals(expectedHourlyRate, actualHourlyRate, 0.01, "Hourly rate should be correctly calculated.");
     }
 
@@ -49,9 +49,8 @@ public class EmployeeTest {
         int hoursInWorkDay = 8;
         double expectedHourlyRate = 24.04;
         double expectedDailyRate = 192.32;  // Expected daily rate rounded to 2 decimal places
-        int curentCurency = 0;
 
-        double actualDailyRate = eLogic.calculateDailyRate(hoursInWorkDay, employee, curentCurency);
+        double actualDailyRate = eLogic.calculateDailyRate(hoursInWorkDay, employee);
         assertEquals(expectedDailyRate, actualDailyRate, 0.01, "Daily rate should be correctly calculated.");
     }
 

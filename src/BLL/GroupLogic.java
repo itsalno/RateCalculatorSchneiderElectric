@@ -8,7 +8,7 @@ import Exceptions.RateCalcException;
 import java.util.List;
 
 public class GroupLogic {
-    GroupDAO groupDAO=new GroupDAO();
+    private GroupDAO groupDAO=new GroupDAO();
 
     public void createGroup(Group group) throws RateCalcException {
         groupDAO.createGroup(group);
